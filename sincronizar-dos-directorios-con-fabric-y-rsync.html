@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Sincronizar dos directorios con Fabric y Rsync</title>
+  <meta name="author" content="joe di castro" />
+  <meta name="keywords" content="python, fabric, rsync, sincronizar">
+  <link rel="author" href="./humans.txt" />
+  <link href='http://fonts.googleapis.com/css?family=Vollkorn:400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
+  <link href="./atom.xml" type="application/atom+xml" rel="alternate" title="joe di castro ATOM Feed" />
+  <link href="./rss.xml" type="application/atom+xml" rel="alternate" title="joe di castro RSS Feed" />
+  
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body id="index" class="home">
+
+  <header id="banner" class="body">
+    <h1><a href="."><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAAAxBAMAAADKNk2HAAAAAXNSR0IArs4c6QAAABhQTFRFvI0Ww5kxzaxW2Lp049Ki7ePG8+zX/f/8R8l4ugAAAAFiS0dEAIgFHUgAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfbDAsTFi548ol9AAADmElEQVRIx62XTXOjOBCGJeHMuWWwueLZyXAV8aS4hpnscg07yXJdnCpz5kv6+9stk4CzMJusocoOBvTQ3Xr7lcLMcLQ3ch2b/3+w17MuAi6BxwuwWuC3pXmGzeWsBlz7t+AXs9qXeOo5ls7fywq8l/jYzBgVvpNV8PKF9Xp2fnRyFpHkY1YHry+dy7GanZOWn8WViWHMDCuY1UqxHbP0EJapxHSK89Mr0zFrHMvd5oMp1uJ4LAdW5gy3wH9nis1OSsmGozyx1NWQC6S/ru8Qz+ff9vv7+0f51/H49PT0ex9XsPqv0g/1/Vfy3rm+Mv7tW/8zW02OmI72bfLM9iITvyxXI8ykgh9R2m91396WL205GUDi11PxFsJkvtET/jVfLi3TyW6ErZF5K2dYaiSjcqzf7ly596d2y2vHJM4Mixqgdb8j5k/o39fdhMFrEXXEU7rHqOK7rVG+PlX4cP3lDYsauwPGfBNxcHqP5HuZP/dWEAjkHrhHZS1YiuZR8TIhp2IsPWdljv6Ocxr4GY+jlLJswcMsNOT9fdRyC1+1SyYkSVyZG6EGgHuy7M5Y4GJXQAh7RqUuPmEBPcT51ar3tjzz6FKNjXLncfLHADCLgvEDb8SYhZG6as1rrlY6xdnLbdKKlyjIh9Ba6y6/Q7PEsjaidjDFRnyWpWZylXkQj1hY2OtWVkJxJuUn84B9o3xTM6cVtiEbYd/n0/qiIa62GK6K8etvEWyAbcbr444e21YM5COsS1I0hqYxh8K3bk8fDbzscOqUYwJfhY2DNM3CgHN3NI8d4GMmSDvmIic3EJM3mWQty4B0hGB8KmJXOMd5wX56cCtzFWPAD9xU7HqkLx2sUXX4fIEcnHjridXqwBOvFba1qOAZV2HGeM18teMF2wtTbRvCu2OtRqLE0DueUF05tZptKQiVXzvWwytUFmzVDU8YqgLAU0LhnLgQeTuej1gZz+1qhkLBUVfPJxNv5AZLRhqzThXhieJhxTysiMzlD4cGbhrWb0JOrEbGJqMRbXoKp/e+I3YUfVsPYfSeLrWXqEFLRQiM6LEc9yPtAIbFqJXXU3bx8483F75Mrdu0bFcXbEpGLLtsq+0iLFrTWpkuwbJhFcIswbKYmTX2oyzC1DNbpQ+yLEZtzBKsxFum8sSiyo93JxewrE9BuAiLvHwBzVsW2vAigiBWEC4VlmEQ64XCQtYmWigszJFd8q/ZOesgvy6EMv8ALXTFAI7iFV4AAAAASUVORK5CYII=" alt="Sobre mí" title="Sobre mí" width="150" height="49" /> </a></h1>
+      <nav>
+      	<ul>
+         
+         <li class="active"><a href="./category/blog.html">blog</a></li>
+         <li><a href="./archives.html">archivo</a></li>
+         <li><a href="./tags.html">etiquetas</a></li>
+         
+         <li><a href="./pages/code.html">code</a></li><li><a href="./pages/markdown.html">markdown</a></li>
+         
+         <li><a href="./rss.xml">rss</a></li>
+       </ul>
+     </nav>
+  </header><!-- /#banner -->        
+<section id="content" class="body">    
+<article>
+  <header> 
+  	<h1 class="entry-title">
+      <a href="sincronizar-dos-directorios-con-fabric-y-rsync.html" rel="bookmark" title="Permalink a Sincronizar dos directorios con Fabric y Rsync">Sincronizar dos directorios con Fabric y Rsync</a>
+  	</h1>
+  	
+  </header>
+  <div class="entry-content">
+    <abbr class="published" title="2011-07-06T22:02:00">
+      Públicado el mié 06 julio 2011
+    </abbr>
+    <p>Anteriormente habíamos visto como <a href="http://joedicastro.com/sincronizar-una-carpeta-local-y-una-remota-a-traves-de-ftp-lftp-mirror.html">sincronizar un directorio remoto y uno local 
+empleando solamente FTP</a>. Ahora vamos a ver la forma de hacerlo empleando 
+<a href="http://es.wikipedia.org/wiki/Ssh">ssh</a> y <a href="http://es.wikipedia.org/wiki/Rsync">rsync</a>. Para ello vamos a utilizar otra vez <strong>Python</strong> y una 
+herramienta muy valiosa para cualquier <a href="http://es.wikipedia.org/wiki/Administrador_de_sistemas">sysadmin</a> que se precie como es 
+<a href="http://fabfile.org/">fabric</a> (que descubrí gracias a Manuel Viera en <a href="http://python.majibu.org/preguntas/11/libreria-para-emplear-con-ssh">esta pregunta en majibu</a>).
+Evidentemente realizar la sincronización con rsync esta a años luz de hacerlo 
+con FTP, la velocidad de sincronización, el tiempo empleado y la cantidad de 
+datos a mover son mucho menores. FTP es algo que debería utilizarse únicamente 
+cuando no disponemos de acceso via SSH.</p>
+<p>La gran ventaja de <strong>fabric</strong> es que nos permite ahorrarnos el tener que 
+implementar el acceso SSH con <a href="http://www.lag.net/paramiko/">paramiko</a> y la entrada de opciones y 
+argumentos con <em>argparse</em>. Gracias a esto los scripts necesarios son mucho más 
+cortos y limpios y su utilización es bastante más sencilla. Fabric ya incorpora 
+una función para emplear rsync, <code>rsync_project</code>, dentro de su modulo de proyectos 
+contribuidos <code>fabric.contrib.project</code></p>
+<p>Una forma de implementar esta sincronización en ambas direcciones empleando esta 
+función predefinida sería esta:</p>
+<div class="codehilite"><pre><span class="kn">from</span> <span class="nn">fabric.api</span> <span class="kn">import</span> <span class="n">env</span><span class="p">,</span> <span class="n">hosts</span><span class="p">,</span> <span class="n">local</span>
+<span class="kn">from</span> <span class="nn">fabric.contrib.project</span> <span class="kn">import</span> <span class="n">rsync_project</span>
+
+<span class="n">env</span><span class="o">.</span><span class="n">host_string</span> <span class="o">=</span> <span class="s">&quot;username@host&quot;</span>
+<span class="n">REMOTE_PATH</span> <span class="o">=</span> <span class="s">&quot;/your/remote/path&quot;</span>
+<span class="n">LOCAL_PATH</span> <span class="o">=</span> <span class="s">&quot;/your/local/path&quot;</span>
+
+<span class="nd">@hosts</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">host_string</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">rsync_up</span><span class="p">(</span><span class="n">dlt</span><span class="o">=</span><span class="s">&quot;yes&quot;</span><span class="p">):</span>
+    <span class="n">rsync_project</span><span class="p">(</span><span class="n">REMOTE_PATH</span><span class="p">,</span> <span class="n">LOCAL_PATH</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span><span class="p">,</span> 
+                  <span class="n">delete</span><span class="o">=</span> <span class="bp">True</span> <span class="k">if</span> <span class="n">dlt</span> <span class="o">==</span> <span class="s">&quot;yes&quot;</span> <span class="k">else</span> <span class="bp">False</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">rsync_down</span><span class="p">(</span><span class="n">dlt</span><span class="o">=</span><span class="s">&quot;yes&quot;</span><span class="p">):</span>
+    <span class="n">local</span><span class="p">(</span><span class="s">&quot;rsync -pthrvz {0}:{1}/ {2} {3}&quot;</span><span class="o">.</span>
+          <span class="n">format</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">host_string</span><span class="p">,</span> <span class="n">REMOTE_PATH</span><span class="p">,</span> <span class="n">LOCAL_PATH</span><span class="p">,</span> 
+          <span class="s">&quot;--delete&quot;</span> <span class="k">if</span> <span class="n">dlt</span> <span class="o">==</span> <span class="s">&quot;yes&quot;</span> <span class="k">else</span> <span class="s">&quot;&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<p>Y luego solo tendríamos que llamar a la función deseada:</p>
+<div class="codehilite"><pre><span class="gp">#</span> <span class="s2">&quot;Para sincronizar de remoto a local&quot;</span>
+<span class="gp">$</span> fab rsync_down
+</pre></div>
+
+
+<blockquote>
+<p>Hay que tener en cuenta un detalle con fabric. Cuando se le pasa un parámetro, 
+este es siempre convertido a una cadena. Luego al pasarle <code>True</code> o <code>False</code> no 
+se convierte en un valor booleano, sino una cadena <code>"True"</code>o <code>"False"</code>. De ahí 
+que compruebe si el parámetro coincide con <code>"yes"</code> en vez de un valor booleano.</p>
+</blockquote>
+<p>El problema con la función rsync predefinida de fabric es que esta pensada 
+únicamente para subir archivos a un servidor remoto, es decir, es una 
+sincronización en una sola dirección, por eso implemento la sincronización en 
+sentido contrario sin emplearla y empleando <code>local</code>. La autentificación de la 
+sesión SSH puede realizarse especificando la contraseña dentro del propio fichero, 
+pero va en contra del sentido común emplear un método tan inseguro como este. Lo 
+lógico es emplear autorizaciones de sesiones SSH sin contraseña por medio de una 
+<a href="http://es.wikipedia.org/wiki/Criptograf%C3%ADa_asim%C3%A9trica">clave pública</a>.</p>
+<p>Podríamos prescindir de la librería incorporada dentro de fabric y tendríamos 
+algo como esto:</p>
+<div class="codehilite"><pre><span class="kn">from</span> <span class="nn">fabric.api</span> <span class="kn">import</span> <span class="n">env</span><span class="p">,</span> <span class="n">local</span>
+
+<span class="n">env</span><span class="o">.</span><span class="n">host_string</span> <span class="o">=</span> <span class="s">&quot;username@host&quot;</span>
+<span class="n">REMOTE_PATH</span> <span class="o">=</span> <span class="s">&quot;/your/remote/path&quot;</span>
+<span class="n">LOCAL_PATH</span> <span class="o">=</span> <span class="s">&quot;/your/local/path&quot;</span>
+
+<span class="k">def</span> <span class="nf">_rsync</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">delete</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Process the _rsync command.&quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s">&quot;rsync -pthrvz {0}/ {1} {2}&quot;</span><span class="o">.</span>
+                   <span class="n">format</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="s">&quot;--delete&quot;</span> <span class="k">if</span> <span class="n">delete</span> <span class="o">==</span> <span class="s">&quot;yes&quot;</span> <span class="k">else</span> <span class="s">&quot;&quot;</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">up</span><span class="p">(</span><span class="n">dlt</span><span class="o">=</span><span class="s">&#39;yes&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sync from local to remote.&quot;&quot;&quot;</span>
+    <span class="n">_rsync</span><span class="p">(</span><span class="n">LOCAL_PATH</span><span class="p">,</span> <span class="s">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">env</span><span class="o">.</span><span class="n">host_string</span><span class="p">,</span> <span class="n">REMOTE_PATH</span><span class="p">]),</span> <span class="n">dlt</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">down</span><span class="p">(</span><span class="n">dlt</span><span class="o">=</span><span class="s">&#39;yes&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sync from remote to local.&quot;&quot;&quot;</span>
+    <span class="n">_rsync</span><span class="p">(</span><span class="s">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">env</span><span class="o">.</span><span class="n">host_string</span><span class="p">,</span> <span class="n">REMOTE_PATH</span><span class="p">]),</span> <span class="n">LOCAL_PATH</span><span class="p">,</span> <span class="n">dlt</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Pero... un momento, si estamos empleado un comando local, no empleamos 
+<code>rsync_project</code> y empleamos una clave pública para el acceso SSH, entonces no 
+estamos empleando <strong>paramiko</strong>, ¿de que nos sirve emplear fabric?. Bueno, en 
+realidad <code>rsync_project</code> también emplea <code>local</code>, por lo que no emplea paramiko. 
+Pero las ventajas vienen de que, por ejemplo, este mismo script se podría modificar 
+fácilmente para ejecutar rsync en el servidor en vez de en nuestra maquina local, 
+ empleando <code>run</code> en vez de <code>local</code>. Además podemos emplear el mismo fichero para 
+ añadir varias tareas más a realizar en el servidor, aparte de la sincronización. 
+Podríamos prescindir de fabric y hacer esto mismo con un script con un número 
+similar de líneas, pero esto nos permite centralizar todas las tareas más comunes 
+sobre ese servidor en un único fichero. Por ejemplo podríamos añadir una tarea 
+para hacer un respaldo previo de una base de datos en el servidor, empleando un 
+comando remoto en el servidor, luego hacer la sincronización separada de la BDD 
+y el resto de ficheros y finalmente eliminar ese respaldo. Puede haber cientos 
+de razones para preferir emplear fabric antes de un script independiente para 
+la sincronización.</p>
+<h2 id="ejecuci+n_desatendida_de_la_sincronizaci+n">Ejecución desatendida de la sincronización</h2>
+<p>Si queremos programar esta tarea, no sería mala idea que nos avisara de cuando 
+comienza a ejecutarse y del resultado de la misma. Para ello puedo emplear 
+<a href="http://joedicastro.com/logger-informes-legibles-para-tus-scripts-python.html">Logger</a> y <a href="http://joedicastro.com/notificaciones-de-escritorio-en-ubuntu-desde-python.html">notify</a>, para implementar esta funcionalidad.</p>
+<div class="codehilite"><pre><span class="kn">from</span> <span class="nn">logger</span> <span class="kn">import</span> <span class="n">Logger</span> <span class="k">as</span> <span class="n">_logger</span>
+<span class="kn">from</span> <span class="nn">notify</span> <span class="kn">import</span> <span class="n">notify</span> <span class="k">as</span> <span class="n">_notify</span>
+<span class="kn">from</span> <span class="nn">fabric.api</span> <span class="kn">import</span> <span class="n">env</span><span class="p">,</span> <span class="n">local</span>
+
+<span class="n">env</span><span class="o">.</span><span class="n">host_string</span> <span class="o">=</span> <span class="s">&quot;username@host&quot;</span>
+<span class="n">REMOTE_PATH</span> <span class="o">=</span> <span class="s">&quot;/your/remote/path&quot;</span>
+<span class="n">LOCAL_PATH</span> <span class="o">=</span> <span class="s">&quot;/your/local/path&quot;</span>
+
+<span class="k">def</span> <span class="nf">_rsync</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">delete</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Process the _rsync command.&quot;&quot;&quot;</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">_logger</span><span class="p">()</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">header</span><span class="p">(</span><span class="s">&quot;Fabric Rsync</span><span class="se">\n</span><span class="s">http://joedicastro.com&quot;</span><span class="p">,</span>
+               <span class="s">&quot;Syncing {0} to {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="s">&quot;Start time&quot;</span><span class="p">)</span>
+    <span class="n">_notify</span><span class="p">(</span><span class="s">&quot;Rsync&quot;</span><span class="p">,</span> <span class="s">&quot;Start syncing {0} to {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="s">&quot;info&quot;</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s">&quot;rsync -pthrvz {0}/ {1} {2}&quot;</span><span class="o">.</span>
+                   <span class="n">format</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="s">&quot;--delete&quot;</span> <span class="k">if</span> <span class="n">delete</span> <span class="o">==</span> <span class="s">&quot;yes&quot;</span> <span class="k">else</span> <span class="s">&quot;&quot;</span><span class="p">),</span>
+                   <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">_notify</span><span class="p">(</span><span class="s">&quot;Rsync&quot;</span><span class="p">,</span> <span class="s">&quot;Finished&quot;</span><span class="p">,</span> <span class="s">&quot;ok&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="s">&quot;Output&quot;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">failed</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="s">&quot;Error&quot;</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="s">&quot;End time&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;Fabric Rsync&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">up</span><span class="p">(</span><span class="n">dlt</span><span class="o">=</span><span class="s">&#39;yes&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sync from local to remote.&quot;&quot;&quot;</span>
+    <span class="n">_rsync</span><span class="p">(</span><span class="n">LOCAL_PATH</span><span class="p">,</span> <span class="s">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">env</span><span class="o">.</span><span class="n">host_string</span><span class="p">,</span> <span class="n">REMOTE_PATH</span><span class="p">]),</span> <span class="n">dlt</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">down</span><span class="p">(</span><span class="n">dlt</span><span class="o">=</span><span class="s">&#39;yes&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sync from remote to local.&quot;&quot;&quot;</span>
+    <span class="n">_rsync</span><span class="p">(</span><span class="s">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">env</span><span class="o">.</span><span class="n">host_string</span><span class="p">,</span> <span class="n">REMOTE_PATH</span><span class="p">]),</span> <span class="n">LOCAL_PATH</span><span class="p">,</span> <span class="n">dlt</span><span class="p">)</span>
+</pre></div>
+
+
+<p>De esta forma, nos avisaría con una notificación en el escritorio de su inicio y 
+fin, y al acabarse la sincronización, tendríamos un informe en nuestro correo 
+parecido a este:</p>
+<div class="codehilite"><pre>SCRIPT =========================================================================
+fab (ver. Unknown)
+Fabric Rsync
+
+Syncing username@host:/your/remote/path to /your/local/path
+================================================================================
+
+START TIME =====================================================================
+                                                   miércoles 06/07/11, 21:50:48
+================================================================================
+
+OUTPUT _________________________________________________________________________
+
+receiving file list ... done
+./
+index.php
+
+sent 48 bytes  received 200 bytes  45.09 bytes/sec
+total size is 99  speedup is 0.40
+
+END TIME =======================================================================
+                                                   miércoles 06/07/11, 21:50:54
+================================================================================
+</pre></div>
+
+
+<p>Este fichero está disponible en el repositorio <em>Python Recipes</em> alojado en 
+<a href="http://github.com/joedicastro/python-recipes">github</a>.</p>
+  </div><!-- /.entry-content -->
+  <p class="tagged">Etiquetado como: <a href="./tag/python.html">python</a>, <a href="./tag/fabric.html">fabric</a>, <a href="./tag/rsync.html">rsync</a>, <a href="./tag/sincronizar.html">sincronizar</a>.</p>
+
+  
+  <div class="comments">
+    <h3>Comentarios !</h3>
+    <div id="disqus_thread"></div>
+      <script type="text/javascript">
+         var disqus_identifier = "sincronizar-dos-directorios-con-fabric-y-rsync.html";
+         (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://joedicastro.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  
+</article>
+</section>
+<footer id="contentinfo" class="body">
+    <address id="about" class="vcard body">
+      © 2010-2015 joe di castro - <a
+          href="mailto:joe@joedicastro.com">correo</a>|<a
+          href="http://twitter.com/joe_di_castro">twitter</a>|<a
+          href="https://github.com/joedicastro">github</a> <span id="license">El contenido está bajo <a href="http://creativecommons.org/licenses/by-sa/3.0/es">licencia Creative Commons</a></span>
+    </address><!-- /#about -->
+  </footer><!-- /#contentinfo -->
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'joedicastro';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+</body>
+</html>

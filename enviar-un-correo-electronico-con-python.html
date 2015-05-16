@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Enviar un correo electrónico con Python</title>
+  <meta name="author" content="joe di castro" />
+  <meta name="keywords" content="python, email, smtp, linux, one-liner">
+  <link rel="author" href="./humans.txt" />
+  <link href='http://fonts.googleapis.com/css?family=Vollkorn:400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
+  <link href="./atom.xml" type="application/atom+xml" rel="alternate" title="joe di castro ATOM Feed" />
+  <link href="./rss.xml" type="application/atom+xml" rel="alternate" title="joe di castro RSS Feed" />
+  
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body id="index" class="home">
+
+  <header id="banner" class="body">
+    <h1><a href="."><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAAAxBAMAAADKNk2HAAAAAXNSR0IArs4c6QAAABhQTFRFvI0Ww5kxzaxW2Lp049Ki7ePG8+zX/f/8R8l4ugAAAAFiS0dEAIgFHUgAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfbDAsTFi548ol9AAADmElEQVRIx62XTXOjOBCGJeHMuWWwueLZyXAV8aS4hpnscg07yXJdnCpz5kv6+9stk4CzMJusocoOBvTQ3Xr7lcLMcLQ3ch2b/3+w17MuAi6BxwuwWuC3pXmGzeWsBlz7t+AXs9qXeOo5ls7fywq8l/jYzBgVvpNV8PKF9Xp2fnRyFpHkY1YHry+dy7GanZOWn8WViWHMDCuY1UqxHbP0EJapxHSK89Mr0zFrHMvd5oMp1uJ4LAdW5gy3wH9nis1OSsmGozyx1NWQC6S/ru8Qz+ff9vv7+0f51/H49PT0ex9XsPqv0g/1/Vfy3rm+Mv7tW/8zW02OmI72bfLM9iITvyxXI8ykgh9R2m91396WL205GUDi11PxFsJkvtET/jVfLi3TyW6ErZF5K2dYaiSjcqzf7ly596d2y2vHJM4Mixqgdb8j5k/o39fdhMFrEXXEU7rHqOK7rVG+PlX4cP3lDYsauwPGfBNxcHqP5HuZP/dWEAjkHrhHZS1YiuZR8TIhp2IsPWdljv6Ocxr4GY+jlLJswcMsNOT9fdRyC1+1SyYkSVyZG6EGgHuy7M5Y4GJXQAh7RqUuPmEBPcT51ar3tjzz6FKNjXLncfLHADCLgvEDb8SYhZG6as1rrlY6xdnLbdKKlyjIh9Ba6y6/Q7PEsjaidjDFRnyWpWZylXkQj1hY2OtWVkJxJuUn84B9o3xTM6cVtiEbYd/n0/qiIa62GK6K8etvEWyAbcbr444e21YM5COsS1I0hqYxh8K3bk8fDbzscOqUYwJfhY2DNM3CgHN3NI8d4GMmSDvmIic3EJM3mWQty4B0hGB8KmJXOMd5wX56cCtzFWPAD9xU7HqkLx2sUXX4fIEcnHjridXqwBOvFba1qOAZV2HGeM18teMF2wtTbRvCu2OtRqLE0DueUF05tZptKQiVXzvWwytUFmzVDU8YqgLAU0LhnLgQeTuej1gZz+1qhkLBUVfPJxNv5AZLRhqzThXhieJhxTysiMzlD4cGbhrWb0JOrEbGJqMRbXoKp/e+I3YUfVsPYfSeLrWXqEFLRQiM6LEc9yPtAIbFqJXXU3bx8483F75Mrdu0bFcXbEpGLLtsq+0iLFrTWpkuwbJhFcIswbKYmTX2oyzC1DNbpQ+yLEZtzBKsxFum8sSiyo93JxewrE9BuAiLvHwBzVsW2vAigiBWEC4VlmEQ64XCQtYmWigszJFd8q/ZOesgvy6EMv8ALXTFAI7iFV4AAAAASUVORK5CYII=" alt="Sobre mí" title="Sobre mí" width="150" height="49" /> </a></h1>
+      <nav>
+      	<ul>
+         
+         <li class="active"><a href="./category/blog.html">blog</a></li>
+         <li><a href="./archives.html">archivo</a></li>
+         <li><a href="./tags.html">etiquetas</a></li>
+         
+         <li><a href="./pages/code.html">code</a></li><li><a href="./pages/markdown.html">markdown</a></li>
+         
+         <li><a href="./rss.xml">rss</a></li>
+       </ul>
+     </nav>
+  </header><!-- /#banner -->        
+<section id="content" class="body">    
+<article>
+  <header> 
+  	<h1 class="entry-title">
+      <a href="enviar-un-correo-electronico-con-python.html" rel="bookmark" title="Permalink a Enviar un correo electrónico con Python">Enviar un correo electrónico con Python</a>
+  	</h1>
+  	
+  </header>
+  <div class="entry-content">
+    <abbr class="published" title="2011-05-08T13:29:00">
+      Públicado el dom 08 mayo 2011
+    </abbr>
+    <p>Existen varias maneras de enviar un correo electrónico a través de <strong>Python</strong>, 
+por ejemplo empleando el modulo <code>smtplib</code> de la librería estándar de Python. Si 
+estamos en <strong>Linux</strong> y contamos con un servidor de correo funcionando, enviar un
+ correo puede ser algo tan sencillo como este script:</p>
+<div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">smtplib</span>
+
+<span class="k">def</span> <span class="nf">send_mail_local</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Send a mail to the user&#39;s local mailbox.&quot;&quot;&quot;</span>
+    <span class="c"># Set the local mail address for the script&#39; user</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="s">&quot;@&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">&quot;LOGNAME&quot;</span><span class="p">),</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()])</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;From: {0}</span><span class="se">\n</span><span class="s">To: {0}</span><span class="se">\n</span><span class="s">Subject: {1}</span><span class="se">\n</span><span class="s">{2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s">&quot;localhost&quot;</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+    <span class="k">return</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Main section&quot;&quot;&quot;</span>
+
+    <span class="n">send_mail_local</span><span class="p">(</span><span class="s">&quot;Comprobando el envío de correo localmente&quot;</span><span class="p">,</span>
+                    <span class="s">&quot;Si puedes leer esto, tu servidor local SMTP está OK&quot;</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Comprueba el correo en tu buzón local {0}</span><span class="se">\n</span><span class="s">Este normalmente se &quot;</span>
+          <span class="s">&quot;encuentra situado en /var/mail/{1}&quot;</span><span class="o">.</span>
+          <span class="n">format</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">&quot;LOGNAME&quot;</span><span class="p">),</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()]),</span>
+                 <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">&quot;LOGNAME&quot;</span><span class="p">)))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Que si lo ejecutamos, nos generará una salida por consola como esta:</p>
+<div class="codehilite"><pre>Comprueba el correo en tu buzón local tuusuario@tumaquina
+Este normalmente se encuentra situado en /var/mail/tuusuario
+</pre></div>
+
+
+<p>Y tendrás en la bandeja de correo de tu usuario en la maquina algo como esto:</p>
+<div class="codehilite"><pre>De:     tuusuario@tumaquina
+Para:   tuusuario@tumaquina
+Asunto:     Comprobando el envío de correo localmente
+Fecha:  Sun, 08 May 2011 12:57:30 +0200
+
+Si puedes leer esto, tu servidor local SMTP está OK
+</pre></div>
+
+
+<p>Es algo realmente sencillo, y la mayoría de las lineas sirven para construir el 
+ejemplo, lo que realmente hace el trabajo, y solo necesita el modulo <code>smtplib</code> 
+para funcionar es esto:</p>
+<div class="codehilite"><pre><span class="n">server</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s">&quot;localhost&quot;</span><span class="p">)</span>
+<span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+<span class="n">server</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Pero si lo que queremos es enviar correos más complejos, con adjuntos, empleando 
+servidores SMTP externos y enviar con copia (CC) ó copia oculta (CCO) a varios 
+usuarios, entonces ya necesitamos emplear las opciones del modulo <code>email</code> que 
+nos permite hacer prácticamente cualquier tarea relacionada con los correos 
+electronicos. Para estas situaciones desarrolle en su día una función que ha 
+cubierto todas las situaciones que se me han dado hasta ahora. Además devuelve 
+mensajes de error allí donde algo puede ir mal.</p>
+<div class="codehilite"><pre><span class="c"># The more complete solution. This adds the Cc: (Carbon Copy) and Bcc: (Blind </span>
+<span class="c"># Carbon Copy) fields and the ability to add attachments. </span>
+<span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">send_from</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">dest_to</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">attachments</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+               <span class="n">send_cc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">send_bcc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">server</span><span class="o">=</span><span class="s">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+               <span class="n">user</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">passwd</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Send a email with(out) attachment(s) enabling CC and BCC fields.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        (str) subject -- the mail&#39;s subject</span>
+<span class="sd">        (str) text -- the message&#39;s text</span>
+<span class="sd">        (str) send_from -- a sender&#39;s email address (default &quot;&quot;)</span>
+<span class="sd">        (list) dest_to -- a list of receivers&#39; email addresses (&quot;&quot;)</span>
+<span class="sd">        (list) attachments -- a list of attachments files (default None)</span>
+<span class="sd">        (list) send_cc -- a list of carbon copy&#39;s email addresses (def. None)</span>
+<span class="sd">        (list) send_bcc -- a list of blind carbon copy&#39;s email addresses (None)</span>
+<span class="sd">        (str) server -- the smtp server (default &quot;localhost&quot;)</span>
+<span class="sd">        (int) port -- the smtp server port (default 25)</span>
+<span class="sd">        (str) user -- the smtp server user (default &quot;&quot;)</span>
+<span class="sd">        (str) passwd --the smtp server password (default &quot;&quot;)</span>
+
+<span class="sd">    If &quot;send_from&quot; or &quot;dest_to&quot; are empty or None, then script user&#39;s mailbox </span>
+<span class="sd">    is assumed instead. Useful for logging scripts</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">local_email</span> <span class="o">=</span> <span class="s">&quot;@&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">&quot;LOGNAME&quot;</span><span class="p">),</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()])</span>
+    <span class="n">send_from</span> <span class="o">=</span> <span class="n">send_from</span> <span class="k">if</span> <span class="n">send_from</span> <span class="k">else</span> <span class="n">local_email</span>
+    <span class="n">dest_to</span> <span class="o">=</span> <span class="n">dest_to</span> <span class="k">if</span> <span class="n">dest_to</span> <span class="k">else</span> <span class="p">[</span><span class="n">local_email</span><span class="p">]</span>
+
+    <span class="n">dest_to_addrs</span> <span class="o">=</span> <span class="n">dest_to</span> <span class="c"># receivers mails including to, cc and bcc fields</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">MIMEMultipart</span><span class="p">()</span>
+    <span class="n">message</span><span class="p">[</span><span class="s">&quot;Subject&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject</span>
+    <span class="n">message</span><span class="p">[</span><span class="s">&quot;From&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">send_from</span>
+    <span class="n">message</span><span class="p">[</span><span class="s">&quot;To&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">COMMASPACE</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dest_to</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">send_cc</span><span class="p">:</span>
+        <span class="n">message</span><span class="p">[</span><span class="s">&quot;Cc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">COMMASPACE</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">send_cc</span><span class="p">)</span>
+        <span class="n">dest_to_addrs</span> <span class="o">+=</span> <span class="n">send_cc</span>
+    <span class="k">if</span> <span class="n">send_bcc</span><span class="p">:</span>
+        <span class="n">dest_to_addrs</span> <span class="o">+=</span> <span class="n">send_bcc</span>
+    <span class="n">message</span><span class="p">[</span><span class="s">&quot;Date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">formatdate</span><span class="p">(</span><span class="n">localtime</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">message</span><span class="o">.</span><span class="n">preamble</span> <span class="o">=</span> <span class="s">&quot;You&#39;ll not see this in a MIME-aware mail reader.</span><span class="se">\n</span><span class="s">&quot;</span>
+    <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">MIMEText</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+
+    <span class="c"># For all type of attachments</span>
+    <span class="k">if</span> <span class="n">attachments</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">att_file</span> <span class="ow">in</span> <span class="n">attachments</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">att_file</span><span class="p">,</span> <span class="s">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">attmnt</span><span class="p">:</span>
+                <span class="n">att</span> <span class="o">=</span> <span class="n">MIMEBase</span><span class="p">(</span><span class="s">&quot;application&quot;</span><span class="p">,</span> <span class="s">&quot;octet-stream&quot;</span><span class="p">)</span>
+                <span class="n">att</span><span class="o">.</span><span class="n">set_payload</span><span class="p">(</span><span class="n">attmnt</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+            <span class="n">encoders</span><span class="o">.</span><span class="n">encode_base64</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
+            <span class="n">att</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s">&quot;content-disposition&quot;</span><span class="p">,</span> <span class="s">&quot;attachment&quot;</span><span class="p">,</span>
+                           <span class="n">filename</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">att_file</span><span class="p">))</span>
+            <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
+
+    <span class="c"># initialize the mail server</span>
+    <span class="n">smtp_server</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">()</span>
+    <span class="c"># Connect to mail server</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">smtp_server</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">gaierror</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;mail error&quot;</span><span class="p">,</span> <span class="s">&quot;Wrong server, are you sure is correct?&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;mail error&quot;</span><span class="p">,</span> <span class="s">&quot;Server unavailable or connection refused&quot;</span><span class="p">)</span>
+    <span class="c"># Login in mail server</span>
+    <span class="k">if</span> <span class="n">server</span> <span class="o">!=</span> <span class="s">&quot;localhost&quot;</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">smtp_server</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">passwd</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTPAuthenticationError</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;mail error&quot;</span><span class="p">,</span> <span class="s">&quot;Authentication error&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTPException</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;mail error&quot;</span><span class="p">,</span> <span class="s">&quot;No suitable authentication method&quot;</span><span class="p">)</span>
+    <span class="c"># Send mail</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">smtp_server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">send_from</span><span class="p">,</span> <span class="n">dest_to_addrs</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">as_string</span><span class="p">())</span>
+    <span class="k">except</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTPRecipientsRefused</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;mail error&quot;</span><span class="p">,</span> <span class="s">&quot;All recipients were refused.&quot;</span>
+              <span class="s">&quot;Nobody got the mail.&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTPSenderRefused</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;mail error&quot;</span><span class="p">,</span> <span class="s">&quot;The server didn’t accept the from_addr&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTPDataError</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;mail error&quot;</span><span class="p">,</span> <span class="s">&quot;An unexpected error code, Data refused&quot;</span><span class="p">)</span>
+    <span class="c"># Disconnect from server</span>
+    <span class="n">smtp_server</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Para las situaciones en las que no disponemos de un servidor de correo SMTP 
+funcionando, podemos montar uno temporalmente para realizar pruebas. La tarea 
+puede tan sencilla como recurrir a uno de los <strong>python one-liners</strong> que 
+mencionaba en <a href="http://joedicastro.com/python_one_liners_potencia_en_una_sola_linea">Python one-liners. Potencia en una sola línea</a>.</p>
+<div class="codehilite"><pre><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">smtpd</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">c</span> <span class="n">DebuggingServer</span> <span class="n">localhost</span><span class="p">:</span><span class="mi">8025</span>
+</pre></div>
+
+
+<p>que es  exactamente lo mismo que hace este script que empleo habitualmente para 
+las mismas funciones (me permite montar un segundo servidor SMTP en un puerto 
+distinto sin necesitar permisos de administrador, lo que me permite llamarlo 
+desde otros scripts). Emplear una u otra forma, pues ya depende de uno.</p>
+<div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">smtpd</span>
+<span class="kn">import</span> <span class="nn">asyncore</span>
+
+<span class="k">def</span> <span class="nf">smtp_server</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Starts a smtp server for test purposes.&quot;&quot;&quot;</span>
+    <span class="n">smtpd</span><span class="o">.</span><span class="n">DebuggingServer</span><span class="p">((</span><span class="s">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="p">),</span> <span class="bp">None</span><span class="p">)</span>
+
+<span class="n">smtp_server</span><span class="p">(</span><span class="mi">8025</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">asyncore</span><span class="o">.</span><span class="n">loop</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+
+<p>El código completo con ejemplos de estas funciones, se puede encontrar en mi 
+repositorio <em>Python Recipes</em> que se encuentra alojado en <a href="http://github.com/joedicastro/python-recipes">github</a>.</p>
+  </div><!-- /.entry-content -->
+  <p class="tagged">Etiquetado como: <a href="./tag/python.html">python</a>, <a href="./tag/email.html">email</a>, <a href="./tag/smtp.html">smtp</a>, <a href="./tag/linux.html">linux</a>, <a href="./tag/one-liner.html">one-liner</a>.</p>
+
+  
+  <div class="comments">
+    <h3>Comentarios !</h3>
+    <div id="disqus_thread"></div>
+      <script type="text/javascript">
+         var disqus_identifier = "enviar-un-correo-electronico-con-python.html";
+         (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://joedicastro.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  
+</article>
+</section>
+<footer id="contentinfo" class="body">
+    <address id="about" class="vcard body">
+      © 2010-2015 joe di castro - <a
+          href="mailto:joe@joedicastro.com">correo</a>|<a
+          href="http://twitter.com/joe_di_castro">twitter</a>|<a
+          href="https://github.com/joedicastro">github</a> <span id="license">El contenido está bajo <a href="http://creativecommons.org/licenses/by-sa/3.0/es">licencia Creative Commons</a></span>
+    </address><!-- /#about -->
+  </footer><!-- /#contentinfo -->
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'joedicastro';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+</body>
+</html>

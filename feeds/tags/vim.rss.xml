@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>joe di castro</title><link>http://joedicastro.com</link><description></description><atom:link href="http://joedicastro.com/feeds/tags/vim.rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 20 Aug 2013 16:53:00 +0200</lastBuildDate><item><title>Vim as Python code editor</title><link>http://joedicastro.com/vim-as-python-code-editor.html</link><description>&lt;p&gt;&lt;strong&gt;This article is a translation from the original one in Spanish, &lt;a href="http://joedicastro.com/vim-como-editor-de-codigo-python.html"&gt;Vim como
+editor de codigo Python&lt;/a&gt;, published in April 2013.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This is an article that I've always wanted to write: "Vim as Python IDE". Two
+years ago I had a Vim configuration that I thought that was just right for this,
+even a half-written article. But while I was polishing the config and finishing
+the article, a bunch of similar articles appeared in the internet and after
+reading them I realized something: many of them were already obsolete at the
+time they were published. And I say this because many of them employed plugins
+that were outdated by the emerge of other fresh and more powerful. In fact in
+the last two years, the Vim environment has evolved too much that from all the
+plugins that I used in those days (and the ones pending to test), currently I'm
+using only 10% of them, the rest are new ones. And this "race" to provide new
+and more powerful features for Vim continues nowadays, with some great tools.&lt;/p&gt;
+&lt;p&gt;On the other hand, as one is adding plugins and "tuning" his config, there comes
+a time when you don't know where and what is already mapped, even no
+remember at all the plugins at features available for you, and which you
+implemented with so much effort and time.&lt;/p&gt;
+&lt;h2 id="my_configuration"&gt;My configuration&lt;/h2&gt;
+&lt;p&gt;Given these two premises I had the idea of kill two birds with one stone:
+&lt;strong&gt;Document my Vim setup&lt;/strong&gt;. What I'm trying with this is that should work for me
+as sort of cheat-sheet to remember all that I had available in my config, and at
+the same time to have a coherent mapping and avoid duplicates (at least is the
+idea). By the other hand, it works also to demonstrate all the Vim's potential
+to edit Python code and compete with almost any IDE, but with all the advantages
+of the unique Vim's way.&lt;/p&gt;
+&lt;p&gt;The idea is to have a continuously updated document with respect to my current
+setup, What better article than this, an always updated one?&lt;/p&gt;
+&lt;p&gt;This is the link to this doc, &lt;code&gt;README.md&lt;/code&gt;, included in my dotfiles
+repository:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/joedicastro/dotfiles/tree/master/vim"&gt;Doc at GitHub&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;English is not my mother tongue, so maybe the article (and the doc) can be full
+of grammatical mistakes due to my poor English. Sorry for that, I did my best.&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Tue, 20 Aug 2013 16:53:00 +0200</pubDate><guid>http://joedicastro.com/vim-as-python-code-editor.html</guid><category>vim</category><category>python</category><category>editores</category><category>linux</category></item><item><title>Vim como editor de codigo Python</title><link>http://joedicastro.com/vim-como-editor-de-codigo-python.html</link><description>&lt;p&gt;Este es un articulo que siempre he deseado escribir: &lt;em&gt;Vim como IDE para Python&lt;/em&gt;.
+Hace dos años tenia una configuración de Vim que creía ideal para esto e incluso
+el articulo a medio escribir. Pero a medida que iba puliendo la configuración y
+completando el articulo, empezaron a surgir varios similares en la red (sobre
+todo en inglés) y caí en la cuenta de algo: muchos ya estaban obsoletos al
+publicarse. Y cuando digo esto lo digo porque muchos de estos artículos
+empleaban plugins que se habían quedado desfasados por la aparición de otros mas
+recientes y potentes. De hecho en los dos últimos años ha cambiado tanto el
+panorama en el ecosistema en torno a Vim, que de la lista de plugins que
+empleaba por aquel entonces (y los que tenía pendientes de probar) solo empleo
+actualmente el 10%, el resto son nuevos. Y esta "carrera" por nutrir a Vim de
+características nuevas y cada vez más potentes continua hoy en día, con algunas
+herramientas excelentes.&lt;/p&gt;
+&lt;p&gt;Por otro lado, a medida que uno va añadiendo plugins y "tuneando" su
+configuración llega un momento que ya no sabes ni donde tienes "mapeados" los
+atajos, ni recuerdas todas las características que tienes a tu disposición y
+tanto tiempo empleaste en implantar.&lt;/p&gt;
+&lt;h2 id="mi_configuraci+n"&gt;Mi configuración&lt;/h2&gt;
+&lt;p&gt;Partiendo de estas dos premisas se me ocurrió una idea de atajar los dos
+problemas de un golpe: &lt;strong&gt;Documentar mi configuración&lt;/strong&gt;. Lo que trato por un lado
+es que me sirva personalmente tanto para recordar todo lo que tengo disponible
+en el editor, como para poder organizar coherentemente todos los atajos y evitar
+duplicados. Por el otro lado, también me sirve para la idea de demostrar el
+potencial que tiene Vim a la hora de ser un editor de código que puede estar a
+la altura de cualquier IDE, pero con todas las ventajas inherentes a la
+filosofía única de Vim.&lt;/p&gt;
+&lt;p&gt;La idea es que el documento esté permanentemente actualizado a la par que mi
+configuración real, ¿que mejor articulo que este, que siempre estará
+actualizado?&lt;/p&gt;
+&lt;p&gt;La configuración está documentada en un &lt;code&gt;README.md&lt;/code&gt; dentro de la carpeta de Vim
+del repositorio de mis dotfiles. Aquí se puede acceder directamente a mi
+configuración y ver el documento. Actualmente el articulo está en Inglés, aquí
+se pude acceder a la última revisión en español.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/joedicastro/dotfiles/blob/a87b42deb9c1132c8f801bb91d119f0b26d21d68/vim/README.md"&gt;Documento en GitHub&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Mon, 08 Apr 2013 10:29:00 +0200</pubDate><guid>http://joedicastro.com/vim-como-editor-de-codigo-python.html</guid><category>vim</category><category>python</category><category>editores</category><category>linux</category></item></channel></rss>

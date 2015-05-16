@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>joe di castro</title><link>http://joedicastro.com</link><description></description><atom:link href="http://joedicastro.com/feeds/tags/tmux.rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 09 Jul 2012 22:42:00 +0200</lastBuildDate><item><title>Productividad &amp; Linux: tmux</title><link>http://joedicastro.com/productividad-linux-tmux.html</link><description>&lt;p&gt;&lt;a href="http://tmux.sourceforge.net/"&gt;Tmux&lt;/a&gt; es un &lt;strong&gt;multiplexor&lt;/strong&gt;  de terminales. Es una herramienta básica,
+casi diría imprescindible, para los que trabajamos habitualmente con la consola
+de Linux. El termino multiplexor es empleado en electrónica para designar un
+dispositivo que combina múltiples entradas en una única salida. Esto es lo que
+hace tmux, combinar varios terminales en una sola ventana, de forma que podamos
+organizarlos de la forma más eficiente posible. Si lo primero que te viene a la
+cabeza son terminales con múltiples pestañas o paneles como &lt;a href="https://launchpad.net/terminator/"&gt;Terminator&lt;/a&gt;,
+olvídalo, tmux es un concepto diferente y más potente.&lt;/p&gt;
+&lt;p&gt;La gran diferencia es que tmux está basado en un modelo cliente-servidor. El
+servidor puede albergar múltiples sesiones y cada instancia (ventana de
+terminal) puede estar asociado con una o más sesiones. Se pueden abrir, cerrar
+sesiones, moverse entre ellas, renombrarlas. Una sesión puede ser compartida por
+varios clientes, lo que es empleado por ejemplo para sesiones de &lt;a href="https://es.wikipedia.org/wiki/Programaci%C3%B3n_en_pareja"&gt;pair
+programming&lt;/a&gt;. Si se cierra un cliente, la sesión sigue corriendo en segundo
+plano, pudiéndose volver a ella cuando se desee. A su vez cada sesión puede
+albergar varias ventanas (el equivalente a las pestañas en otros terminales) y
+cada ventana puede subdividirse en varios paneles.&lt;/p&gt;
+&lt;p&gt;Es una aplicación muy flexible y con muchas posibilidades, no voy a entrar en
+detalle en todas ellas porque me extendería demasiado. Es totalmente controlable
+desde el teclado, lo que lo hace muy ágil en su manejo. Yo lo uso a diario y es
+muy raro que trabaje en un terminal sin hacerlo dentro de una sesión de tmux.
+Tmux te permite tener perfectamente organizadas todas esas ventanas de terminal
+que los SysAdmins manejamos y que de otra manera se convierten en un caos. Antes
+de emplear tmux empleaba screen y terminator dependiendo de la tarea y el equipo
+a emplear, pero tmux me da lo mejor de ambas aplicaciones y aún más. Y si además
+los combinamos con un terminal ligero, superrápido y con soporte para UTF-8 y
+256 colores como &lt;code&gt;rxvt-unicode&lt;/code&gt; tenemos un entorno ideal para cualquier tarea
+que desarrollemos en la consola.&lt;/p&gt;
+&lt;h2 id="caracter+sticas"&gt;Características&lt;/h2&gt;
+&lt;p&gt;Este es un resumen de las características de tmux:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Modelo cliente/servidor&lt;/li&gt;
+&lt;li&gt;Linea de comandos potente, consistente y fácilmente programable&lt;/li&gt;
+&lt;li&gt;Totalmente controlable desde el teclado, aunque tiene un soporte básico de
+  ratón&lt;/li&gt;
+&lt;li&gt;División de las ventanas en múltiples paneles horizontales y/o verticales&lt;/li&gt;
+&lt;li&gt;Los paneles pueden ser movidos, redimensionados y pueden reorganizarse en
+  esquemas predefinidos&lt;/li&gt;
+&lt;li&gt;Sincronizar paneles. Introducir el mismo texto en varios paneles a la vez&lt;/li&gt;
+&lt;li&gt;Soporte para UTF-8 y 256 colores&lt;/li&gt;
+&lt;li&gt;Copiar y pegar con múltiples bufferes&lt;/li&gt;
+&lt;li&gt;Menús interactivos para seleccionar ventanas, sesiones o clientes&lt;/li&gt;
+&lt;li&gt;Bloqueo de terminal manualmente o por cuenta atrás&lt;/li&gt;
+&lt;li&gt;Moverse a una ventana mediante una búsqueda del texto existente dentro de ella&lt;/li&gt;
+&lt;li&gt;Barra de estado por defecto y muy personalizable&lt;/li&gt;
+&lt;li&gt;Fichero de configuración basado en texto plano&lt;/li&gt;
+&lt;li&gt;Soporte para combinaciones de teclas basadas en Vim o Emacs&lt;/li&gt;
+&lt;li&gt;Documentación bastante completa&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;En esta imagen se puede ver la configuración por defecto de tmux, a primera
+vista no se puede apreciar toda la potencia que se esconde detrás de esta
+aplicación.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/tmux.png" width="700"
+height="481" alt="tmux" /&gt;&lt;/p&gt;
+
+&lt;h2 id="alternativas"&gt;Alternativas&lt;/h2&gt;
+&lt;p&gt;La alternativa más directa es el veterano &lt;a href="http://es.wikipedia.org/wiki/GNU_Screen"&gt;GNU Screen&lt;/a&gt; en el que se
+inspira tmux. Sigue siendo una aplicación muy utilizada, pero en mi opinión tmux
+la ha superado hace tiempo. Otra alternativa es &lt;a href="https://launchpad.net/byobu"&gt;Byobu&lt;/a&gt; que no es más que
+un frontend para tmux o screen que los hace más amigables para los usuarios
+menos avanzados.&lt;/p&gt;
+&lt;h2 id="scripts"&gt;Scripts&lt;/h2&gt;
+&lt;p&gt;Una de las posibilidades más potentes que nos permite tmux es la de la creación
+de scripts para iniciar una o varias sesiones con configuraciones
+predeterminadas. De esto modo se pueden crear sesiones predefinidas para
+desarrollo, web, ssh, etc. Pero crear scripts en tmux es una tarea bastante
+árida, por lo que se han desarrollado algunas utilidades de terceros para
+realizar esto de forma más cómoda y agradable:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://github.com/aziz/tmuxinator"&gt;Tmuxinator&lt;/a&gt; es una utilidad escrita en &lt;a href="http://www.ruby-lang.org/es/"&gt;Ruby&lt;/a&gt; para crear y
+modificar sesiones de Tmux, permitiendo crear sesiones complejas de una forma
+muy sencilla ya que emplea ficheros de configuración en formato &lt;a href="https://es.wikipedia.org/wiki/YAML"&gt;YAML&lt;/a&gt;
+para ello.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://github.com/remiprev/teamocil"&gt;teamocil&lt;/a&gt; es una utilidad que nos permite crear esquemas de ventanas y
+paneles predefinidos con facilidad empleando el formato YAML. También está
+escrito en Ruby, en cuya comunidad de desarrolladores tmux está muy implantado.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Aquí se puede ver una ventana de tmux con mi configuración en la que se muestra
+la sesión &lt;code&gt;www&lt;/code&gt; donde tengo agrupadas varias ventanas con aplicaciones
+relacionadas con la web. Se puede ver como estoy en la ventana 2 de 4 y como he
+personalizado la barra de estado:&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/tmux_www.png" width="700"
+height="429" alt="tmux con una sesión para internet" /&gt;&lt;/p&gt;
+
+&lt;h2 id="mi_configuraci+n"&gt;Mi configuración&lt;/h2&gt;
+&lt;p&gt;Mi configuración de tmux puede encontrarse en mi repositorio &lt;em&gt;dotfiles&lt;/em&gt; en
+&lt;a href="http://github.com/joedicastro/dotfiles"&gt;GitHub&lt;/a&gt;. Mi configuración se apoya en la muchos otros usuarios que me han
+aportado ideas y en buena parte gracias a la lectura del libro &lt;a href="http://pragprog.com/book/bhtmux/tmux"&gt;tmux: Productive
+Mouse-Free Development&lt;/a&gt; de Brian P. Hogan.&lt;/p&gt;
+&lt;p&gt;En esta otra imagen se puede ver una sesión de desarrollo con tmux, donde tengo
+abiertos tres paneles con tres aplicaciones (de izquierda a derecha y de arriba
+a abajo): vim, &lt;a href="http://ipython.org/"&gt;ipython &lt;/a&gt; y &lt;a href="http://jonas.nitro.dk/tig/"&gt;tig&lt;/a&gt;. Así mismo hay una ventana adicional
+donde tengo un shell bash. Pulsar sobre ella para ver a tamaño completo.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;a href="pictures/tmux_develop_full.png" alt="tmux
+como entorno de desarrollo" title="tmux como entorno de desarrollo"&gt;&lt;img
+src="pictures/tmux_develop.png" width="700" height="430" alt="tmux como entorno
+de desarrollo" /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Voy a destacar algunos puntos reseñables de mi configuración. Lo primero que
+configuro es la combinación de teclas conocida como &lt;code&gt;Prefix&lt;/code&gt; que es la
+combinación que precede a los atajos de teclado de tmux. Esto se hace de este
+modo para no interferir con los atajos de teclado de las aplicaciones que
+ejecutemos dentro de tmux. El prefijo por defecto de tmux es &lt;strong&gt;&lt;code&gt;Ctrl + b&lt;/code&gt;&lt;/strong&gt;,
+pero para los que estábamos acostumbrados a &lt;strong&gt;screen&lt;/strong&gt; la combinación &lt;strong&gt;&lt;code&gt;Ctrl +
+a&lt;/code&gt;&lt;/strong&gt; es más idónea. Y también porque es más cómodo de teclear, sobre todo si
+como en mi caso, tienes mapeada una tecla de &lt;strong&gt;&lt;code&gt;Ctrl&lt;/code&gt;&lt;/strong&gt; adicional en lugar de
+&lt;strong&gt;&lt;code&gt;Bloq Mays&lt;/code&gt;&lt;/strong&gt;. Bueno, en realidad uso la tecla &lt;strong&gt;&lt;code&gt;Bloq Mays&lt;/code&gt;&lt;/strong&gt; también como
+tecla &lt;strong&gt;&lt;code&gt;Esc&lt;/code&gt;&lt;/strong&gt; cuando no es pulsada en combinación con otras, gracias a la
+maravillosa pequeña utilidad &lt;a href="https://github.com/alols/xcape"&gt;xcape&lt;/a&gt;, muy útil para los usuarios de Vim.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;#&lt;/span&gt; Use C-a instead of C-b as the prefix
+&lt;span class="go"&gt;set -g prefix C-a&lt;/span&gt;
+&lt;span class="go"&gt;unbind-key C-b&lt;/span&gt;
+&lt;span class="go"&gt;bind-key C-a send-prefix&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para emplear 256 colores y indicarle que interprete de shell emplear, se lo
+indico mediante las siguientes lineas&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;#&lt;/span&gt; &lt;span class="nb"&gt;set &lt;/span&gt;256 colors
+&lt;span class="go"&gt;set -g default-terminal &amp;quot;screen-256color&amp;quot;&lt;/span&gt;
+
+&lt;span class="gp"&gt;#&lt;/span&gt; &lt;span class="nb"&gt;set &lt;/span&gt;default shell
+&lt;span class="go"&gt;set -g default-command &amp;quot;exec /bin/bash&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;También cambio el retraso inicial después de pulsado el prefijo, para que no de
+problemas con otras aplicaciones como vim y para mejorar su respuesta.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;#&lt;/span&gt; be more responsive, changing the default delay
+&lt;span class="go"&gt;set -sg escape-time 1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para hacer más fácil el cambio entre ventanas y paneles a través de los números
+de los mismos, lo que hago es que empiecen a contar desde 1 y no desde 0&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;#&lt;/span&gt; Start numbering at 1
+&lt;span class="go"&gt;set -g base-index 1&lt;/span&gt;
+&lt;span class="go"&gt;setw -g pane-base-index 1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Esto es muy útil para comprobar cambios en la configuración sobre la marcha sin
+necesidad de cerrar las sesiones. Este comando me permite recargar la
+configuración en vivo con la combinación &lt;strong&gt;&lt;code&gt;prefix r&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;#&lt;/span&gt; force a reload of the config file
+&lt;span class="go"&gt;unbind r&lt;/span&gt;
+&lt;span class="go"&gt;bind r source-file ~/.tmux.conf  \; display &amp;quot;Reloaded!&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para moverme entre los paneles y cambiar su tamaño empleo las teclas típicas de
+movimiento de vim para no tener que abandonar los dedos de la fila principal del
+teclado.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;#&lt;/span&gt; moving between panes
+&lt;span class="go"&gt;bind h select-pane -L&lt;/span&gt;
+&lt;span class="go"&gt;bind j select-pane -D&lt;/span&gt;
+&lt;span class="go"&gt;bind k select-pane -U&lt;/span&gt;
+&lt;span class="go"&gt;bind l select-pane -R&lt;/span&gt;
+
+&lt;span class="gp"&gt;#&lt;/span&gt; Quick pane selection
+&lt;span class="go"&gt;bind -r C-h select-window -t :-&lt;/span&gt;
+&lt;span class="go"&gt;bind -r C-l select-window -t :+&lt;/span&gt;
+
+&lt;span class="gp"&gt;#&lt;/span&gt; Pane resizing
+&lt;span class="go"&gt;bind -r H resize-pane -L 5&lt;/span&gt;
+&lt;span class="go"&gt;bind -r J resize-pane -D 5&lt;/span&gt;
+&lt;span class="go"&gt;bind -r K resize-pane -U 5&lt;/span&gt;
+&lt;span class="go"&gt;bind -r L resize-pane -R 5&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;La barra de estado que empleo está inspirada en el plugin de Vim,
+&lt;a href="https://github.com/Lokaltog/vim-powerline/"&gt;vim-powerline&lt;/a&gt;, que le otorga una estética más lograda que la original. Es
+necesario emplear para ello una fuente monoespaciada parcheada especialmente,
+con los símbolos que emplea vim-powerline. Se pueden encontrar varias en su
+&lt;a href="https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts"&gt;wiki&lt;/a&gt;. Yo empleo mi fuente preferida que es Dejavu Sans Mono.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;#&lt;/span&gt; Custom status bar
+&lt;span class="gp"&gt;#&lt;/span&gt; Powerline symbols: ⮂ ⮃ ⮀ ⮁ ⭤
+&lt;span class="go"&gt;set -g status-utf8 on&lt;/span&gt;
+&lt;span class="go"&gt;set -g status-left-length 32&lt;/span&gt;
+&lt;span class="go"&gt;set -g status-right-length 150&lt;/span&gt;
+&lt;span class="go"&gt;set -g status-interval 2&lt;/span&gt;
+
+&lt;span class="go"&gt;set -g status-left &amp;#39;#[fg=colour15,bg=colour238,bold] #S #[fg=colour238,bg=colour234,nobold]⮀&amp;#39;&lt;/span&gt;
+&lt;span class="go"&gt;set -g status-right &amp;#39;#[fg=colour245]⮃ %R ⮃ %d %b #[fg=colour254,bg=colour234,nobold]⮂#[fg=colour16,bg=colour254,bold] #h &amp;#39;&lt;/span&gt;
+&lt;span class="go"&gt;set -g window-status-format &amp;quot;#[fg=white,bg=colour234] #I #W &amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;set -g window-status-current-format &amp;quot;#[fg=colour234,bg=colour39]⮀#[fg=colour16,bg=colour39,noreverse,bold] #I ⮁ #W #F #[fg=colour39,bg=colour234,nobold]⮀&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Por último unos atajos de teclado muy útiles que me permiten hacer un zoom
+temporal de un panel a ventana completa y luego regresar a la distribución
+original de paneles.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;#&lt;/span&gt; Maximize and restore a pane
+&lt;span class="go"&gt;unbind Up&lt;/span&gt;
+&lt;span class="go"&gt;bind Up new-window -d -n tmp \; swap-pane -s tmp.1 \; select-window -t tmp&lt;/span&gt;
+&lt;span class="go"&gt;unbind Down&lt;/span&gt;
+&lt;span class="go"&gt;bind Down last-window \; swap-pane -s tmp.1 \; kill-window -t tmp&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Mon, 09 Jul 2012 22:42:00 +0200</pubDate><guid>http://joedicastro.com/productividad-linux-tmux.html</guid><category>productividad</category><category>linux</category><category>tmux</category></item></channel></rss>

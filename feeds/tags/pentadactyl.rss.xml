@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>joe di castro</title><link>http://joedicastro.com</link><description></description><atom:link href="http://joedicastro.com/feeds/tags/pentadactyl.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 14 Jun 2012 20:52:00 +0200</lastBuildDate><item><title>Productividad &amp; Linux: Pentadactyl</title><link>http://joedicastro.com/productividad-linux-pentadactyl.html</link><description>&lt;p&gt;&lt;a href="http://5digits.org/pentadactyl/"&gt;Pentadactyl&lt;/a&gt; como su nombre sugiere (&lt;em&gt;"que tiene cinco dedos"&lt;/em&gt;), está
+pensado para ser usado con los cinco dedos de cada mano, ergo, el teclado. No es
+una aplicación en si misma, si no un complemento para el navegador web
+&lt;strong&gt;Firefox&lt;/strong&gt;. Básicamente podríamos resumirlo en que es un complemento que te
+permite controlar Firefox desde el teclado. Pero sería un resumen bastante
+injusto para todo lo que te ofrece este plugin. Una pista, los atajos de teclado
+están basados en los de
+&lt;a href="https://es.wikipedia.org/wiki/Vim"&gt;Vim&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Ejemplo de navegación web con Pentadactyl empleando únicamente el teclado.
+Observar como el puntero del ratón permanece estático en la misma posición
+(parte superior derecha de la pantalla). Es un ejemplo muy básico, pero llega
+para hacerse una idea.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/pentadactyl_demo.gif"
+width="600" height="400" alt="Pentadactyl" /&gt;&lt;/p&gt;
+
+&lt;p&gt;En esta imagen se puede ver una ventana de Firefox estándar y una otra de
+Firefox con el complemento Pentadactyl activado (con mi configuración). Como se
+puede observar, se puede ganar una cantidad significativa de espacio en la
+ventana para la página web. En este caso son 170px, un 6% más de espacio
+vertical. En el caso de que abriéramos otra pestaña más, aparecería la barra de
+pestañas y solo ahorraríamos el espacio que ocupan la barra de menús y la de
+navegación. Aunque en mi configuración actual ya he eliminado también la barra de
+pestañas e incluso las barras de desplazamiento, solo se ve la línea de estado
+de Pentadactyl.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/pentadactyl_vs_ffox.png"
+width="700" height="431" alt="Pentadactyl vs Firefox" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Pero... y la barra de herramientas de navegación, ¿no es necesaria? No, con este
+complemento no lo es, dado que las direcciones las introduces a través de la
+línea de comandos y la dirección de la página web siempre está visible en la
+linea de estado inferior de Pentadactyl. Por ejemplo, para abrir la página web
+de google, pulsamos la tecla &lt;strong&gt;&lt;code&gt;o&lt;/code&gt;&lt;/strong&gt; y luego escribimos &lt;code&gt;google.es&lt;/code&gt; y pulsamos
+&lt;strong&gt;&lt;code&gt;↵&lt;/code&gt;&lt;/strong&gt; así de sencillo. Si quisiéramos abrirla en una nueva pestaña, bastaría
+con pulsar &lt;strong&gt;&lt;code&gt;t&lt;/code&gt;&lt;/strong&gt; en lugar de &lt;strong&gt;&lt;code&gt;o&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/pentadactyl_command.png"
+width="700" height="118" alt="Linea de comandos de Pentadactyl" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Aquí se puede ver la línea de estado y la linea de comandos. La línea de
+comandos tiene autocompletado y en la imagen se ve como se va a introducir el
+comando que activa la completísima ayuda que proporciona el complemento. A la
+línea de comandos se accede igual que en Vim, pulsando la tecla &lt;strong&gt;&lt;code&gt;:&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id="caracter+sticas"&gt;Características&lt;/h2&gt;
+&lt;p&gt;Estas son algunas de las funciones que proporciona Pentadactyl para Firefox, sin
+contar con las &lt;a href="http://5digits.org/pentadactyl/plugins"&gt;extensiones disponibles para el mismo Pentadactyl&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Atajos de teclado basados en vim. Soporta las mismas opciones de contexto que
+  Vim, por ejemplo, desplazarse dos pestañas hacia la derecha &lt;strong&gt;&lt;code&gt;2 &amp;lt;ctrl&amp;gt; +
+  n&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Comandos para prácticamente cualquier función de Firefox. Ejemplo: abrir la
+  ventana de complementos, &lt;strong&gt;&lt;code&gt;:dialog addons&lt;/code&gt;&lt;/strong&gt; que puede abreviarse como &lt;strong&gt;&lt;code&gt;:dia
+  addo↹&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Autocompletado para todos los comandos, opciones, marcadores, bufferes,
+  motores de búsqueda, ...&lt;/li&gt;
+&lt;li&gt;Características de privacidad adicionales a las de Firefox y muy potentes&lt;/li&gt;
+&lt;li&gt;Búsqueda dentro de la página (con resaltado) y navegación a través de los
+  resultados. Similar a la búsqueda de Vim. Se pueden emplear expresiones
+  regulares&lt;/li&gt;
+&lt;li&gt;Macros de teclado (se pueden grabar sobre la marcha) y se pueden personalizar
+  los atajos de teclado y los comandos (pudiendo ademas añadir otros)&lt;/li&gt;
+&lt;li&gt;Esquemas de color y extensiones (algunas muy interesantes)&lt;/li&gt;
+&lt;li&gt;Navegación potente y rápida a través de enlaces, campos de formularios, áreas
+  de texto, ... desde el teclado&lt;/li&gt;
+&lt;li&gt;Linea de estado similar a la de Vim&lt;/li&gt;
+&lt;li&gt;Se pueden ejecutar comandos de shell directamente en la línea de comandos de
+  Pentadactyl&lt;/li&gt;
+&lt;li&gt;Interfaz mínimo, pudiendo ocultar menús, barras de herramientas, barras de
+  desplazamiento y pestañas&lt;/li&gt;
+&lt;li&gt;Se pueden cargar scripts directamente con el comando &lt;strong&gt;&lt;code&gt;:source&lt;/code&gt;&lt;/strong&gt;, soportando
+  ficheros javascript y CSS, además de comandos propios de Pentadactyl&lt;/li&gt;
+&lt;li&gt;Se pueden emplear alarmas visuales o sonoras para indicarnos errores&lt;/li&gt;
+&lt;li&gt;Posibilidad de establecer marcadores de posición dentro de páginas&lt;/li&gt;
+&lt;li&gt;Marcadores rápidos para acceder de forma rápida a los sitios que queramos&lt;/li&gt;
+&lt;li&gt;Se pueden editar los campos de texto desde un editor externo&lt;/li&gt;
+&lt;li&gt;AutoComandos para ejecutar acciones activadas por ciertos eventos&lt;/li&gt;
+&lt;li&gt;Sistema de ayuda incorporado completísimo que cubre todo lo que el plugin
+  puede hacer. A la ayuda se accede bien a través de los comandos &lt;strong&gt;&lt;code&gt;:help&lt;/code&gt;&lt;/strong&gt; o
+  &lt;strong&gt;&lt;code&gt;:helpall&lt;/code&gt;&lt;/strong&gt; o bien pulsando la tecla &lt;strong&gt;&lt;code&gt;F1&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;No es mi intención explicar aquí la forma de trabajar con el complemento, ya que
+posee tantas opciones y una ayuda tan completa, que lo considero excesivo.
+Además no es necesario conocer toda su funcionalidad, de hecho yo sigo
+infrautilizandolo y voy descubriendo funciones nuevas de vez en cuando. Por
+ejemplo, hasta que no he vuelto a repasar sus funciones para escribir este
+articulo, estaba empleando un plugin (It's All Text!) para editar los campos de
+texto con gVim, ahora lo hago también con Pentadactyl y de manera aún más
+sencilla. Y con este ya van ocho complementos para Firefox que he dejado de
+usar porque los suplo con Pentadactyl.&lt;/p&gt;
+&lt;h2 id="mi_configuraci+n"&gt;Mi configuración&lt;/h2&gt;
+&lt;p&gt;Mi configuración es realmente sencilla, ya que aparte de emplear un par de
+extensiones, un par de comandos y un esquema de color, lo demás es cambiar
+ciertas opciones predefinidas del mismo. La configuración la he dejado
+disponible en mi repositorio de &lt;code&gt;dotfiles&lt;/code&gt;, en &lt;a href="http://github.com/joedicastro/dotfiles"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="validar_el_html_de_una_p+gina"&gt;Validar el HTML de una página&lt;/h3&gt;
+&lt;p&gt;Este es un comando que he añadido a la configuración para poder validar el HTML
+de una página empleando la &lt;a href="http://validator.w3.org/"&gt;herramienta del W3C&lt;/a&gt;. Como se puede ver, se
+basa en emplear javascript para definir lo que queremos hacer:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nx"&gt;command&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Validar XHTML&amp;#39;&lt;/span&gt; &lt;span class="nx"&gt;valid&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nx"&gt;open&lt;/span&gt;
+&lt;span class="nx"&gt;javascript&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="k"&gt;void&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;location&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;http://validator.w3.org/check?uri=&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;escape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;location&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Aquí se puede ver como funciona:&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/validate.gif" width="640"
+height="400" alt="validate HTML" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Gracias al autocompletado de Pentadactyl, solo es necesario escribir las dos
+primeras letras del comando y pulsar el tabulador y finalmente Intro para
+ejecutar la operación. Nos aparece la herramienta del W3C diciendo que la página
+ha validado correctamente como HTML 5. Y desde luego esto es más rápido que
+emplear el ratón conjuntamente con otro plugin.&lt;/p&gt;
+&lt;h3 id="guardar_paginas_en_pocket_anteriormente_read_it_later"&gt;Guardar paginas en Pocket (anteriormente Read it Later)&lt;/h3&gt;
+&lt;p&gt;Para guardar páginas en &lt;a href="http://getpocket.com"&gt;Pocket&lt;/a&gt;, el que hasta hace unas semanas era Read
+it Later, empleo también otro comando. Antes empleaba el plugin oficial, pero no
+solo consumía memoria si no que para emplear solamente una combinación de
+teclas, empleo un comando de Pentadactyl y me ahorro el tenerlo instalado.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nx"&gt;command&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="nx"&gt;pocket&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;description&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Bookmarklet: Save to Pocket&amp;quot;&lt;/span&gt; &lt;span class="nx"&gt;open&lt;/span&gt;
+&lt;span class="nx"&gt;javascript&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;&lt;span class="nx"&gt;ISRIL_H&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;83dd&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;PKT_D&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;getpocket.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;ISRIL_SCRIPT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createElement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;SCRIPT&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="nx"&gt;ISRIL_SCRIPT&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;text/javascript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;ISRIL_SCRIPT&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;http://&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;PKT_D&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/b/r.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;head&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;].&lt;/span&gt;&lt;span class="nx"&gt;appendChild&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ISRIL_SCRIPT&lt;/span&gt;&lt;span class="p"&gt;)})();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Podemos ver en esta animación como funciona este comando:&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/pocket.gif" width="640"
+height="400" alt="Guardar pagina en Pocket" /&gt;&lt;/p&gt;
+
+&lt;p&gt;La clave para este comando es bien sencilla, primero tener una cuenta en Pocket,
+luego ir a la página en la que se nos proporciona un &lt;a href="http://getpocket.com/add/"&gt;botón para la barra de
+marcadores &lt;/a&gt; para añadir las páginas a Pocket. Copiad con el botón derecho
+la ruta del enlace que os proporciona ese botón, &lt;em&gt;et voilà!&lt;/em&gt;, ahí tenéis el
+código javascript que necesitáis para el comando. Luego para ejecutar el comando
+solo necesitáis estar logueados en Pocket para que funcione.&lt;/p&gt;
+&lt;h3 id="editar_+reas_de_texto_con_un_editor_externo"&gt;Editar áreas de texto con un editor externo&lt;/h3&gt;
+&lt;p&gt;Esta opción es para muy cómoda cuando se trata de editar grandes áreas de texto,
+pues un editor externo te proporciona mejores y más cómodas herramientas. Además
+en caso de que haya algún problema al enviar el texto, sigues teniendo la copia
+en el editor.&lt;/p&gt;
+&lt;p&gt;Activar esta opción es muy sencillo, para Linux y Gvim, añadir esto a el archivo
+de configuración:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;set&lt;/span&gt; editor&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/bin/gvim -f +&amp;lt;line&amp;gt; &amp;lt;file&amp;gt;&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Después puede ser empleado como comentaba para editar áreas de texto, o para
+abrir el código fuente de una página, entre otras posibilidades.&lt;/p&gt;
+&lt;h3 id="readability"&gt;Readability&lt;/h3&gt;
+&lt;p&gt;Para usar este servicio empleo una extension, &lt;a href="https://github.com/grassofhust/dotfiles/blob/master/.pentadactyl/plugins/readability.js"&gt;readability.js&lt;/a&gt;, que es
+necesario descargar y añadir al directorio &lt;code&gt;~/.pentadactyl/plugins/&lt;/code&gt;. Para
+ejecutarlo solo necesitamos emplear el comando  &lt;strong&gt;&lt;code&gt;:rea ↹ ↵&lt;/code&gt;&lt;/strong&gt;, como podemos ver
+en esta animación:&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/readability.gif" width="640"
+height="400" alt="Readability + Pentadactyl" /&gt;&lt;/p&gt;
+
+&lt;h3 id="http_headers"&gt;HTTP Headers&lt;/h3&gt;
+&lt;p&gt;Esta es otra extensión que nos permite ver las cabeceras HTTP de una página. Es
+una de las &lt;a href="http://5digits.org/pentadactyl/plugins"&gt;extensiones oficiales &lt;/a&gt; y al igual que la anterior, basta con
+añadirla al directorio de plugins de Pentadactyl.&lt;/p&gt;
+&lt;p&gt;Si queremos ver la información que Pentadactyl nos ofrece de una página,
+escribimos el siguiente comando &lt;strong&gt;&lt;code&gt;:pageinfo&lt;/code&gt;&lt;/strong&gt; y podemos ver algo como esto:&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/pageinfo.png" width="700"
+height="190" alt="pageinfo" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ahora, si queremos ver las cabeceras, tenemos estas dos opciones:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Request Headers, &lt;strong&gt;&lt;code&gt;:pageinfo h&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/requesth.png" width="700"
+height="141" alt="Request Headers" /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Response Headers, &lt;strong&gt;&lt;code&gt;:pageinfo H&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/responseh.png" width="700"
+height="150" alt="Response Headers" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Y podemos ver las dos a la vez empleando &lt;strong&gt;&lt;code&gt;:pageinfo hH&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id="alternativas"&gt;Alternativas&lt;/h2&gt;
+&lt;p&gt;Existen diferentes alternativas para este complemento, tanto para el mismo
+Firefox, como para otros navegadores. Pero ninguna es tan completa como este.&lt;/p&gt;
+&lt;p&gt;Podríamos empezar por &lt;a href="http://www.vimperator.org/vimperator"&gt;Vimperator&lt;/a&gt;, que es el plugin original, ya que
+Pentadactyl es un fork del mismo por parte de algunos de los desarrolladores
+originales del mismo. Luego tenemos a &lt;a href="http://code.google.com/p/vimium-firefox/"&gt;Vimium&lt;/a&gt; que en este caso es una
+versión del mismo plugin para Chrome.&lt;/p&gt;
+&lt;p&gt;Para Chrome/Chromium tenemos también varios plugins disponibles,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj"&gt;Vrome&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chrome.google.com/webstore/detail/dbepggeogbaibhgnhhndojpepiihcmeb"&gt;Vimium&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chrome.google.com/webstore/detail/gghkfhpblkcmlkmpcpgaajbbiikbhpdi"&gt;vichrome&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Existen alguno que otra solución para Safari y Opera, si no me equivoco.&lt;/p&gt;
+&lt;h3 id="navegadores_con_control_a_trav+s_del_teclado"&gt;Navegadores con control a través del teclado&lt;/h3&gt;
+&lt;p&gt;Existen una serie de navegadores, todos ellos pensados para ser muy ligeros y
+todos basados en &lt;a href="http://es.wikipedia.org/wiki/WebKit"&gt;Webkit&lt;/a&gt;, que implementan la navegación por teclado por
+defecto.  Además estos que muestro están basados en los atajos de teclado de
+Vim.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.uzbl.org/"&gt;Uzbl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://sourceforge.net/apps/trac/vimprobable/"&gt;Vimprobable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://portix.bitbucket.org/dwb/"&gt;dwb&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://mason-larobina.github.com/luakit/"&gt;luakit&lt;/a&gt;, orientado a programadores y usuarios avanzados.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="teledactyl"&gt;Teledactyl&lt;/h2&gt;
+&lt;p&gt;Los mismo desarrolladores de Pentadactyl tienen disponible otro plugin para la
+otra gran herramienta de la &lt;a href="https://es.wikipedia.org/wiki/Mozilla_Foundation"&gt;Mozilla Foundation&lt;/a&gt;, el cliente de correo
+electrónico &lt;strong&gt;Thunderbird&lt;/strong&gt; , y aunque está en desarrollo en fase muy temprana, se
+puede usar: &lt;a href="http://5digits.org/teledactyl"&gt;Teledactyl&lt;/a&gt;. Aunque si queremos emplear un plugin similar,
+pero con un desarrollo más maduro, podemos escoger la herramienta hermana de
+Vimperator, &lt;a href="http://test.vimperator.org/muttator"&gt;Muttator&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="productividad"&gt;Productividad&lt;/h2&gt;
+&lt;p&gt;Se qué me dejo muchas posibilidades de este plugin en el tintero, pero el
+articulo se haría eterno. Si no ha despertado ya tu curiosidad por lo que te he
+contado y mostrado, difícilmente lo hará ya. Ahora bien, si decides probarlo,
+entonces seguro que serás el primero en mirar la ayuda para intentar sacarle
+todo el jugo que este complemento te aporta. A lo poco que lo domines,
+incrementara tu productividad en la navegación web considerablemente.&lt;/p&gt;
+&lt;p&gt;Y es que una vez te acostumbras a él -si conoces Vim y tienes soltura con él,
+todo te será muy natural- la diferencia entre navegar con el teclado y el ratón
+es abismal, no hay color. Tamaña es la diferencia que ni siquiera me planteo el
+cambio de navegador por otro, porque todos carecen de Pentadactyl. Si navegas
+habitualmente por la red, agradecerás mucho el tiempo que un plugin como este te
+devuelve para emplearlo en otras tareas.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Thu, 14 Jun 2012 20:52:00 +0200</pubDate><guid>http://joedicastro.com/productividad-linux-pentadactyl.html</guid><category>linux</category><category>productividad</category><category>firefox</category><category>pentadactyl</category></item></channel></rss>

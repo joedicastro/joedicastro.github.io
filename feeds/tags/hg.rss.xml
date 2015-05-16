@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>joe di castro</title><link>http://joedicastro.com</link><description></description><atom:link href="http://joedicastro.com/feeds/tags/hg.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 26 Apr 2012 21:15:00 +0200</lastBuildDate><item><title>Sincronizar Bitbucket y GitHub</title><link>http://joedicastro.com/sincronizar-bitbucket-y-github.html</link><description>&lt;p&gt;Para mis proyectos empleo generalmente &lt;a href="http://mercurial.selenic.com/"&gt;mercurial&lt;/a&gt; (hg) como sistema de
+control de versiones, porque está hecho en Python y me parece más elegante y
+agradable de usar que &lt;a href="http://git-scm.com/"&gt;git&lt;/a&gt;, aunque empleo git para algunas tareas, como
+gestionar los plugins de &lt;a href="http://www.vim.org"&gt;Vim&lt;/a&gt;. Del mismo modo, el emplear hg como 
+&lt;a href="http://es.wikipedia.org/wiki/Programas_para_control_de_versiones"&gt;DCVS&lt;/a&gt; me llevaba de forma natural a emplear &lt;a href="http://bitbucket.org"&gt;Bitbucket&lt;/a&gt; como
+alojamiento para mis repositorios públicos. &lt;/p&gt;
+&lt;p&gt;Siempre me ha gustado &lt;strong&gt;Bitbucket&lt;/strong&gt;, su estilo sencillo, pero muy potente y creo que
+tiene algunas características que son superiores a las de sus rivales (el &lt;a href="http://blog.bitbucket.org/2011/12/08/pull-requests-with-side-by-side-diffs/"&gt;diff
+side-by-side&lt;/a&gt;, por ejemplo&lt;sup id="fnref:gt"&gt;&lt;a href="#fn:gt" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;). Pero también tengo claro que si hay algún
+alojamiento de código en la red que destaca sobre todos los demás es &lt;a href="http://github.com"&gt;GitHub&lt;/a&gt;,
+"todo" el mundo está allí y de algún modo, estás "obligado" a estar. &lt;strong&gt;GitHub&lt;/strong&gt;
+tiene algunas características muy potentes y en ciertos aspectos es muy superior
+a Bitbucket, aunque me sigue gustando más el &lt;em&gt;feeling&lt;/em&gt; de este último. &lt;/p&gt;
+&lt;h2 id="hg__git"&gt;Hg != Git&lt;/h2&gt;
+&lt;p&gt;Me planteé entonces hace unos días que lo mejor era mantener una replica de mis
+repositorios alojados en Bitbucket en GitHub, como dice el refrán, &lt;em&gt;Nunca tengas
+todos tus huevos en una misma cesta&lt;/em&gt;. El problema es que aunque Bitbucket soporta 
+repositorios tanto en mercurial como en git (para competir con GitHub), GitHub
+solo soporta repositorios en Git. Y dado el éxito que tienen, dudo mucho que
+tengan intención alguna de soportar otro sistema de versiones distinto a Git. &lt;/p&gt;
+&lt;p&gt;Técnicamente es posible mantener un repositorio con los dos dcvs a la vez, pero
+maldita la gracia que me hacía, ademas de que no es nada aconsejable por el
+incremento de tamaño en disco que esto supondría. Entonces, ¿como hacer para poder
+alojar un repositorio mantenido con mercurial en un alojamiento que solo soporta
+Git? La solución, &lt;strong&gt;hg-git&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id="hg-git"&gt;hg-git&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://hg-git.github.com/"&gt;hg-git&lt;/a&gt; es un plugin para mercurial que permite sincronizar el repositorio
+local en hg con un repositorio en git, admitiendo tanto &lt;em&gt;push&lt;/em&gt; como &lt;em&gt;pull&lt;/em&gt; y sin
+perdidas de información. Gracias a este plugin, podemos alojar el repositorio en
+los dos sitios a la vez, empleando solo mercurial para gestionarlo.&lt;/p&gt;
+&lt;p&gt;Instalarlo es muy fácil (desde &lt;code&gt;easy_install&lt;/code&gt; o &lt;code&gt;pip&lt;/code&gt;) y emplearlo también.
+Primero necesitas habilitarlo en el fichero &lt;code&gt;~/.hgrc&lt;/code&gt;, así como la extensión 
+bookmarks que necesita para trabajar.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;[extensions]&lt;/span&gt;
+&lt;span class="na"&gt;hgext.bookmarks&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+&lt;span class="na"&gt;hggit&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A continuación tienes que ir a tu repositorio y asignarle un &lt;code&gt;bookmark&lt;/code&gt; a la
+rama que tengas por defecto (suele ser &lt;code&gt;default&lt;/code&gt;) o a &lt;code&gt;tip&lt;/code&gt; con el nombre de
+&lt;code&gt;master&lt;/code&gt; (el nombre de las ramas por defecto en git), es decir:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; hg bookmark -r default master -f
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Y luego emplearlo es tan sencillo como si fuera un repositorio de mercurial, por
+ejemplo un push:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; hg push git+ssh://git@github.com/joedicastro/joedicastro.com.git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="sincronizar_el_repositorio_con_bitbucket_y_github"&gt;Sincronizar el repositorio con Bitbucket y GitHub&lt;/h2&gt;
+&lt;p&gt;Ahora, lo que tampoco me apetecía era tener que andar haciendo un push cada vez
+para cada alojamiento, lo ideal es que cada vez que hiciera un push a un
+sitio se sincronizara también el otro de forma automática. La solución
+pasa por emplear los &lt;em&gt;paths&lt;/em&gt; para definir alias para los repositorios remotos y
+un &lt;em&gt;hook&lt;/em&gt; para automatizar la sincronización. &lt;/p&gt;
+&lt;p&gt;Definir los alias con &lt;em&gt;paths&lt;/em&gt; es realmente sencillo, nos vamos al fichero
+&lt;code&gt;.hg/hgrc&lt;/code&gt; del repositorio local y añadimos esto (e.g. el repo de este blog):&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;[paths]&lt;/span&gt;
+&lt;span class="na"&gt;github&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;git+ssh://git@github.com:joedicastro/joedicastro.com.git&lt;/span&gt;
+&lt;span class="na"&gt;bitbucket&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;ssh://hg@bitbucket.org/joedicastro/joedicastro.com&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;De este modo, realizar un &lt;code&gt;push&lt;/code&gt; es tan sencillo como:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; hg push bitbucket
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahora necesitamos crear el &lt;code&gt;hook&lt;/code&gt; que nos sincronice los dos alojamientos. Hay
+en la red varias soluciones para esto, por ejemplo &lt;a href="http://morgangoose.com/blog/2010/09/29/github-and-bitbucket-hooks/"&gt;esta&lt;/a&gt; y &lt;a href="http://wiki.ddenis.com/index.php?title=Sync_BitBucket_and_GitHub"&gt;esta&lt;/a&gt;, 
+pero ninguna de las dos acababa de convencerme, la una por emplear un script
+bash que entraba muy fácilmente en un bucle infinito y la otra por necesitar
+otro modulo externo, que en mi caso no acababa de funcionar. Así
+que basándome en la idea del script bash del primero, decidí crearme uno en
+Python que funcionara correctamente y me solucionara el problema. &lt;/p&gt;
+&lt;p&gt;El código del &lt;code&gt;hook&lt;/code&gt; es el siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# encoding: utf-8&lt;/span&gt;
+
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    bb_gh_sync.py: Mercurial hook to keep synced a repo to Bitbucket &amp;amp; GitHub.&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+&lt;span class="c"&gt;# This script maintain synced a repository to booth github and bitbucket sites,&lt;/span&gt;
+&lt;span class="c"&gt;# using only a local mercurial repository. To do this, makes use of hg-git, the&lt;/span&gt;
+&lt;span class="c"&gt;# paths defined in my local hg repo and the environment variable given by hg, to&lt;/span&gt;
+&lt;span class="c"&gt;# push to the site non described in the command line argument. This way, it&amp;#39;s&lt;/span&gt;
+&lt;span class="c"&gt;# irrelevant which site I decided to push every time, booth are done by this&lt;/span&gt;
+&lt;span class="c"&gt;# hook.&lt;/span&gt;
+&lt;span class="c"&gt;#===============================================================================&lt;/span&gt;
+
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+&lt;span class="c"&gt;#    Copyright 2012 joe di castro &amp;lt;joe@joedicastro.com&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    This program is free software: you can redistribute it and/or modify&lt;/span&gt;
+&lt;span class="c"&gt;#    it under the terms of the GNU General Public License as published by&lt;/span&gt;
+&lt;span class="c"&gt;#    the Free Software Foundation, either version 3 of the License, or&lt;/span&gt;
+&lt;span class="c"&gt;#    (at your option) any later version.&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    This program is distributed in the hope that it will be useful,&lt;/span&gt;
+&lt;span class="c"&gt;#    but WITHOUT ANY WARRANTY; without even the implied warranty of&lt;/span&gt;
+&lt;span class="c"&gt;#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&lt;/span&gt;
+&lt;span class="c"&gt;#    GNU General Public License for more details.&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    You should have received a copy of the GNU General Public License&lt;/span&gt;
+&lt;span class="c"&gt;#    along with this program.  If not, see &amp;lt;http://www.gnu.org/licenses/&amp;gt;.&lt;/span&gt;
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+
+&lt;span class="n"&gt;__author__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;joe di castro &amp;lt;joe@joedicastro.com&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__license__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;GNU General Public License version 3&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__date__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;23/04/2012&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__version__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;0.1&amp;quot;&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tempfile&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;gettempdir&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;subprocess&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Main section&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="n"&gt;tmp_dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gettempdir&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;lock_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tmp_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;bb_gh_sync.lock&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c"&gt;# make sure that only runs once for each repository&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lock_file&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lock_file&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;w&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="c"&gt;# if pushed to bitbucket, push to github too&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;HG_ARGS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;push bitbucket&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;call&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/usr/bin/env&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;hg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;push&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;github&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+        &lt;span class="c"&gt;# et viceversa...&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;HG_ARGS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;push github&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;call&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/usr/bin/env&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;hg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;push&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;bitbucket&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lock_file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahora solo tenemos que editar nuestro fichero &lt;code&gt;~/.hgrc&lt;/code&gt; para habilitarlo y ya
+estaría listo para funcionar. Editamos el fichero y le añadimos estas lineas:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;[hooks]&lt;/span&gt;
+&lt;span class="na"&gt;post-push&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;$HOME/dotfiles/hg/bb_gh_sync.py&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahora, si hacemos un push a Bitbucket, el hace automáticamente un push también a
+GitHub al acabar el primero, y viceversa. De este modo, hacer un push a ambos
+alojamientos es tan sencillo como:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; hg push bitbucket
+&lt;span class="go"&gt;pushing to ssh://hg@bitbucket.org/joedicastro/joedicastro.com&lt;/span&gt;
+&lt;span class="go"&gt;running ssh hg@bitbucket.org &amp;#39;hg -R joedicastro/joedicastro.com serve --stdio&amp;#39;&lt;/span&gt;
+&lt;span class="go"&gt;searching for changes&lt;/span&gt;
+&lt;span class="go"&gt;no changes found&lt;/span&gt;
+&lt;span class="go"&gt;running hook post-push: $HOME/dotfiles/hg/bb_gh_sync.py&lt;/span&gt;
+&lt;span class="go"&gt;pushing to git+ssh://git@github.com:joedicastro/joedicastro.com.git&lt;/span&gt;
+&lt;span class="go"&gt;creating and sending data&lt;/span&gt;
+&lt;span class="go"&gt;[&amp;quot;git-receive-pack &amp;#39;joedicastro/joedicastro.com.git&amp;#39;&amp;quot;]&lt;/span&gt;
+&lt;span class="go"&gt;    github::refs/heads/master =&amp;gt; GIT:198e8cc9&lt;/span&gt;
+&lt;span class="go"&gt;running hook post-push: $HOME/dotfiles/hg/bb_gh_sync.py&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;De este modo puedo mantener copias de los repositorios locales en ambos sitios
+de manera automática y sincronizada, sin preocuparme, ni hacer un trabajo extra.
+Eso si, conviene prescindir de los wikis y documentarlo todo a través de ficheros
+&lt;code&gt;README.md&lt;/code&gt; en formato Markdown para facilitar la integración de los dos sitios.
+Lo que por otro lado también ayuda a mantenerlos actualizados de manera más sencilla.&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id="fn:gt"&gt;
+&lt;p&gt;Bueno, algunos rivales como &lt;a href="http://gitorious.org/"&gt;Gitorius&lt;/a&gt;, también soportan esta característica
+&amp;#160;&lt;a href="#fnref:gt" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Thu, 26 Apr 2012 21:15:00 +0200</pubDate><guid>http://joedicastro.com/sincronizar-bitbucket-y-github.html</guid><category>mercurial</category><category>hg</category><category>repositorio</category><category>bitbucket</category><category>github</category><category>python</category></item><item><title>Pelican - Repositorio</title><link>http://joedicastro.com/pelican-repositorio.html</link><description>&lt;p&gt;Como complemento a la &lt;a href="http://joedicastro.com/tag/pelican.html"&gt;serie de artículos&lt;/a&gt; que he publicado sobre &lt;a href="http://docs.notmyidea.org/alexis/pelican/"&gt;Pelican&lt;/a&gt;, 
+el software que genera este blog, añado el repositorio, &lt;a href="http://joedicastro.com/pelican-configuracion-y-personalizacion.html"&gt;como había prometido&lt;/a&gt;, 
+del contenido del mismo. El repositorio empleaba el sistema de control de
+versiones &lt;a href="http://mercurial.selenic.com/"&gt;Mercurial&lt;/a&gt; y estába alojado en &lt;a href="https://bitbucket.org/"&gt;Bitbucket&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Las ventajas de disponer del contenido del blog en un repositorio son las de 
+poder enmendar un error con suma facilidad y en muy poco tiempo, además de la de 
+poder trabajar con distintas versiones del mismo (pruebas y producción). Además 
+el repositorio en Bitbucket me proporcionaba una copia de seguridad adicional del 
+sitio sin esfuerzo alguno. Y si alguien está interesado en crear su propio blog 
+con Pelican y quiere saber como he realizado el mio, ahí tiene las claves. Salvo 
+el propio Pelican (que no tendría mucho sentido) todo el material empleado para 
+generarlo está en el. Y disponiendo del fichero &lt;strong&gt;fabric&lt;/strong&gt;, se pueden descargar 
+Pelican e instalar el entorno virtual en un minuto. &lt;/p&gt;
+&lt;p&gt;Para automatizar todas las tareas, incluso las más comunes del repositorio, he 
+añadido al fichero fabric &lt;em&gt;fabfile.py&lt;/em&gt; dos tareas más:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Make a commit to the local mercurial repository.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;hg add&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;hg commit -m &amp;#39;{0}&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;push&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Make a push to the remote mercurial repository.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;hg push ssh://hg@bitbucket.org/joedicastro/joedicastro.com&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Con estas puedo hacer un &lt;code&gt;commit&lt;/code&gt; y un &lt;code&gt;push&lt;/code&gt; a Bitbucket en un solo paso, por 
+ejemplo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="go"&gt;fab commit:&amp;quot;Añadido articulo: Pelican - Repositorio&amp;quot; push&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;También he cambiado la página que generaba los archivos del blog, ya que no me 
+gustaba el formato anterior: una fecha, un articulo. He pasado de esto:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;base.html&amp;quot;&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;block&lt;/span&gt; &lt;span class="nv"&gt;content&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;&amp;lt;section id=&amp;quot;content&amp;quot; class=&amp;quot;body&amp;quot;&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;&amp;lt;h1&amp;gt;Archivos de &lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;SITENAME&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+
+&lt;span class="x"&gt;&amp;lt;dl&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nv"&gt;article&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;dates&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;    &amp;lt;dt&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;article.locale_date&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;lt;/dt&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;    &amp;lt;dd&amp;gt;&amp;lt;a href=&amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;article.url&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;article.title&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;lt;/a&amp;gt;&amp;lt;/dd&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endfor&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;&amp;lt;/dl&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;&amp;lt;/section&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endblock&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;a esto:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;base.html&amp;quot;&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;block&lt;/span&gt; &lt;span class="nv"&gt;content&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;&amp;lt;section id=&amp;quot;content&amp;quot; class=&amp;quot;body&amp;quot;&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;&amp;lt;h1&amp;gt;Archivos de &lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;SITENAME&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;years_month&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{}&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;months&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Enero&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Febrero&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Marzo&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Abril&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Mayo&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; 
+                  &lt;span class="m"&gt;6&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Junio&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="m"&gt;7&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Julio&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="m"&gt;8&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Agosto&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="m"&gt;9&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Septiembre&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; 
+                  &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Octubre&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="m"&gt;11&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Noviembre&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="m"&gt;12&lt;/span&gt;&lt;span class="s1"&gt;:&amp;#39;Diciembre&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt; &lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nv"&gt;article&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;dates&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;  &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nv"&gt;article.date.year&lt;/span&gt; &lt;span class="k"&gt;not&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;years_month&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="nv"&gt;years_month.update&lt;/span&gt;&lt;span class="o"&gt;({&lt;/span&gt;&lt;span class="nv"&gt;article.date.year&lt;/span&gt;&lt;span class="o"&gt;:[&lt;/span&gt;&lt;span class="nv"&gt;article.date.month&lt;/span&gt;&lt;span class="o"&gt;]})&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;  &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;else&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nv"&gt;article.date.month&lt;/span&gt; &lt;span class="k"&gt;not&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;years_month&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;article.date.year&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt; &lt;/span&gt;
+&lt;span class="x"&gt;      &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="nv"&gt;years_month&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;article.date.year&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nv"&gt;.append&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;article.date.month&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;endif&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;  &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;endif&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;endfor&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nv"&gt;year&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;years_month&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="nf"&gt;sort&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;reverse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kp"&gt;True&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;  &amp;lt;h2 class=&amp;quot;year&amp;quot;&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;year&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;lt;/h2&amp;gt;&amp;lt;dl&amp;gt;  &lt;/span&gt;
+&lt;span class="x"&gt;  &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nv"&gt;month&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;years_month&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;year&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;    &amp;lt;dt class=&amp;quot;month&amp;quot;&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;months&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;month&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;lt;/dt&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nv"&gt;article&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;dates&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;      &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nv"&gt;article.date.year&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nv"&gt;year&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="nv"&gt;article.date.month&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nv"&gt;month&lt;/span&gt; -&lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;        &amp;lt;dd&amp;gt;&amp;lt;span class=&amp;quot;day&amp;quot;&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;article.locale_date.split&lt;/span&gt;&lt;span class="o"&gt;()[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;lt;/span&amp;gt;  &amp;lt;a href=&amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;article.url&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;article.title&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;lt;/a&amp;gt;&amp;lt;/dd&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;      &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;endif&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt;- &lt;span class="k"&gt;endfor&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;  &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endfor&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&amp;lt;/dl&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endfor&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;&amp;lt;/section&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endblock&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Donde los artículos están archivados por año, mes y día, con un formato que 
+personalmente me agrada bastante más.&lt;/p&gt;
+&lt;p&gt;El repositorio de este blog se puede encontrar en &lt;a href="http://github.com/joedicastro/joedicastro.com"&gt;github&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Tue, 05 Jul 2011 23:02:00 +0200</pubDate><guid>http://joedicastro.com/pelican-repositorio.html</guid><category>pelican</category><category>python</category><category>markdown</category><category>restructuredtext</category><category>blog</category><category>mercurial</category><category>hg</category></item></channel></rss>

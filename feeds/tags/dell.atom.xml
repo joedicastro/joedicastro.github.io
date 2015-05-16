@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>joe di castro</title><link href="http://joedicastro.com" rel="alternate"></link><link href="http://joedicastro.com/feeds/tags/dell.atom.xml" rel="self"></link><id>http://joedicastro.com</id><updated>2012-06-12T10:44:00+02:00</updated><entry><title>Mantener la temperatura adecuada en un portátil Dell con Linux</title><link href="http://joedicastro.com/mantener-la-temperatura-adecuada-en-un-portatil-dell-con-linux.html" rel="alternate"></link><updated>2012-06-12T10:44:00+02:00</updated><author><name>joe di castro</name></author><id>http://joedicastro.com/mantener-la-temperatura-adecuada-en-un-portatil-dell-con-linux.html</id><summary type="html">&lt;p&gt;Los que tengáis o hayáis tenido un portátil &lt;strong&gt;Dell&lt;/strong&gt;, sabréis que es posible
+controlar la velocidad de funcionamiento de sus ventiladores de forma manual.
+Existen aplicaciones para Windows, pero también es posible hacerlo desde Linux
+con el paquete &lt;code&gt;i8kutils&lt;/code&gt; creado por Massimo Dal Zotto. Este paquete incluye un
+modulo del kernel &lt;code&gt;i8k&lt;/code&gt; que necesita ser cargado al inicio y una serie de
+utilidades para controlar el ventilador e informar de la temperatura y otros
+valores de la &lt;a href="https://es.wikipedia.org/wiki/Bios"&gt;BIOS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Este paquete fue creado originalmente para el portátil Dell Inspiron 8000, de
+ahí su nombre. Esta utilidad aprovecha el modo &lt;a href="http://es.wikipedia.org/wiki/Modo_de_Gerencia_del_Sistema"&gt;SMM &lt;/a&gt; de la BIOS que estaba
+presente en los modelos Inspiron para controlar la velocidad de los ventiladores
+(algo que también permiten otras marcas como Toshiba y Lenovo, para las que
+también hay algunas utilidades). Dell también ofrece el soporte de SMM BIOS en
+otras gamas y portátiles, como los de la serie Latitude o XPS. Aunque está
+utilidad no funciona en algunos modelos.&lt;/p&gt;
+&lt;p&gt;Esta utilidad funciona bajo la línea de comandos, pero al amparo del modulo del
+kernel surgieron varias aplicaciones, principalmente applets para el panel de
+Gnome 2, que permitían un control gráfico de los ventiladores y su temperatura.
+Este control podía ser automático o manual. Yo personalmente me decanté en su
+momento por emplear &lt;a href="http://conky.sourceforge.net/"&gt;Conky&lt;/a&gt; para mostrar las velocidades y la temperatura y
+emplear un script, &lt;code&gt;i8kapplet&lt;/code&gt; por Wheelspin, para controlar automáticamente la
+temperatura dentro de unos rangos.&lt;/p&gt;
+&lt;h2 id="i8kfanspy"&gt;i8kfans.py&lt;/h2&gt;
+&lt;p&gt;Este era un script bash que lleva dándome servicio mucho años (el portátil ya
+tiene sus siete años) pero que por la forma que tiene de controlar cuando se
+debe subir/bajar la velocidad de los ventiladores, provocaba que se sucediesen
+de vez en cuando continuos acelerones y frenazos en los mismos. Esto al principio
+no me disgustaba, pero con los años los ventiladores hacen cada vez más ruido y
+si bien el sonido constante a alta velocidad es ligeramente molesto, esos
+cambios bruscos de velocidad se me han vuelto insoportables. Y dado que el
+portátil se acerca al final de su vida útil, sustituir los ventiladores, aunque
+es la solución adecuada, no lo veo económicamente rentable.&lt;/p&gt;
+&lt;p&gt;Yo sabía que el problema por el que esto sucedía es porque la BIOS por defecto
+regula las temperaturas de los ventiladores en unos rangos predefinidos y esto
+no se desactiva, de hecho trabaja conjuntamente con el script. Como los rangos
+de temperatura que yo predefino son inferiores a los de la BIOS, en algunas
+ocasiones los dos pelean por el control de los ventiladores y es lo que ocasiona
+el problema. Pero el calor es el peor enemigo de la electrónica, y en los
+portátiles esto es un factor critico. De hecho estoy seguro de que este equipo
+(muy bien amortizado) me ha durado tantos años gracias a que me he preocupado de
+este punto. Estoy cansado de ver morir a portátiles y discos duros en verano
+porque la gente no se preocupa de este tema. Por favor, limpiad el polvo de los
+ventiladores al llegar el verano, os ahorrareis muchos disgustos.&lt;/p&gt;
+&lt;p&gt;Así que descartado el reemplazar los ventiladores, me planteé el crear un script
+que intentara hacer lo mismo pero de forma más suave, intentado reducir el
+número de cambios bruscos de velocidad y fruto de ello es el siguiente script,
+que está disponible en &lt;a href="http://github.com/joedicastro/i8kfans"&gt;GitHub&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# -*- coding: utf8 -*-&lt;/span&gt;
+
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    i8kfans.py: Adjust the fans speed in various Dell laptops (with a nvidia&lt;/span&gt;
+&lt;span class="sd"&gt;    graphics card) to maintain the right temperatures. This affect both fans,&lt;/span&gt;
+&lt;span class="sd"&gt;    the cpu and the gpu fan. Originally i8k was created to run in a Dell&lt;/span&gt;
+&lt;span class="sd"&gt;    Inspiron 8000 laptop, but this Dell fan control via SMM BIOS is available&lt;/span&gt;
+&lt;span class="sd"&gt;    in others laptops of various series (Inspiron, XPS, Latitude, etcetera),&lt;/span&gt;
+&lt;span class="sd"&gt;    but not all of them are supported. Mine is an Inspiron 9400 but I tested&lt;/span&gt;
+&lt;span class="sd"&gt;    this successfully in a XPS m1330 too.&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Based on a 2006 bash script by Wheelspin, `i8kapplet`. This old script&lt;/span&gt;
+&lt;span class="sd"&gt;    served faithfully me for many years, but my ears couldn&amp;#39;t stand much longer&lt;/span&gt;
+&lt;span class="sd"&gt;    its random and common slow downs/speed ups. Over the years, fans have&lt;/span&gt;
+&lt;span class="sd"&gt;    become more and more loud. This new script runs in a more smooth way, with&lt;/span&gt;
+&lt;span class="sd"&gt;    less sudden changes.  It&amp;#39;s cheaper than replace booth fans, don&amp;#39;t you&lt;/span&gt;
+&lt;span class="sd"&gt;    think?&lt;/span&gt;
+
+&lt;span class="sd"&gt;    This script needs the `i8kutils` linux package installed and the `i8k`&lt;/span&gt;
+&lt;span class="sd"&gt;    kernel module loaded to work.&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+&lt;span class="c"&gt;#    Copyright 2012 joe di castro &amp;lt;joe@joedicastro.com&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    This program is free software: you can redistribute it and/or modify&lt;/span&gt;
+&lt;span class="c"&gt;#    it under the terms of the GNU General Public License as published by&lt;/span&gt;
+&lt;span class="c"&gt;#    the Free Software Foundation, either version 3 of the License, or&lt;/span&gt;
+&lt;span class="c"&gt;#    (at your option) any later version.&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    This program is distributed in the hope that it will be useful,&lt;/span&gt;
+&lt;span class="c"&gt;#    but WITHOUT ANY WARRANTY; without even the implied warranty of&lt;/span&gt;
+&lt;span class="c"&gt;#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&lt;/span&gt;
+&lt;span class="c"&gt;#    GNU General Public License for more details.&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    You should have received a copy of the GNU General Public License&lt;/span&gt;
+&lt;span class="c"&gt;#    along with this program.  If not, see &amp;lt;http://www.gnu.org/licenses/&amp;gt;.&lt;/span&gt;
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+
+&lt;span class="n"&gt;__author__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;joe di castro &amp;lt;joe@joedicastro.com&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__license__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;GNU General Public License version 3&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__date__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;12/06/2012&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__version__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;0.3&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;linesep&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;subprocess&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;check_output&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PIPE&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;exc_info&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;sleep&lt;/span&gt;
+&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c"&gt;# Checks the installation of the necessary python modules&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;An error found importing one module:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;exc_info&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;You need to install it&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Stopping...&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+    &lt;span class="nb"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;check_execs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;progs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Check if the programs are installed, if not exit and report.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;prog&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;progs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;prog&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;--help&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;OSError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;The {0} program is necessary to run this script&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prog&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="nb"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_right_fan_speed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;current_temperature&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;current_fan_speed&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;temp_triggers&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Get the right fan speed to use with i8kfan command.&lt;/span&gt;
+
+&lt;span class="sd"&gt;    :current_temperature: current temperature value for the fan implied&lt;/span&gt;
+&lt;span class="sd"&gt;    :current_fan_speed: current fan speed&lt;/span&gt;
+&lt;span class="sd"&gt;    :temp_triggers: the threshold temperatures to trigger the fan speed change&lt;/span&gt;
+&lt;span class="sd"&gt;    :returns: right fan speed or &amp;quot;-&amp;quot; (means change nothing to i8kfan)&lt;/span&gt;
+
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;right_fan_speed&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;  &lt;span class="c"&gt;# the right fan speed for the current temp&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;current_temperature&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;temp_triggers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;current_temperature&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;temp_triggers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+            &lt;span class="n"&gt;right_fan_speed&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;right_fan_speed&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;right_fan_speed&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;right_fan_speed&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;right_fan_speed&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="n"&gt;current_fan_speed&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;-&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Main section&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;# time between temperature checks&lt;/span&gt;
+    &lt;span class="n"&gt;interval&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="c"&gt;# the temp thresholds to jump to a faster fan speed. Values greater than&lt;/span&gt;
+    &lt;span class="c"&gt;# [g|c]pu[0] set the fan speed to 1 and the ones greater than [g|c]pu[1]&lt;/span&gt;
+    &lt;span class="c"&gt;# set the speed to 2. Obviously, values minor than [g|c]pu[0] stop the fan&lt;/span&gt;
+    &lt;span class="n"&gt;gpu_temps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;45&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;53&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;cpu_temps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="c"&gt;# check if the i8k kernel module is already loaded&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;  &lt;span class="s"&gt;&amp;quot;i8k&amp;quot;&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;check_output&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ls /proc/&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;()):&lt;/span&gt;
+        &lt;span class="nb"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;The i8k kernel module is not loaded&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="c"&gt;# get current values&lt;/span&gt;
+            &lt;span class="n"&gt;cpu_temp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;check_output&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;i8kctl temp&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+            &lt;span class="n"&gt;gpu_out&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;check_output&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nvidia-smi -q -d TEMPERATURE&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+            &lt;span class="n"&gt;gpu_temp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;gpu_out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isdigit&lt;/span&gt;&lt;span class="p"&gt;()][&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+            &lt;span class="n"&gt;cpu_fan&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gpu_fan&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;check_output&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;i8kfan&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt;
+
+            &lt;span class="c"&gt;# get the right speed values for each fan&lt;/span&gt;
+            &lt;span class="n"&gt;cpu_rfs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_right_fan_speed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cpu_temp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cpu_fan&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cpu_temps&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;gpu_rfs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_right_fan_speed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gpu_temp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gpu_fan&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gpu_temps&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+            &lt;span class="c"&gt;# if any of the fans needs to change their speed, change it!&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;cpu_rfs&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;-&amp;quot;&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;gpu_rfs&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;-&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;i8kfan {0} {1}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cpu_rfs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gpu_rfs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+                      &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+            &lt;span class="c"&gt;# wait a moment. We want a cooler laptop, aren&amp;#39;t we?&lt;/span&gt;
+            &lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;interval&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;KeyboardInterrupt&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="nb"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;check_execs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;i8kctl&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;i8kfan&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;nvidia-smi&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="c"&gt;###############################################################################&lt;/span&gt;
+&lt;span class="c"&gt;#                                  Changelog                                  #&lt;/span&gt;
+&lt;span class="c"&gt;###############################################################################&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# 0.3:&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# * Better documentation&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# 0.2:&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# * Fix an error in a function docstring due to refactorization&lt;/span&gt;
+&lt;span class="c"&gt;# * Give appropriate credit to original idea&amp;#39; script&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# 0.1:&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# * First attempt&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;De momento, aunque aún sufre del mismo problema inevitable por el conflicto
+por el control entre el script y la BIOS, de momento he observado que se produce
+con menos frecuencia y durante menos tiempo. Aunque quizás realice algunos
+cambios para intentar reducir aún más esos conflictos.&lt;/p&gt;</summary><category term="linux"></category><category term="dell"></category><category term="python"></category></entry></feed>

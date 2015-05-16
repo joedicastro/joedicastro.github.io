@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>joe di castro</title><link>http://joedicastro.com</link><description></description><atom:link href="http://joedicastro.com/feeds/tags/twitter.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 21 Jun 2012 22:50:00 +0200</lastBuildDate><item><title>Productividad &amp; Linux: Turses</title><link>http://joedicastro.com/productividad-linux-turses.html</link><description>&lt;p&gt;Que medio mundo parece estar conectado a &lt;a href="http://twitter.com"&gt;Twitter&lt;/a&gt; no es
+ninguna novedad. Y que si sigues a un buen número de personas, el intentar estar
+al tanto de todo lo que ocurre es una temeridad, tampoco debería sorprender a
+nadie. De hecho, dado su éxito y el enorme flujo de información que circula por
+él, se han desarrollado cientos de herramientas para gestionarlo.&lt;/p&gt;
+&lt;p&gt;Desde que cree mi cuenta en twitter, he probado unas cuantas, unas veinte (y
+solo en Linux, en el resto uso la web). La primera, y la elección más obvia ya
+que por aquel entonces usaba Ubuntu, fue &lt;strong&gt;Gwibber&lt;/strong&gt; . Luego cansado de sus
+muchos problemas, probé un sinnúmero de aplicaciones, solo merece la pena
+reseñar una: &lt;a href="http://hotot.org/"&gt;Hotot&lt;/a&gt;. Es la mejor aplicación gráfica para twitter en Linux
+que conozco.&lt;/p&gt;
+&lt;p&gt;Pero guiado por el mismo objetivo de &lt;a href="http://joedicastro.com/tag/productividad.html"&gt;mejorar la productividad&lt;/a&gt; en mis
+herramientas habituales de trabajo, me lancé a la búsqueda de un cliente de
+twitter que encajara en la misma filosofía. No hay muchas alternativas, la
+mayoría, hay que reconocerlo, son demasiado "crudas" incluso para mí, que soy un
+amante de la consola. Pero entonces dí con una pequeña joya, &lt;a href="http://tyrs.nicosphere.net/"&gt;Tyrs&lt;/a&gt;,
+desarrollada por &lt;a href="https://github.com/Nic0"&gt;Nicolas Paris&lt;/a&gt;. Era una herramienta sencilla, pero que
+cumplía muy bien con todo lo que buscaba de ella.  Pero un buen día, Nicolas, en
+su afán por mejorarla, empezó a reescribir la herramienta empleando una nueva
+librería para gestionar el interfaz. Las primeras versiones tenían varios fallos
+y Nicolas pronto se vio desbordado por una tarea que no le apetecía continuar y
+a la que no podía dedicar más tiempo. Y &lt;a href="http://www.nicosphere.net/small-projects-life-depends-on-his-owner/"&gt;decidió abandonar el proyecto&lt;/a&gt;,
+con la esperanza de que alguien se atreviera a retomarlo. Cuando leí la entrada
+de su blog no perdí la esperanza del todo, al fin y al cabo, estaba desarrollado
+en Python, un lenguaje con el que me desenvuelvo. Mientras esperaba que hacer,
+seguí usando la última versión estable a diario. Pero entonces, apareció el
+milagro, &lt;strong&gt;Turses&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id="turses"&gt;Turses&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/alejandrogomez/"&gt;Alejandro Gómez&lt;/a&gt;, un usuario de &lt;strong&gt;Tyrs&lt;/strong&gt; &lt;a href="http://dialelo.com/Python/turses/2012/03/02/turses-un-cliente-de-twitter-con-interfaz-ncurses.html"&gt;se lanzó&lt;/a&gt; a crear su
+propia aplicación basándose en él. Y no solo garantizaba la continuidad del buen
+trabajo empezado por Nicolas, si no que llegaba lleno de ideas frescas y muchas
+ganas de hacerlo bien. El propio Nicolas &lt;a href="http://www.nicosphere.net/turses-a-fork-from-tyrs-ncurses-twitter-client/"&gt;le felicitó&lt;/a&gt; por el trabajo
+y la iniciativa. A día de hoy, el proyecto se sigue desarrollando, y aunque aún
+tiene algunas metas marcadas por delante, la aplicación es perfectamente usable
+en el día a día, de hecho es mi cliente habitual.&lt;/p&gt;
+&lt;p&gt;Como ya se habrá podido deducir, &lt;a href="https://github.com/alejandrogomez/Turses"&gt;Turses&lt;/a&gt; es un cliente de twitter para la
+consola con interfaz &lt;a href="https://es.wikipedia.org/wiki/Ncurses"&gt;ncurses&lt;/a&gt;. Está desarrollado en Python y emplea la
+librería &lt;a href="http://excess.org/urwid/"&gt;Urwid&lt;/a&gt; para crear la interfaz en curses. Lo mejor de esta
+aplicación es que emplea atajos de teclado inspirados en &lt;strong&gt;Vim&lt;/strong&gt;  y es
+totalmente controlable desde el teclado. Esto unido a que emplea una interfaz
+basada en texto, la convierten en la aplicación más ágil de todas las que haya
+probado.  &lt;strong&gt;Hotot&lt;/strong&gt; también tiene algunas combinaciones de teclas muy útiles,
+pero ni se acercan a lo que &lt;strong&gt;Turses&lt;/strong&gt;  te permite.&lt;/p&gt;
+&lt;p&gt;Aquí se puede ver el aspecto por defecto de Turses&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/turses.png" width="700"
+height="290" alt="Turses" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Pero no se acaban ahí las bondades de Turses, tiene algunas características
+geniales como la gestión dinámica de bufferes (líneas temporales) y de columnas.
+Demos un repaso a lo que nos permite la aplicación:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Múltiples líneas temporales&lt;/strong&gt;  (&lt;em&gt;bufferes&lt;/em&gt;). Es decir, nos permite consultar
+  los tweets de la gente a la que seguimos, los nuestros, menciones, etc. Es
+  decir, los bufferes habituales, incluidos conversaciones, búsquedas y
+  hashtags.  Y podemos tenerlas simultáneamente abiertas y navegar entre ellas
+  muy fácilmente.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Múltiples columnas&lt;/strong&gt;. En cada columna se sitúa un buffer, y podemos añadir
+  o quitar columnas a voluntad de forma muy sencilla. Es decir, que podemos
+  visualizar un solo buffer de forma predefinida, o podemos ver varios a la vez
+  distribuidos en múltiples columnas.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tweet, Reply, Retweet, Borrar&lt;/strong&gt;. Vamos, que permite las operaciones
+  habituales con los tweets. Además se puede hacer un Retweet editando el texto,
+  algo que parece obvio, pero que en algunas aplicaciones no es tan sencillo.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Seguir/dejar de seguir&lt;/strong&gt; a un usuario. Podemos hacerlo bien a través de un
+  tweet o bien introduciendo el nombre del usuario.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Des/Marcar como favorito&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Enviar mensajes directos&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Abrir URLs en un navegador&lt;/strong&gt;. Nos permite abrir las direcciones que aparecen
+  en un tweet, así como abrir el propio tweet.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Visualizar conversaciones&lt;/strong&gt;. Podemos abrir un nuevo buffer con la
+  conversación relacionada con un tweet.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Contador de los no leídos&lt;/strong&gt; funciona para todos los bufferes y nos permite
+  ponerlo a cero manualmente cuando queremos ignorar algunos no leídos.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Búsqueda&lt;/strong&gt;. Se puede buscar tanto por usuario como por termino.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ver los tweets de cualquier usuario &lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Visualizar el perfil de un usuario&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Totalmente personalizable&lt;/strong&gt; y la configuración se guarda en un fichero de
+  texto plano.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Múltiples cuentas&lt;/strong&gt;, eso sí, una por ejecución.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ayuda en línea&lt;/strong&gt; con todas las combinaciones de teclas posibles. Accesible a
+  través de la tecla &lt;strong&gt;&lt;code&gt;?&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Interfaz de Turses mostrando múltiples columnas&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/turses_2cols.png" width="700"
+height="285" alt="Turses con multiples columnas" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Y entre las metas que tiene marcadas su autor, nos encontramos con el soporte
+para listas, streaming, notificaciones emergentes y múltiples sesiones. Estoy
+seguro de que las acabará incorporando, le sobra capacidad. Aunque he de reseñar
+que actualmente he contribuido con una porción de código minúscula al proyecto y
+que tengo la intención de seguir colaborando en todo lo que pueda. Si eres
+programador Python y te apetece echar una mano, &lt;a href="https://github.com/alejandrogomez/Turses"&gt;anímate&lt;/a&gt;, Alejandro es muy
+receptivo y un tío muy majo que estará encantado con toda la ayuda que le
+podamos dar.&lt;/p&gt;
+&lt;h2 id="mi_configuraci+n"&gt;Mi configuración&lt;/h2&gt;
+&lt;p&gt;Si a alguien le puede servir como inspiración mi configuración, esta disponible
+en &lt;a href="http://github.com/joedicastro/dotfiles"&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Turses mostrando la información del perfil del autor de un tweet&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/turses_uinfo.png" width="700"
+height="429" alt="Turses mostrando la información de un usuario" /&gt;&lt;/p&gt;
+
+&lt;h2 id="alternativas"&gt;Alternativas&lt;/h2&gt;
+&lt;p&gt;Solo conozco dos alternativas en la misma línea que merezca la pena reseñar, las
+demás que he probado no estaban a la altura:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://www.vim.org/scripts/script.php?script_id=2204"&gt;TwitVim&lt;/a&gt;, es un plugin para Vim. Funciona fantásticamente bien, eso sí,
+  solo apropiado para usuarios de Vim. La probé un tiempo y me gusto, pero
+  personalmente no me gusta emplear Vim para esta tarea y Turses es bastante más
+  manejable.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://www.floodgap.com/software/ttytter/"&gt;TTYtter&lt;/a&gt;, está escrito en Perl y no tiene interfaz. Trabaja en la línea
+  de comandos a modo de interprete. Funciona muy bien y también lo usé un
+  tiempo, pero su propio funcionamiento le reste eficiencia comparado con
+  Turses.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Thu, 21 Jun 2012 22:50:00 +0200</pubDate><guid>http://joedicastro.com/productividad-linux-turses.html</guid><category>productividad</category><category>linux</category><category>ncurses</category><category>python</category><category>twitter</category></item></channel></rss>

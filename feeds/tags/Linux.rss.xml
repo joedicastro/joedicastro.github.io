@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>joe di castro</title><link>http://joedicastro.com</link><description></description><atom:link href="http://joedicastro.com/feeds/tags/Linux.rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 16 Jul 2012 23:32:00 +0200</lastBuildDate><item><title>Productividad &amp; Linux: zathura</title><link>http://joedicastro.com/productividad-linux-zathura.html</link><description>&lt;p&gt;&lt;a href="http://pwmt.org/projects/zathura/"&gt;zathura&lt;/a&gt; es un programa minimalista que procura seguir el principio de
+&lt;em&gt;"menos es más"&lt;/em&gt;  que acuñara &lt;a href="https://es.wikipedia.org/wiki/Ludwig_Mies_van_der_Rohe"&gt;Mies van der Rohe&lt;/a&gt; en la arquitectura y que
+en la informática se correspondería con el principio &lt;a href="https://es.wikipedia.org/wiki/Principio_KISS"&gt;KISS&lt;/a&gt; y la
+&lt;a href="http://en.wikipedia.org/wiki/Unix_philosophy"&gt;filosofía UNIX&lt;/a&gt;. Siguiendo esta filosofía, zathura es una aplicación que
+hace una sola cosa, la hace bien y consume muy pocos recursos. Sus autores, la
+comunidad &lt;a href="http://pwmt.org/about"&gt;PWMT.org&lt;/a&gt; (&lt;em&gt;programas con nombre de película&lt;/em&gt;), tienen como
+propósito el crear aplicaciones de software libre que se centren en un interfaz
+simple, que no malgaste espacio y que se maneje íntegramente desde el teclado.&lt;/p&gt;
+&lt;p&gt;La aplicación es un visor de documentos, y es modular, por lo que puedes
+instalar los plugins que quieras en función del formato de documentos que
+quieras que soporte. Actualmente están disponibles los siguientes plugins:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;pdf-poppler&lt;/em&gt;: Lectura de &lt;a href="http://es.wikipedia.org/wiki/Pdf"&gt;PDF&lt;/a&gt; a través de la famosa librería
+  &lt;a href="http://poppler.freedesktop.org/"&gt;Poppler&lt;/a&gt;, que es empleada por aplicaciones como Evince, Okular o
+  Inkscape.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;pdf-mupdf&lt;/em&gt;: Lectura de PDF mediante la librería &lt;a href="http://mupdf.com/"&gt;mupdf&lt;/a&gt; empleada por
+  ejemplo por Sumatra PDF.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;djvu&lt;/em&gt;: Para visionar documentos &lt;a href="https://es.wikipedia.org/wiki/Djvu"&gt;DJVU&lt;/a&gt;. Emplea la librería
+  &lt;a href="http://djvu.sourceforge.net/"&gt;djvulibre&lt;/a&gt; que emplean por ejemplo Evince y Okular.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;ps&lt;/em&gt;: Para poder ver documentos &lt;a href="https://es.wikipedia.org/wiki/Postscript"&gt;Postscript&lt;/a&gt;. Usa la librería
+  &lt;a href="http://libspectre.freedesktop.org/"&gt;libspectre&lt;/a&gt; que es utilizada por Evince y Okular.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;cb&lt;/em&gt;: Para poder abrir archivos en formato &lt;a href="https://es.wikipedia.org/wiki/Archivo_de_historieta"&gt;Comic Book&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Como se puede ver emplea las mismas librerías que emplean la mayoría de
+programas similares para Linux, por lo tanto nos ofrecen la misma calidad que
+estos pero con un interfaz minimalista donde el protagonista es el contenido, y
+proporcionándonos un control absoluto del documento desde el teclado.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/zathura.png" width="700"
+height="957" alt="Zathura" /&gt;&lt;/p&gt;
+
+&lt;p&gt;El interfaz es simple, una ventana de contenido y una barra de estado/línea de
+comandos. El control de la misma recae en el teclado (aunque puede usarse el
+ratón para funciones básicas) y sus atajos están inspirados en los de Vim.&lt;/p&gt;
+&lt;h2 id="caracter+sticas"&gt;Características&lt;/h2&gt;
+&lt;p&gt;Las características principales de Zathura son las siguientes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Interfaz minimalista&lt;/li&gt;
+&lt;li&gt;Controlable completamente desde el teclado, inspirado en vim y muy parecido a
+  pentadactyl. Permite seguir enlaces y saltos directos a páginas&lt;/li&gt;
+&lt;li&gt;Recarga automática de documentos si estos cambian. Útil para previsualizar la
+  salida en PDF de documentos de LaTeX, por ejemplo&lt;/li&gt;
+&lt;li&gt;Permite establecer marcadores y marcadores rápidos dentro de un documento. Muy
+  útil para labores de investigación y documentación&lt;/li&gt;
+&lt;li&gt;Exporta imágenes y adjuntos de un documento&lt;/li&gt;
+&lt;li&gt;Puede abrir documentos protegidos por contraseña (proporcionándosela, claro)&lt;/li&gt;
+&lt;li&gt;Imprime el documento completo o simplemente las hojas que deseemos&lt;/li&gt;
+&lt;li&gt;Permite buscar en el documento y desplazarse por los resultados&lt;/li&gt;
+&lt;li&gt;Se puede abrir y navegar por el indice del documento&lt;/li&gt;
+&lt;li&gt;Muestra la información disponible (metadatos) sobre el documento&lt;/li&gt;
+&lt;li&gt;Zoom y Rotar documentos&lt;/li&gt;
+&lt;li&gt;Permite cambiar el color del documento. Sirve para visualizar el documento en
+  duotono con los colores invertidos&lt;/li&gt;
+&lt;li&gt;Se pueden personalizar los atajos de teclado y los colores empleados&lt;/li&gt;
+&lt;li&gt;Se personaliza a través de un fichero de texto plano&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;En esta imagen se puede apreciar el resultado de aplicar el comando &lt;code&gt;:info&lt;/code&gt;
+sobre un documento.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/zathura_info.png" width="700"
+height="957" alt="zathura info dialog" /&gt;&lt;/p&gt;
+
+&lt;p&gt;El poder cambiar los colores del documento, invirtiéndolos, es una
+característica muy útil, por ejemplo, para leer largos documentos sin fatigar
+demasiado nuestra vista. Aquí se puede ver la diferencia entre ver un documento
+a pantalla completa en modo normal y con los colores invertidos.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/zathura.gif" width="640"
+height="400" alt="zathura full screen" /&gt;&lt;/p&gt;
+
+&lt;h2 id="alternativas"&gt;Alternativas&lt;/h2&gt;
+&lt;p&gt;No hay demasiadas alternativas a Zathura que tengan un planteamiento parecido,
+de hecho la única que conozco es &lt;a href="http://naihe2010.github.com/apvlv/"&gt;apvlv&lt;/a&gt;. Aunque para mi no es tan
+completa como Zathura.&lt;/p&gt;
+&lt;h2 id="mi_configuraci+n"&gt;Mi configuración&lt;/h2&gt;
+&lt;p&gt;Aunque mi configuración no tiene nada de particular, está disponible en mis
+&lt;em&gt;dotfiles&lt;/em&gt; alojados en &lt;a href="http://github.com/joedicastro/dotfiles"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Mon, 16 Jul 2012 23:32:00 +0200</pubDate><guid>http://joedicastro.com/productividad-linux-zathura.html</guid><category>productividad</category><category>Linux</category><category>pdf</category><category>djvu</category><category>postscript</category></item></channel></rss>

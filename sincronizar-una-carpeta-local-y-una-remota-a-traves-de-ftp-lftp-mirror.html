@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Sincronizar una carpeta local y una remota a través de FTP: lftp-mirror</title>
+  <meta name="author" content="joe di castro" />
+  <meta name="keywords" content="linux, python, script, lftp, ftp mirror, sincronizar, lftp-mirror, ftp sync, ftp">
+  <link rel="author" href="./humans.txt" />
+  <link href='http://fonts.googleapis.com/css?family=Vollkorn:400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
+  <link href="./atom.xml" type="application/atom+xml" rel="alternate" title="joe di castro ATOM Feed" />
+  <link href="./rss.xml" type="application/atom+xml" rel="alternate" title="joe di castro RSS Feed" />
+  
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body id="index" class="home">
+
+  <header id="banner" class="body">
+    <h1><a href="."><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAAAxBAMAAADKNk2HAAAAAXNSR0IArs4c6QAAABhQTFRFvI0Ww5kxzaxW2Lp049Ki7ePG8+zX/f/8R8l4ugAAAAFiS0dEAIgFHUgAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfbDAsTFi548ol9AAADmElEQVRIx62XTXOjOBCGJeHMuWWwueLZyXAV8aS4hpnscg07yXJdnCpz5kv6+9stk4CzMJusocoOBvTQ3Xr7lcLMcLQ3ch2b/3+w17MuAi6BxwuwWuC3pXmGzeWsBlz7t+AXs9qXeOo5ls7fywq8l/jYzBgVvpNV8PKF9Xp2fnRyFpHkY1YHry+dy7GanZOWn8WViWHMDCuY1UqxHbP0EJapxHSK89Mr0zFrHMvd5oMp1uJ4LAdW5gy3wH9nis1OSsmGozyx1NWQC6S/ru8Qz+ff9vv7+0f51/H49PT0ex9XsPqv0g/1/Vfy3rm+Mv7tW/8zW02OmI72bfLM9iITvyxXI8ykgh9R2m91396WL205GUDi11PxFsJkvtET/jVfLi3TyW6ErZF5K2dYaiSjcqzf7ly596d2y2vHJM4Mixqgdb8j5k/o39fdhMFrEXXEU7rHqOK7rVG+PlX4cP3lDYsauwPGfBNxcHqP5HuZP/dWEAjkHrhHZS1YiuZR8TIhp2IsPWdljv6Ocxr4GY+jlLJswcMsNOT9fdRyC1+1SyYkSVyZG6EGgHuy7M5Y4GJXQAh7RqUuPmEBPcT51ar3tjzz6FKNjXLncfLHADCLgvEDb8SYhZG6as1rrlY6xdnLbdKKlyjIh9Ba6y6/Q7PEsjaidjDFRnyWpWZylXkQj1hY2OtWVkJxJuUn84B9o3xTM6cVtiEbYd/n0/qiIa62GK6K8etvEWyAbcbr444e21YM5COsS1I0hqYxh8K3bk8fDbzscOqUYwJfhY2DNM3CgHN3NI8d4GMmSDvmIic3EJM3mWQty4B0hGB8KmJXOMd5wX56cCtzFWPAD9xU7HqkLx2sUXX4fIEcnHjridXqwBOvFba1qOAZV2HGeM18teMF2wtTbRvCu2OtRqLE0DueUF05tZptKQiVXzvWwytUFmzVDU8YqgLAU0LhnLgQeTuej1gZz+1qhkLBUVfPJxNv5AZLRhqzThXhieJhxTysiMzlD4cGbhrWb0JOrEbGJqMRbXoKp/e+I3YUfVsPYfSeLrWXqEFLRQiM6LEc9yPtAIbFqJXXU3bx8483F75Mrdu0bFcXbEpGLLtsq+0iLFrTWpkuwbJhFcIswbKYmTX2oyzC1DNbpQ+yLEZtzBKsxFum8sSiyo93JxewrE9BuAiLvHwBzVsW2vAigiBWEC4VlmEQ64XCQtYmWigszJFd8q/ZOesgvy6EMv8ALXTFAI7iFV4AAAAASUVORK5CYII=" alt="Sobre mí" title="Sobre mí" width="150" height="49" /> </a></h1>
+      <nav>
+      	<ul>
+         
+         <li class="active"><a href="./category/blog.html">blog</a></li>
+         <li><a href="./archives.html">archivo</a></li>
+         <li><a href="./tags.html">etiquetas</a></li>
+         
+         <li><a href="./pages/code.html">code</a></li><li><a href="./pages/markdown.html">markdown</a></li>
+         
+         <li><a href="./rss.xml">rss</a></li>
+       </ul>
+     </nav>
+  </header><!-- /#banner -->        
+<section id="content" class="body">    
+<article>
+  <header> 
+  	<h1 class="entry-title">
+      <a href="sincronizar-una-carpeta-local-y-una-remota-a-traves-de-ftp-lftp-mirror.html" rel="bookmark" title="Permalink a Sincronizar una carpeta local y una remota a través de FTP: lftp-mirror">Sincronizar una carpeta local y una remota a través de FTP: lftp-mirror</a>
+  	</h1>
+  	
+  </header>
+  <div class="entry-content">
+    <abbr class="published" title="2010-12-19T14:58:00">
+      Públicado el dom 19 diciembre 2010
+    </abbr>
+    <p>A veces tenemos la necesidad de subir (o bajar) contenido a un servidor
+y posteriormente tener actualizados los cambios que se produzcan en uno
+(o ambos) de los lados. Es decir tener sincronizados el directorio
+remoto y el local. Esto es relativamente fácil cuanto tenemos acceso via
+ <a href="http://es.wikipedia.org/wiki/L%C3%ADnea_de_comandos">consola</a> y <a href="http://es.wikipedia.org/wiki/Ssh">ssh</a> al servidor y podemos utilizar programas tan
+ potentes como <a href="http://es.wikipedia.org/wiki/Rsync">rsync</a>. ¿Pero que ocurre cuando el único método del
+ que disponemos para intercambiar ficheros con el servidor es a través
+ del protocolo <a href="http://es.wikipedia.org/wiki/Ftp">FTP</a>, como ocurre con muchos servidores web?</p>
+<p>Bien, en ese caso, tenemos un pequeño problema. El protocolo <strong>FTP</strong>
+aunque perfectamente valido para las funciones para las que fue
+originalmente creado, la transferencia de archivos, no contempla este
+caso. La solución manual y menos efectiva es volver a transferir todos
+los archivos cada vez que se produce un cambio, solución nada
+recomendable a nada que el tamaño de estos empiece a ser superior a
+decenas de Megabytes. También podríamos ir comprobando manualmente que
+ficheros han cambiado y transferir únicamente estos, algo también muy
+poco recomendable si el número de archivos es elevado. Afortunadamente
+algunos clientes gráficos de <strong>FTP</strong> nos permiten comprobar que ficheros
+ son distintos en uno y otro lado y luego transferir únicamente estos,
+ lo cual ya es un método bastante más efectivo y adecuado. Aunque si se
+ trata de directorios con muchos archivos y una estructura jerárquica
+ compleja (muchos directorios y subdirectorios) el proceso es bastante
+ lento pues ha de ir comprobando en un lado y en el otro las diferencias
+  entre los archivos (fecha, tamaño y atributos únicamente)
+recorriendolos todos. ¿Pero que ocurre si queremos realizar esta
+operación de forma periódica y automática? entonces esta solución
+tampoco es valida, pues necesitaríamos un programa de línea de comandos
+o un script para realizarlo.</p>
+<p>Por suerte para nosotros, esta solución también está disponible a través
+ de varios programas y scripts para consola, entre los cuales el mejor
+ es <a href="http://lftp.yar.ru/"><strong>lftp</strong></a> de <strong>Alexander V. Lukyanov</strong>. Este fantástico programa
+  es una navaja suiza para todo aquello que necesitemos hacer a través
+  de <strong>FTP</strong>, siendo uno de los mejores clientes <strong>FTP</strong>, si no el
+mejor, que existen. Y una de las innumerables posibilidades que ofrece
+ es precisamente la de <strong>sincronizar dos directorios con la opción
+ mirror</strong> (espejar). De esta manera podemos mantener perfectamente
+ sincronizados dos directorios de forma automática. <strong>Nos permite hacer
+ la sincronización en ambas direcciones, remoto → local y local →
+ remoto</strong>.</p>
+<p>Como ya he mencionado es muy potente y repleto de opciones y permite muchas más
+operaciones más allá de la sincronización entre directorios. Por este motivo
+<strong>he creado un <a href="http://es.wikipedia.org/wiki/Script">script</a> en <a href="http://es.wikipedia.org/wiki/Python">Python</a> que empleando lftp, se centra
+únicamente en la sincronización entre directorios a través de FTP y añade
+algunas nuevas funcionalidades, <code>lftp-mirror</code>.</strong></p>
+<h2 id="+que_ventajas_aporta_este_script">¿Que ventajas aporta este script?</h2>
+<ul>
+<li><strong>Proporciona un log detallado y legible</strong> que graba en un fichero en disco
+y <strong>que puede ser enviado por correo electrónico</strong> a una o varias direcciones
+empleando el servidor de correo local o uno externo.</li>
+<li><strong>Permite crear una copia comprimida por día de la semana del directorio
+local sincronizado</strong>. Esto nos permite tener el directorio actualizado y una
+copia de seguridad por cada uno de los últimos 7 días, para poder revertir algún
+ cambio o borrado accidental.</li>
+<li><strong>Se centra únicamente en la sincronización (mirror)</strong> entre directorios,
+  obviando las otras opciones que nos ofrece lftp</li>
+<li><strong>Nos proporciona</strong> (en el log) <strong>el tamaño del espacio ocupado en el disco
+  duro por el directorio local y las copias de seguridad.</strong></li>
+<li><strong>Permite tres modos de ejecución distintos,</strong> lo que lo convierte en muy
+  versátil:<ul>
+<li><strong>Como tarea programada</strong>. En este modo los parámetros de la sincronización
+se incluyen directamente dentro del script y solo es necesario programar su
+ejecución para automatizar el proceso. Es ideal para la sincronización
+periódica de un único directorio/servidor <strong>FTP</strong></li>
+<li><strong>Interactivo.</strong> En este modo los parámetros se introducen directamente
+como argumentos en la línea de comandos. Es ideal para ejecutar una
+sincronización puntual manual</li>
+<li><strong>Importando los parámetros desde un fichero de configuración.</strong> Este modo
+es similar al primero, con la diferencia de que en este caso los parámetros
+los tomamos de un fichero de configuración externo. Este fichero que podemos
+crear nosotros mismos (se sirve uno de ejemplo) nos permite establecer
+múltiples operaciones de sincronización que se ejecutaran de manera
+secuencial una detrás de otra.</li>
+</ul>
+</li>
+<li><strong>En sistemas operativos que lo soporten nos muestra notificaciones
+  emergentes</strong> a través de la librería libnotify de la ejecución del script y
+  su correcta finalización. Por ejemplo, a través de las notificaciones
+  emergentes de <a href="http://es.wikipedia.org/wiki/Ubuntu"><strong>Ubuntu</strong></a>. Muy útil para conocer cuando se está ejecutando
+  una tarea programada sin salida por consola.</li>
+<li>Si empleamos los modos de ejecución no interactivos, <strong>emplea <a href="http://es.wikipedia.org/wiki/Base64">base64</a>
+  para una mínima protección de la contraseñas de acceso</strong> a los servidores
+  <strong>FTP</strong> y evitar almacenarlas las mismas en texto claro. No es una fuerte
+  medida de seguridad, pero es lo mínimo que deberíamos tener en cuenta.</li>
+</ul>
+<h2 id="+para_que_nos_puede_servir_este_script">¿Para que nos puede servir este script?</h2>
+<p>Vamos a ver un ejemplo de lo más común, las <strong>copias de seguridad de una página
+web</strong>. En muchos <a href="http://es.wikipedia.org/wiki/Hosting#Alojamiento_compartido_.28shared_hosting.29">hosting compartidos</a> la única posibilidad de transferir
+archivos con el servidor es a través de una cuenta <strong>FTP</strong>. Empleando este
+script, podemos crear un directorio en local donde haremos las copias de
+seguridad de los ficheros de la web y luego sincronizarlo automáticamente todos
+los días, descargando únicamente los ficheros que han cambiado. Con esto
+tendremos no solo el directorio actualizado diariamente, si no que además
+dispondremos de una copia de seguridad por cada uno de los siete días
+anteriores para poder corregir cualquier problema ocurrido entre esas fechas.
+Configurar algo así es realmente sencillo, únicamente tendríamos que cambiar
+los valores incorporados dentro del script por los que necesitamos y luego
+programar su ejecución diaria con cron.</p>
+<p>Para una introducción más detallada, instrucciones de ejecución, control de
+versiones y enlaces para la descarga, acudir al repositorio del script en
+<a href="http://github.com/joedicastro/lftp-mirror">github</a>.</p>
+<p>Un extracto del código de <strong>lftp-mirror.py</strong>:</p>
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">mirror</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">log</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Mirror the directories.&quot;&quot;&quot;</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s">&#39;&#39;</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">anonymous</span> <span class="k">else</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">login</span><span class="p">)</span>
+    <span class="n">local</span><span class="p">,</span> <span class="n">remote</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">local</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">remote</span><span class="p">)</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="s">&#39;-p {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">port</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">port</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>
+    <span class="n">include</span> <span class="o">=</span> <span class="s">&#39; --include-glob {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inc_glob</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">inc_glob</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>
+    <span class="n">exclude</span> <span class="o">=</span> <span class="s">&#39; --exclude-glob {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">exc_glob</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">exc_glob</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://joedicastro.com&#39;</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;Connected to {1} as {2}{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">site</span><span class="p">,</span> <span class="s">&#39;anonymous&#39;</span>
+                                              <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">anonymous</span>
+                                              <span class="k">else</span> <span class="n">args</span><span class="o">.</span><span class="n">login</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;Mirror {0} to {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">local</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">reverse</span> <span class="k">else</span> <span class="n">remote</span><span class="p">,</span>
+                                      <span class="n">remote</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">reverse</span> <span class="k">else</span> <span class="n">local</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">header</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="s">&#39;Start time&#39;</span><span class="p">)</span>
+    <span class="n">notify</span><span class="p">(</span><span class="s">&#39;Mirroring with {0}...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">site</span><span class="p">),</span> <span class="s">&#39;sync&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">local</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="s">&#39;Created new directory&#39;</span><span class="p">,</span> <span class="n">local</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">local</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">))</span>
+
+    <span class="c"># create the script file to import with lftp</span>
+    <span class="n">scp_args</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;-vvv&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">erase</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">newer</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">parallel</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">reverse</span>
+                <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">del_first</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">depth_first</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">no_empty_dir</span> <span class="o">+</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">no_recursion</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">dry_run</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">use_cache</span> <span class="o">+</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">del_source</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">missing</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">existing</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">loop</span> <span class="o">+</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">time</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">no_perms</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">no_umask</span> <span class="o">+</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">no_symlinks</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">suid</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">chown</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">dereference</span> <span class="o">+</span>
+                <span class="n">exclude</span> <span class="o">+</span> <span class="n">include</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;ftpscript&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">script</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;open {0}ftp://{1} {2}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">secure</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">site</span><span class="p">,</span> <span class="n">port</span><span class="p">),</span>
+                 <span class="s">&#39;user {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">),</span>
+                 <span class="s">&#39;mirror {0} {1} {2}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">scp_args</span><span class="p">,</span>
+                                             <span class="n">local</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">reverse</span> <span class="k">else</span> <span class="n">remote</span><span class="p">,</span>
+                                             <span class="n">remote</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">reverse</span> <span class="k">else</span> <span class="n">local</span><span class="p">),</span>
+                <span class="s">&#39;exit&#39;</span><span class="p">)</span>
+        <span class="n">script</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+
+    <span class="c"># mirror</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;lftp&#39;</span><span class="p">,</span> <span class="s">&#39;-d&#39;</span><span class="p">,</span> <span class="s">&#39;-f&#39;</span><span class="p">,</span> <span class="n">script</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="n">sync</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="p">{</span><span class="bp">True</span><span class="p">:</span><span class="n">STDOUT</span><span class="p">,</span> <span class="bp">False</span><span class="p">:</span><span class="bp">None</span><span class="p">}[</span><span class="n">args</span><span class="o">.</span><span class="n">quiet</span><span class="p">])</span>
+    <span class="c"># end mirroring</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="s">&#39;lftp output&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sync</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readlines</span><span class="p">()))</span>
+
+    <span class="c"># compress the dir and create a .gz file with date</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">reverse</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">no_compress</span><span class="p">:</span>
+        <span class="n">notify</span><span class="p">(</span><span class="s">&#39;Compressing folder...&#39;</span><span class="p">,</span> <span class="s">&#39;info&#39;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="s">&#39;Rotate compressed copies&#39;</span><span class="p">,</span> <span class="n">compress</span><span class="p">(</span><span class="n">local</span><span class="p">))</span>
+    <span class="c"># end compress</span>
+
+    <span class="n">gz_size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">get_size</span><span class="p">(</span><span class="n">gz</span><span class="p">)</span> <span class="k">for</span> <span class="n">gz</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s">&#39;{0}*.gz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">local</span><span class="p">))])</span>
+    <span class="n">log_size</span> <span class="o">=</span> <span class="n">get_size</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">local_size</span> <span class="o">=</span> <span class="n">get_size</span><span class="p">(</span><span class="n">local</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">best_unit_size</span><span class="p">(</span><span class="n">local_size</span> <span class="o">+</span> <span class="n">gz_size</span> <span class="o">+</span> <span class="n">log_size</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="s">&#39;Disk space used&#39;</span><span class="p">,</span> <span class="s">&#39;{0:&gt;76.2f} {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="s">&#39;u&#39;</span><span class="p">]))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="s">&#39;End Time&#39;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">free</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">script</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Para obtener el código completo, ir al <a href="https://github.com/joedicastro/lftp-mirror/blob/master/src/lftp_mirror.py">fichero fuente</a>.</p>
+  </div><!-- /.entry-content -->
+  <p class="tagged">Etiquetado como: <a href="./tag/linux.html">linux</a>, <a href="./tag/python.html">python</a>, <a href="./tag/script.html">script</a>, <a href="./tag/lftp.html">lftp</a>, <a href="./tag/ftp%20mirror.html">ftp mirror</a>, <a href="./tag/sincronizar.html">sincronizar</a>, <a href="./tag/lftp-mirror.html">lftp-mirror</a>, <a href="./tag/ftp%20sync.html">ftp sync</a>, <a href="./tag/ftp.html">ftp</a>.</p>
+
+  
+  <div class="comments">
+    <h3>Comentarios !</h3>
+    <div id="disqus_thread"></div>
+      <script type="text/javascript">
+         var disqus_identifier = "sincronizar-una-carpeta-local-y-una-remota-a-traves-de-ftp-lftp-mirror.html";
+         (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://joedicastro.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  
+</article>
+</section>
+<footer id="contentinfo" class="body">
+    <address id="about" class="vcard body">
+      © 2010-2015 joe di castro - <a
+          href="mailto:joe@joedicastro.com">correo</a>|<a
+          href="http://twitter.com/joe_di_castro">twitter</a>|<a
+          href="https://github.com/joedicastro">github</a> <span id="license">El contenido está bajo <a href="http://creativecommons.org/licenses/by-sa/3.0/es">licencia Creative Commons</a></span>
+    </address><!-- /#about -->
+  </footer><!-- /#contentinfo -->
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'joedicastro';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+</body>
+</html>

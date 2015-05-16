@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>joe di castro</title><link>http://joedicastro.com</link><description></description><atom:link href="http://joedicastro.com/feeds/tags/arch.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 07 Jun 2012 00:00:00 +0200</lastBuildDate><item><title>Productividad en el escritorio Linux: Awesome</title><link>http://joedicastro.com/productividad-en-el-escritorio-linux-awesome.html</link><description>&lt;p&gt;Como había comentando en el anterior articulo sobre &lt;a href="http://joedicastro.com/productividad-en-el-escritorio-linux-xmonad.html"&gt;Xmonad&lt;/a&gt;, tenía la
+intención de probar un &lt;a href="http://joedicastro.com/productividad-en-el-escritorio-linux-tiling.html"&gt;Gestor de ventanas de mosaico&lt;/a&gt; más, antes de tomar
+la decisión final de cual emplear a diario. Y si, &lt;em&gt;y solo si&lt;/em&gt;, resultaba ser una
+mejor alternativa, abandonaría &lt;strong&gt;Xmonad&lt;/strong&gt;. Este &lt;strong&gt;tiling window manager&lt;/strong&gt; era
+&lt;a href="http://awesome.naquadah.org/"&gt;Awesome&lt;/a&gt; y ha conseguido con creces que abandone a Xmonad.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Awesome&lt;/strong&gt; carece de algunas funcionalidades que me ofrecía Xmonad, pero después
+de trabajar con él durante seis meses y conseguir tener una configuración a mi
+medida, solamente hecho en falta una característica que comentare después. Además
+Awesome me ofrece algunas características que no me ofrecía Xmonad y que valoro lo
+suficiente como para realizar el cambio sin mirar atrás.&lt;/p&gt;
+&lt;h2 id="awesome_vs_xmonad"&gt;Awesome vs Xmonad&lt;/h2&gt;
+&lt;p&gt;En esta tabla podemos ver una comparativa rápida de algunas de las
+características de ambos gestores de ventanas.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Característica&lt;/th&gt;
+&lt;th&gt;Awesome&lt;/th&gt;
+&lt;th&gt;Xmonad&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Lenguaje&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;C&lt;/td&gt;
+&lt;td&gt;Haskell&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Extensible&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Lua&lt;/td&gt;
+&lt;td&gt;Haskell&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Gestión ventanas&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Automático&lt;/td&gt;
+&lt;td&gt;Automático&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Soporte ratón&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Muy bueno&lt;/td&gt;
+&lt;td&gt;Básico&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Bandeja sistema (systray)&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Integrada&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Paneles&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Integrado&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Reinicio en caliente&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Si&lt;/td&gt;
+&lt;td&gt;Si&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Librería&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;XCB&lt;/td&gt;
+&lt;td&gt;Xlib&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Soporte varios monitores&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Muy bueno&lt;/td&gt;
+&lt;td&gt;Bueno&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Transparencias&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Gestor externo&lt;/td&gt;
+&lt;td&gt;Gestor externo&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Integración escritorios&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Buena&lt;/td&gt;
+&lt;td&gt;Muy buena (Gnome, KDE)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Desarrollo&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Muy activo&lt;/td&gt;
+&lt;td&gt;Muy activo&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Estabilidad&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Estable&lt;/td&gt;
+&lt;td&gt;Estable&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Documentación&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Buena&lt;/td&gt;
+&lt;td&gt;Buena&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="ventajas"&gt;Ventajas&lt;/h3&gt;
+&lt;p&gt;Una de las principales ventajas de Awesome sobre Xmonad es la velocidad de
+respuesta que ofrece el entorno, que en Awesome es bastante superior a la de
+Xmonad. Alguna que otra vez, al intentar realizar muchas operaciones
+consecutivas entre ventanas y escritorios en Xmonad, se me ha quedado colgado y
+he tenido que reiniciarlo (que se hace en caliente y en segundos, pero no deja
+de ser algo molesto). En este sentido Awesome solo se me ha colgado un par de
+veces.&lt;/p&gt;
+&lt;p&gt;Otra de las grandes ventajas es que al configurarse en &lt;a href="https://es.wikipedia.org/wiki/Lua"&gt;Lua&lt;/a&gt; es
+bastante más sencillo hacerse con él, ya que es un lenguaje relativamente
+asequible y carece de la complejidad inicial de &lt;a href="https://es.wikipedia.org/wiki/Haskell"&gt;Haskell&lt;/a&gt; para aquellos
+que no conocen la programación funcional. Esto aumenta las posibilidades de
+personalizarlo para un usuario con conocimientos muy básicos de programación.&lt;/p&gt;
+&lt;p&gt;La configuración por defecto de Awesome también es más completa y amigable que
+la de Xmonad, partiendo de un esquema tradicional de ventanas flotantes y con
+menús que nos permiten dar los primeros pasos y poder abandonar la sesión sin
+llegar a conocer las combinaciones de teclado por defecto. Algo que agradecerán
+aquellos que se hayan tenido que enfrentar a una configuración por defecto de
+Xmonad por primera vez. Esto invita a conocer el sistema y no abandonarlo
+"asustado" por su complejidad. En la imagen se puede ver el aspecto que presenta
+una sesión de Awesome con la configuración por defecto.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/awesome_default.png" width="700"
+height="525" alt="configuración por defecto de Awesome" /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Para acceder al menú podemos bien hacer click sobre el icono de
+Awesome en la parte superior izquierda o bien con el botón derecho en
+cualquier parte de la pantalla. También se puede acceder a él con la
+combinación de teclas &lt;strong&gt;&lt;code&gt;Win&lt;/code&gt;&lt;/strong&gt; + &lt;strong&gt;&lt;code&gt;w&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Finalmente, el que Awesome tenga integrados aspectos como los paneles, una
+bandeja del sistema (systray), lanzador de aplicaciones y un soporte muy bueno del
+ratón facilita el poder emplearlo en solitario, sin un sistema de escritorio
+tradicional detrás. Y a través de librerías es fácil implementar un sistema de
+notificaciones, un localizador de ventanas, temas, menús emergentes, ...&lt;/p&gt;
+&lt;h3 id="desventajas"&gt;Desventajas&lt;/h3&gt;
+&lt;p&gt;Quizás para mí la mayor desventaja frente a Xmonad y lo único que hecho
+realmente en falta, es la imposibilidad, a diferencia de Xmonad, de poder
+regular el tamaño vertical de las ventanas. Es particularmente útil en algunas
+situaciones y en Xmonad está integrado de manera natural. Pero después de varios
+meses he aprendido a vivir sin ello.&lt;/p&gt;
+&lt;p&gt;La otra gran desventaja es que el desarrollo aún no ha alcanzado el estadio de
+madurez de Xmonad, esta sujeto a demasiados cambios y no cuidan demasiado la
+retrocompatibilidad. Las nuevas versiones frecuentemente obligan a realizar
+cambios en la configuración para que todo vuelva a funcionar con normalidad.&lt;/p&gt;
+&lt;p&gt;Por otro lado, la instalación en algunas distribuciones puede no ser tan
+sencilla como la de Xmonad por la falta de soporte a la librería XCB o por
+necesitar versiones especificas de cairo.&lt;/p&gt;
+&lt;h3 id="diferentes_filosof+as"&gt;Diferentes filosofías&lt;/h3&gt;
+&lt;p&gt;Siendo como son ambos, gestores de ventanas de mosaico, difieren particularmente
+en la manera de entender principalmente dos conceptos:&lt;/p&gt;
+&lt;h4 id="__m+ltiples_escritorios__"&gt;&lt;strong&gt;Múltiples escritorios&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;Aquí Xmonad sigue el concepto tradicional de múltiples escritorios en Linux,
+soportando por defecto 9 por monitor y asignándoles un número del 1 al 0. Luego
+una aplicación puede estar, por ejemplo, en el escritorio 4 del monitor 2 y
+podemos movernos entre escritorios y monitores y mover a su vez las aplicaciones
+entre ellos.&lt;/p&gt;
+&lt;p&gt;En cambio, Awesome, aunque aparentemente sigue el mismo sistema, y para
+cualquiera que no quiera profundizar en ello no habrá diferencia alguna, se
+basa en un concepto diferente. En Awesome cada escritorio es en realidad una
+&lt;strong&gt;etiqueta&lt;/strong&gt; y puede ser tanto un número como un texto. En principio también
+son 9 por monitor, aunque esto puede ampliarse o reducirse en la configuración.
+La diferencia principal es que una aplicación puede ser asignada a varias
+etiquetas simultáneamente y puede por lo tanto ser mostrada en varios
+&lt;em&gt;escritorios&lt;/em&gt;  a la vez. Esto permite asignar de forma muy sencilla etiquetas
+destinadas a una tarea y predefinir ciertas aplicaciones para que sean mostradas
+en una o más etiquetas. Por ejemplo podemos tener una etiqueta para
+&lt;code&gt;redes sociales&lt;/code&gt; y mostrar allí un navegador, pero al mismo tiempo podemos tener
+una etiqueta &lt;code&gt;desarrollo&lt;/code&gt; en la que también queremos que se muestre el navegador.
+Por otro lado, también es posible mostrar varias etiquetas al mismo tiempo, lo
+que nos permite trabajar en dos tareas distintas y bien definidas, cada una en su
+etiqueta, y en un momento dado, visualizarlas juntas sin perder la asignación de
+etiquetas original. En este sentido Awesome es mucho más flexible y potente que
+Xmonad.&lt;/p&gt;
+&lt;h4 id="__m+ltiples_monitores__"&gt;&lt;strong&gt;Múltiples monitores&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;En este caso Xmonad comparte el mismo escritorio en distintos monitores. Por lo
+tanto si estamos en el escritorio 1 en el monitor 1 y nos movemos al escritorio
+2, lo hará en todos los monitores a la vez, lo que también es el comportamiento
+clásico. Con lo que podemos decir que aunque tenemos 9 escritorios por monitor,
+se comporta como si tuviéramos 9 para todos los monitores.&lt;/p&gt;
+&lt;p&gt;Awesome, al contrario, emplea 9 etiquetas por monitor independientes entre
+si. Lo que significa que en este casi si tenemos 9 &lt;em&gt;escritorios&lt;/em&gt; reales por cada
+monitor. Si nos encontramos en el monitor 1 y la etiqueta 1, al cambiar a la
+etiqueta 2, el resto de monitores permanecerán inalterados en la etiqueta en la
+que estuvieran previamente. En este sentido Awesome también sigue siendo bastante
+más flexible y potente que Xmonad. Este comportamiento puede ser alterado mediante
+la configuración. Hay quienes prefieren un método de trabajo y quienes
+prefieren el otro, yo soy de los que prefieren el comportamiento de Awesome.&lt;/p&gt;
+&lt;h2 id="awesome_con_gnome"&gt;Awesome con Gnome&lt;/h2&gt;
+&lt;p&gt;Actualmente estoy empleando Awesome en solitario, si un escritorio detrás, lo que
+me obliga a configurar por mi cuenta todos los servicios que estos proporcionan,
+pero me compensa con la ligereza que me reporta el no emplear un pesado
+escritorio por debajo. Sin embargo, los primeros meses lo empleé conjuntamente
+con Gnome en Ubuntu, utilizando solo los componentes básicos del mismo. La forma
+de configurar una sesión de Awesome con Gnome en Ubuntu (11.10 y 12.04) y en
+&lt;a href="http://www.archlinux.org"&gt;Arch Linux&lt;/a&gt;, la distribución que estoy empleando ahora, es a través
+de los siguientes ficheros:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/usr/share/applications/awesome.desktop&lt;/code&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;[Desktop Entry]&lt;/span&gt;
+&lt;span class="na"&gt;Version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;1.0&lt;/span&gt;
+&lt;span class="na"&gt;Type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Application&lt;/span&gt;
+&lt;span class="na"&gt;Name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Awesome&lt;/span&gt;
+&lt;span class="na"&gt;Comment&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;The awesome launcher!&lt;/span&gt;
+&lt;span class="na"&gt;TryExec&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;awesome&lt;/span&gt;
+&lt;span class="na"&gt;Exec&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;awesome&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;/usr/share/gnome-session/sessions/awesome.session&lt;/code&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;[GNOME Session]&lt;/span&gt;
+&lt;span class="na"&gt;Name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Awesome session&lt;/span&gt;
+&lt;span class="na"&gt;RequiredComponents&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;gnome-settings-daemon;&lt;/span&gt;
+&lt;span class="na"&gt;RequiredProviders&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;windowmanager;&lt;/span&gt;
+&lt;span class="na"&gt;DefaultProvider-windowmanager&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;awesome&lt;/span&gt;
+&lt;span class="na"&gt;DesktopName&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;GNOME&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;/usr/share/xsessions/awesome-gnome-session.desktop&lt;/code&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;[Desktop Entry]&lt;/span&gt;
+&lt;span class="na"&gt;Name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Awesome GNOME&lt;/span&gt;
+&lt;span class="na"&gt;Comment&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Dynamic window manager&lt;/span&gt;
+&lt;span class="na"&gt;TryExec&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/usr/bin/gnome-session&lt;/span&gt;
+&lt;span class="na"&gt;Exec&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;gnome-session --session=awesome&lt;/span&gt;
+&lt;span class="na"&gt;Type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;XSession&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Evidentemente para esto es necesario instalar los paquetes necesarios para
+ejecutar Awesome que en el caso de Ubuntu son &lt;code&gt;awesome&lt;/code&gt; y &lt;code&gt;awesome-extra&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; sudo apt-get install awesome awesome-extra
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En Arch, bastaría con instalar el paquete &lt;code&gt;awesome&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; sudo pacman -S awesome
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="mi_configuraci+n"&gt;Mi configuración&lt;/h2&gt;
+&lt;p&gt;A diferencia de Xmonad, mi configuración de Awesome no está contenida en un solo
+fichero, ya que el tema y los diversos plugins están alojados dentro de sus
+propios directorios. Además el fichero de configuración &lt;code&gt;rc.lua&lt;/code&gt; es demasiado
+extenso (cerca de 1200 lineas) para volcarlo aquí. Así que me limitare a
+mencionar los aspectos más destacados, la configuración completa queda
+disponible a través de mi repositorio en &lt;a href="http://github.com/joedicastro/dotfiles"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Destacar que al principio del fichero incluyo una &lt;em&gt;Cheat Sheet&lt;/em&gt; ("chuleta") con
+todas las combinaciones de teclado y ratón que tengo habilitadas en mi
+configuración.&lt;/p&gt;
+&lt;h2 id="panel_y_widgets"&gt;Panel y Widgets&lt;/h2&gt;
+&lt;p&gt;Awesome permite la creación de varios paneles, generalmente se suelen crear en
+la parte superior y/o inferior de la pantalla. A mi me gusta disponer del máximo
+espacio posible para las aplicaciones, así que solo he creado uno superior que
+además puedo ocultar a conveniencia. De hecho, para determinadas tareas, lo
+mantengo oculto la mayor parte del tiempo y solo lo muestro cuando me interesa
+consultar la información que allí se muestra.&lt;/p&gt;
+&lt;p&gt;Aquí se puede ver la apariencia del panel superior y una ampliación del mismo:&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/wibox_full.png" width="700"
+height="8" alt="wibox" /&gt;&lt;/p&gt;
+
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/wibox.png" width="600"
+height="63" alt="Zoom sobre la barra de estado" /&gt;&lt;/p&gt;
+
+&lt;p&gt;En el que se pueden apreciar (de izquierda a derecha y de arriba a abajo) los
+siguientes widgets:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Icono de Awesome. Proporciona acceso al menú de Awesome&lt;/li&gt;
+&lt;li&gt;Etiquetas. Aquí se puede ver que hay dos activas y que nos encontramos en la
+  segunda, &lt;code&gt;β&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Icono de esquema. Vemos que está seleccionado el esquema &lt;code&gt;tile&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Icono y titulo de la ventana activa. En este caso tenemos una ventana de &lt;em&gt;Gvim&lt;/em&gt;
+  y además el icono del final nos indica que es una ventana flotante&lt;/li&gt;
+&lt;li&gt;Pomodoro. Es un widget que me permite seguir el método &lt;a href="http://www.pomodorotechnique.com/"&gt;Pomodoro&lt;/a&gt; y que
+  indica que quedan 4 minutos y 14 segundos para tomarme un pequeño descanso.&lt;/li&gt;
+&lt;li&gt;MPD. Indica el estado del servidor de música &lt;em&gt;mpd&lt;/em&gt;, y en este caso nos indica el
+  autor y el titulo de la canción que se está reproduciendo&lt;/li&gt;
+&lt;li&gt;Velocidad de los ventiladores del sistema&lt;/li&gt;
+&lt;li&gt;Temperaturas de CPU y GPU&lt;/li&gt;
+&lt;li&gt;Uso de las CPUs del microprocesador&lt;/li&gt;
+&lt;li&gt;Porcentaje y cantidad de memoria RAM en uso&lt;/li&gt;
+&lt;li&gt;Velocidad (en Kbs) de bajada y subida de la red.&lt;/li&gt;
+&lt;li&gt;Porcentaje de ocupación en disco de &lt;code&gt;/&lt;/code&gt; y &lt;code&gt;/home&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Estado de la batería y tiempo estimado de carga/descarga&lt;/li&gt;
+&lt;li&gt;Uptime. Indica el tiempo que lleva el equipo encendido desde el último
+  reinicio&lt;/li&gt;
+&lt;li&gt;Versión del Kernel Linux en ejecución&lt;/li&gt;
+&lt;li&gt;Volumen del sonido del sistema&lt;/li&gt;
+&lt;li&gt;Fecha y hora&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Muchos prefieren añadir iconos o encabezados a todos los widgets para facilitar
+su identificación, pero yo ya conozco para que es cada uno y prefiero un entorno
+minimalista que me distraiga lo menos posible. Muchos de estos widgets ejecutan
+una acción al ser pulsados con un botón del ratón o al pasar por encima de
+ellos. Por ejemplo al pasar el ratón por encima de la fecha y hora se muestra un
+calendario y al pulsar con el botón izquierdo sobre el uso de las CPUs, se lanza
+una ventana con el programa &lt;code&gt;htop&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id="localizar_aplicaciones"&gt;Localizar aplicaciones&lt;/h2&gt;
+&lt;p&gt;Una de las funcionalidades geniales que tenía implementada en Xmonad me permitía
+conocer todas las ventanas que estaban abiertas y elegir la deseada con una
+rápida combinación de teclas. Awesome no tiene esto implementado, pero gracias a
+una librería externa, &lt;strong&gt;&lt;a href="https://github.com/bioe007/awesome-revelation"&gt;Revelation&lt;/a&gt;&lt;/strong&gt;, podemos emplear un método similar al
+famoso Exposé del Mac OS y también presente en Compiz. Lo que hace es mostrarnos
+en la etiqueta que estemos actualmente todas las ventanas abiertas en forma de
+mosaico y podemos elegir una de ellas para saltar automáticamente a ella (y la
+etiqueta en la que se encuentre). Aquí podemos ver un screencast de su
+funcionamiento:&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/revelation.gif" width="640"
+height="400" alt="Revelation en funcionamiento" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Es también un método muy rápido y muy visual, al final he acabado prefiriendo
+este método al que empleaba en Xmonad, ya que en este último, el titulo de las
+ventanas podía ser muy ambiguo y no ser fácil dar con la ventana adecuada.&lt;/p&gt;
+&lt;h2 id="gesti+n_din+mica_de_etiquetas"&gt;Gestión dinámica de etiquetas&lt;/h2&gt;
+&lt;p&gt;Aunque por defecto Awesome define 10 etiquetas por monitor, podemos definir a
+nuestro antojo el número de ellas que queramos en el fichero de configuración.
+Podemos optar por un número clásico en los escritorios Linux, cuatro, o
+podemos crear una para cada tarea concreta más una libre. Por defecto tengo
+definidas diez, empleando para identificarlas los números en griego:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c1"&gt;-- definición de las etiquetas en el fichero de configuración rc.lua&lt;/span&gt;
+&lt;span class="n"&gt;tags&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;α&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;β&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;γ&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;δ&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;ε&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;ς&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;ζ&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;η&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;θ&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;layouts&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Sin embargo, en mi configuración empleo una librería externa, &lt;a href="http://git.glacicle.org/eminent"&gt;Eminent&lt;/a&gt;,
+que gestiona estas etiquetas de forma dinámica, creándolas y destruyéndolas
+según sea necesario. Así de entrada solo tenemos una etiqueta, &lt;code&gt;α&lt;/code&gt; y solo se
+creara una segunda etiqueta, &lt;code&gt;β&lt;/code&gt; si nos desplazamos a ella. Del mismo modo,
+cuando eliminamos la última ventana de una etiqueta y la abandonamos, se
+destruye. La ventaja de esto es que por un lado nos facilita localizar donde
+estamos más fácilmente y por otro, que en caso de ser necesario, si necesitamos
+más etiquetas (de las creadas por defecto), las creara de forma automática. De
+este modo cuando llegamos a la etiqueta &lt;code&gt;θ&lt;/code&gt;, si necesitamos otra, creara la &lt;code&gt;10&lt;/code&gt;
+y así en lo sucesivo.&lt;/p&gt;
+&lt;h2 id="lanzar_aplicaciones"&gt;Lanzar aplicaciones&lt;/h2&gt;
+&lt;p&gt;Existen dos métodos para realizar esta tarea:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Empleando un prompt que emerge en el panel superior y nos permite escribir el
+  comando que queremos ejecutar y que posee autocompletado. La combinación de
+  teclas por defecto que activa esto es &lt;strong&gt;&lt;code&gt;Win&lt;/code&gt;&lt;/strong&gt; + &lt;strong&gt;&lt;code&gt;r&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/awesome_prompt.png" width="585"
+height="30" alt="prompt en Awesome" /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Empleando &lt;a href="http://awesome.naquadah.org/wiki/Menubar"&gt;menubar&lt;/a&gt;. Menubar es una librería externa, que será incluida
+  en la próxima versión de Awesome por defecto, que al igual que muchos
+  otros lanzadores de aplicaciones (&lt;em&gt;Gnome Do&lt;/em&gt;, &lt;em&gt;Kupfer&lt;/em&gt;, &lt;em&gt;Synapse&lt;/em&gt;, etc) nos va
+  mostrando las aplicaciones disponibles en función de lo que vayamos tecleando.
+  Se lanza con la combinación de teclas &lt;strong&gt;&lt;code&gt;Win&lt;/code&gt;&lt;/strong&gt; + &lt;strong&gt;&lt;code&gt;p&lt;/code&gt;&lt;/strong&gt; y en mi caso, esta
+  aparece inmediatamente debajo del panel superior.
+  Aquí se puede ver la menubar en funcionamiento (la tecla &lt;strong&gt;&lt;code&gt;Win&lt;/code&gt;&lt;/strong&gt; también es
+  llamada &lt;strong&gt;&lt;code&gt;Super&lt;/code&gt;&lt;/strong&gt; ):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/menubar.gif" width="640"
+height="400" alt="Lanzar aplicaciones con menubar en Awesome wm" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Yo además empleo un tercer método que heredo de Xmonad, y es emplear
+&lt;a href="http://tools.suckless.org/dmenu/"&gt;dmenu&lt;/a&gt; para lanzar aplicaciones. &lt;code&gt;dmenu&lt;/code&gt; es muy parecido al prompt de
+Awesome, pero busca para el autocompletado en todo el nombre del comando y no
+solo al principio. Además muestra todas las coincidencias disponibles y que se
+pueden seleccionar con las teclas de dirección.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/dmenu.gif" width="640"
+height="400" alt="dmenu en acción" /&gt;&lt;/p&gt;
+
+&lt;h3 id="grabar_v+deos_y_screencasts_del_escritorio"&gt;Grabar vídeos y screencasts del escritorio&lt;/h3&gt;
+&lt;p&gt;Adicionalmente, tengo definidas ciertas combinaciones de teclas para lanzar
+determinadas aplicaciones o procesos con las teclas de función. Dentro de estos
+atajos de teclado cabe destacar cinco que en lugar lanzar una aplicación,
+comienzan o terminan un determinado proceso. Estas combinaciones, que van de
+&lt;strong&gt;&lt;code&gt;F8&lt;/code&gt;&lt;/strong&gt; a &lt;strong&gt;&lt;code&gt;F12&lt;/code&gt;&lt;/strong&gt;, las utilizo para grabar vídeos y screencasts con gifs
+animados y son las que he empleado para ilustrar este articulo.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c1"&gt;-- Win  +  F8                       Start gif screencast recording LowRes&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F9                       Start gif screencast recording HighRes&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F10                      Stop gif screencast recording&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F11                      Start mkv screencast recording&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F12                      Stop mkv screencast recording&lt;/span&gt;
+
+&lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="n"&gt;modkey&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;F8&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;util&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;spawn_with_shell&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;rm &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;home_dir&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;/screencast.gif&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;util&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;spawn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;ffmpeg -f x11grab -s &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;scr_res&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+                        &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt; -r 2 -i :0.0 -b:v 500k -pix_fmt rgb24 -y&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+                        &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt; -loop 0 -s 640x400 &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;home_dir&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+                        &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;/animated.gif&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+
+&lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="n"&gt;modkey&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;F9&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;util&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;spawn_with_shell&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;rm &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;home_dir&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;/screencast.gif&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;util&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;spawn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;ffmpeg -f x11grab -s &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;scr_res&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+                        &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt; -r 2 -i :0.0 -b:v 500k -pix_fmt rgb24 -y&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+                        &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt; -loop 0 -s 1440x900 &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;home_dir&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+                        &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;/animated.gif&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+
+&lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="n"&gt;modkey&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;F10&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;util&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;spawn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;killall ffmpeg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;util&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;spawn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;convert ephemeral:&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;home_dir&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+                         &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;/animated.gif -fuzz 7% -layers Optimize &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+                         &lt;span class="n"&gt;home_dir&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;/screencast.gif&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+
+&lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="n"&gt;modkey&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;F11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;util&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;spawn_with_shell&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;rm &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;home_dir&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;/screencast.mkv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;util&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;spawn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;ffmpeg -f x11grab -s &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;scr_res&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+                        &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt; -r 25 -i :0.0 -sameq &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;home_dir&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+                        &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;/screencast.mkv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+
+&lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="n"&gt;modkey&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;F12&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;util&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;spawn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;killall ffmpeg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="gesti+n_tiempo_con_pomodoro"&gt;Gestión tiempo con pomodoro&lt;/h2&gt;
+&lt;p&gt;La &lt;a href="https://es.wikipedia.org/wiki/T%C3%A9cnica_Pomodoro"&gt;técnica Pomodoro&lt;/a&gt; puede ser muy provechosa en ciertas tareas si se
+emplea con sentido común y se sigue más o menos a rajatabla. Yo la empleo muy a
+menudo cuando tengo una tarea concreta en la que quiero centrarme sin
+distracciones para sacarla adelante y no caer en el error de procrastinar
+demasiado. Es una combinación ideal entre concentración puntual y alternar
+distracciones, que impiden a uno "quemarse" por no saber echar el freno a
+tiempo. Es una técnica muy útil a la hora de programar o de crear un articulo
+como este, pero que es difícilmente aplicable en tareas que requieren cierta
+multitarea como son las de administración de sistemas.&lt;/p&gt;
+&lt;p&gt;Existen múltiples aplicaciones, applets, indicadores, etc para aplicar esta
+técnica, que se basaba originalmente en un simple reloj de cocina. Pero alguien,
+en su momento pensó, que no era mala idea crear un widget para Awesome que nos
+permitiera medir los tiempos para aplicarla y creo una librería externa para
+ello. Yo empleo esta &lt;a href="https://github.com/nikolavp/awesome-pomodoro"&gt;librería&lt;/a&gt; ligeramente modificada para controlar
+el tiempo transcurrido.&lt;/p&gt;
+&lt;p&gt;El funcionamiento es muy básico, pulsamos sobre el icono y se activa la cuenta
+atrás de 25 minutos. Al acabar, una alarma sonora y una notificación emergente,
+nos avisan de que se ha terminado el tiempo de trabajo y nos merecemos un
+descanso. Volvemos a pulsar sobre el widget y comienza la cuenta atrás de cinco
+minutos y se repite el proceso. Si pulsamos con el botón derecho se reinicia el
+widget.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/pomodoro.png" width="613"
+height="105" alt="notificaciones de pomodoro" /&gt;&lt;/p&gt;
+
+&lt;h2 id="debug_con_xephyr"&gt;Debug con Xephyr&lt;/h2&gt;
+&lt;p&gt;Esta es una de las posibilidades que nos permite Awesome, que más nos ayudará a
+la hora de "trastear" con él, sin temor a "romper" nada. Podemos depurar los
+errores y realizar pruebas con Awesome con una configuración distinta a la
+nuestra y en una sesión X distinta a la actual. Esto lo conseguimos ejecutando
+Awesome dentro de un servidor X, &lt;a href="http://www.freedesktop.org/wiki/Software/Xephyr"&gt;Xephyr&lt;/a&gt;, que aparecerá dentro de
+nuestra sesión como una ventana más.&lt;/p&gt;
+&lt;p&gt;Yo he integrado esta posibilidad dentro del menú de Awesome para que sea mucho
+más sencillo e inmediato el poder probar cambios en un entorno de pruebas.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/awesome_menu.png" width="603"
+height="275" alt="Mi menu de Awesome" /&gt;&lt;/p&gt;
+
+&lt;p&gt;En este vídeo se puede ver el funcionamiento básico de este sistema. Normalmente
+inicio el entorno de pruebas a pantalla completa, pero que se pueda apreciar
+mejor la diferencia, he grabado la mayoría del vídeo con una sesión de Xephyr a
+menor resolución. Lo que se puede ver es como primero inicio una sesión de
+Awesome dentro de Xephyr con la configuración por defecto. Después la cierro y
+compruebo la sintaxis Lua de la configuración de test. La notificación me alerta
+de que el fichero no existe, luego procedo a crearlo (es una copia de la
+configuración real actual) y vuelvo a comprobar la sintaxis. Una vez que veo que
+esta es correcta, lanzo Awesome con la configuración de test. Cierro la sesión y
+procedo a realizar cambios en la configuración de pruebas. Ahora lanzo de nuevo
+Awesome con esta configuración y compruebo que efectivamente se han realizado
+los cambios. Dentro de esta sesión vuelvo a editar la configuración de test para
+deshacer los cambios y después reinicio este Awesome de pruebas. Se puede ver
+como efectivamente todo vuelve a el estado anterior. Cierro la sesión y
+compruebo el log de la sesión para ver los mensajes de error. Finalmente abro
+varias sesiones de Awesome a la vez y una a pantalla completa.&lt;/p&gt;
+&lt;div style="text-align:center"&gt;
+&lt;iframe src="http://player.vimeo.com/video/43562306" width="700" height="438"&gt;
+&lt;/iframe&gt;
+&lt;p&gt;Muestra de las posibilidades que ofrecen Xephyr y el script
+&lt;strong&gt;awdt.py&lt;/strong&gt; para poder depurar la configuración de Awesome.
+Recomiendo ver en alta resolución y a pantalla completa.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Para realizar estas acciones programé un script en Python, &lt;code&gt;awdt.py&lt;/code&gt;, que incluyo
+al final del articulo.&lt;/p&gt;
+&lt;p&gt;Una de las ventajas de Awesome con respecto a Xmonad, es que no necesitamos
+recompilar cada vez que realizamos un cambio en la configuración, basta con
+editar el fichero, salvar y reiniciarlo. Reiniciar Awesome es algo que lleva
+menos de un segundo.&lt;/p&gt;
+&lt;h2 id="reinicio_apagado_y_suspensi+n"&gt;Reinicio, apagado y suspensión&lt;/h2&gt;
+&lt;p&gt;Dado que no empleo ningún escritorio, arrancando directamente la sesión en
+Awesome, debo gestionar directamente cierto tipo de situaciones que vienen
+resueltas de manera predefinida en estos. Uno de estos casos es la gestión de
+energía del equipo, esto es: apagarlo, reiniciarlo, suspenderlo e hibernarlo.
+Dado que nunca lo hiberno, he implementado únicamente las tres primeras
+acciones. Lo que hago es emplear directamente los comandos de consola, que
+ejecuto a través de un dialogo gráfico que me pide la contraseña para &lt;code&gt;sudo&lt;/code&gt; con
+&lt;code&gt;gksudo&lt;/code&gt; (podría haber empleado &lt;em&gt;Zenity&lt;/em&gt;, &lt;em&gt;Xdialog&lt;/em&gt; o cualquier otro similar)
+que es activado a través de una combinación de teclas. Por ejemplo, para
+suspender el equipo lo activo a través de la combinación &lt;strong&gt;&lt;code&gt;Win&lt;/code&gt;&lt;/strong&gt; + &lt;strong&gt;&lt;code&gt;s&lt;/code&gt;&lt;/strong&gt; :&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="n"&gt;modkey&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;s&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="n"&gt;awful&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;util&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;spawn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;gksudo pm-suspend -m &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+                             &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Se va a suspender el equipo, ¿estás seguro?&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;con el siguiente resultado:&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/suspend.png" width="381"
+height="191" alt="Dialogo para suspensión" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Sé que la mayoría no está acostumbrado a tener que introducir la contraseña para
+realizar cualquiera de estas acciones y posiblemente detestarían hacerlo, pero
+yo lo prefiero así.&lt;/p&gt;
+&lt;h2 id="bloqueo_de_la_pantalla"&gt;Bloqueo de la pantalla&lt;/h2&gt;
+&lt;p&gt;Empleo un método similar para bloquear la pantalla, ya que no empleo un
+salvapantallas (simplemente apago la pantalla pasado un cierto tiempo) empleo el
+programa &lt;a href="http://joelburget.com/slimlock/"&gt;&lt;code&gt;slimlock&lt;/code&gt;&lt;/a&gt; para realizar esta tarea y lo activo de forma manual
+con otra combinación de teclas. El resultado es una pantalla como esta:&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/slimlock.png" width="642"
+height="401" alt="slimlock" /&gt;&lt;/p&gt;
+
+&lt;h2 id="documentaci+n_y_enlaces_de_inter+s"&gt;Documentación y enlaces de interés.&lt;/h2&gt;
+&lt;p&gt;La documentación del código fuente y de la API de Awesome son bastante buenas,
+con lo que si tienes los conocimientos suficientes no te será muy dificil
+hacerte con él. Si necesitas algo más general, tanto el propio Wiki de Awesome
+como los recursos disponibles gracias a su comunidad (lista de correo e IRC) son
+bastante útiles para ayudarte a conseguir la configuración que más se ajuste a
+tus necesidades. Es una comunidad muy dinámica y bastante colaboradora. También
+en el Wiki de Arch Linux hay información interesante sobre Awesome.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://awesome.naquadah.org/"&gt;Pagina principal&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://awesome.naquadah.org/wiki/Main_Page"&gt;Wiki&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://awesome.naquadah.org/wiki/Screenshots"&gt;Pantallazos&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://awesome.naquadah.org/wiki/User_Configuration_Files"&gt;Ficheros de configuración&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://awesome.naquadah.org/doc/api/"&gt;API Docs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/Awesome"&gt;Arch Linux Wiki&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.lua.org/pil/"&gt;Programming in Lua&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="awdtpy"&gt;awdt.py&lt;/h2&gt;
+&lt;p&gt;Este es el contenido del script &lt;code&gt;awdt.py&lt;/code&gt; que empleo para depurar la
+configuración de Awesome en un entorno de pruebas. Se encuentra dentro del mismo
+repositorio que el resto de la configuración.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# encoding: utf-8&lt;/span&gt;
+
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    awdt.py: a script to debug awesome wm configs in nested Xephyr sessions&lt;/span&gt;
+
+&lt;span class="sd"&gt;    This script is a tool intended to help to debug Awesome wm configurations&lt;/span&gt;
+&lt;span class="sd"&gt;    in a safe manner. To this purpose uses the Xephyr X server to nest a X&lt;/span&gt;
+&lt;span class="sd"&gt;    session inside the current Awesome X session.&lt;/span&gt;
+
+&lt;span class="sd"&gt;    The original idea come from the mikar&amp;#39;s bash awmtt script (Thanks mikar):&lt;/span&gt;
+
+&lt;span class="sd"&gt;    https://github.com/mikar/awmtt&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Needs logger.py and check_execs.py from my Python Recipes repository at&lt;/span&gt;
+
+&lt;span class="sd"&gt;    https://github.com/joedicastro/python-recipes&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+&lt;span class="c"&gt;#    Copyright 2012 joe di castro &amp;lt;joe@joedicastro.com&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    This program is free software: you can redistribute it and/or modify&lt;/span&gt;
+&lt;span class="c"&gt;#    it under the terms of the GNU General Public License as published by&lt;/span&gt;
+&lt;span class="c"&gt;#    the Free Software Foundation, either version 3 of the License, or&lt;/span&gt;
+&lt;span class="c"&gt;#    (at your option) any later version.&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    This program is distributed in the hope that it will be useful,&lt;/span&gt;
+&lt;span class="c"&gt;#    but WITHOUT ANY WARRANTY; without even the implied warranty of&lt;/span&gt;
+&lt;span class="c"&gt;#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&lt;/span&gt;
+&lt;span class="c"&gt;#    GNU General Public License for more details.&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    You should have received a copy of the GNU General Public License&lt;/span&gt;
+&lt;span class="c"&gt;#    along with this program.  If not, see &amp;lt;http://www.gnu.org/licenses/&amp;gt;.&lt;/span&gt;
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+
+&lt;span class="n"&gt;__author__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;joe di castro &amp;lt;joe@joedicastro.com&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__license__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;GNU General Public License version 3&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__date__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;05/06/2012&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__version__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;0.5&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;argparse&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ArgumentParser&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;RawDescriptionHelpFormatter&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;findall&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;shutil&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;copy&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;subprocess&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;STDOUT&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tempfile&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;gettempdir&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;sleep&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;logger&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Logger&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;check_execs&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;check_execs&lt;/span&gt;
+&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c"&gt;# Checks the installation of the necessary python modules&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;An error found importing one module:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exc_info&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;You need to install it&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Stopping...&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+    &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;arguments&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Defines the command line arguments for the script.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;main_desc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&amp;quot;Debug awesome wm configurations in Xephyr sessions.&lt;/span&gt;
+
+&lt;span class="s"&gt;    Use `new` to create a new test config file cloned from your rc.lua&lt;/span&gt;
+&lt;span class="s"&gt;    Use `check` to test the Lua syntax on this file&lt;/span&gt;
+&lt;span class="s"&gt;    Use `start` to start a new awesome debug session&lt;/span&gt;
+&lt;span class="s"&gt;    Use `restart` to restart all awesome debug sessions&lt;/span&gt;
+&lt;span class="s"&gt;    Use `stop` to stop all awesome debug sessions&lt;/span&gt;
+&lt;span class="s"&gt;                   &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="n"&gt;parser&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ArgumentParser&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;main_desc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                            &lt;span class="n"&gt;formatter_class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;RawDescriptionHelpFormatter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_argument&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;action&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;choices&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;new&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;check&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;start&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;restart&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                        &lt;span class="s"&gt;&amp;quot;stop&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;the action to perform&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_argument&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;-t&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dest&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;test&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;store_true&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                        &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;use created test configuration file&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_argument&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;-s&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dest&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;screen&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;the screen resolution&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_argument&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;-d&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dest&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;display&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;the DISPLAY to use&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_argument&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;-v&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;--version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                        &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%(prog)s&lt;/span&gt;&lt;span class="s"&gt; {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__version__&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                        &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;show program&amp;#39;s version number and exit&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;parser&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;The script core.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;# the files needed&lt;/span&gt;
+    &lt;span class="n"&gt;cfg_dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expanduser&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;~/.config/awesome&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;rc_real&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cfg_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;rc.lua&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;rc_test&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cfg_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;rc_test.lua&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;rc_original&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cfg_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;rc_original.lua&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;xpids_tmp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gettempdir&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;xpids&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;apids_tmp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gettempdir&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;apids&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;log_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cfg_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;awdt.log&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;args&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;arguments&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parse_args&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="c"&gt;# get the current screen resolution&lt;/span&gt;
+    &lt;span class="n"&gt;xdpyinfo&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;xdpyinfo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;currres&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;findall&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;dimensions:\s*(\d+x\d+)\spixels&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xdpyinfo&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="c"&gt;# set defaults&lt;/span&gt;
+    &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;screen&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;screen&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;screen&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;currres&lt;/span&gt;
+    &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rc_test&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;rc_original&lt;/span&gt;
+    &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;display&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;display&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;display&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;new&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;copy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rc_real&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;rc_test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;check&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;check&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;awesome -c {0} -k&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rc_test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                      &lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;STDOUT&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;check_out&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;check&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;notify-send&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Lua sintax chek:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;check_out&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;start&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="c"&gt;# clean log in each debug session&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;apids_tmp&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;log_file&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+                &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;log_file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;log&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Logger&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;log_file&lt;/span&gt;
+        &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://github.com/joedicastro/dotfiles&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                   &lt;span class="s"&gt;&amp;quot;This is a log from an Awesome wm&amp;#39;s debug session&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Start time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;x_cmd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Xephyr -ac -br -noreset -screen {0} :{1}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;screen&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                                                  &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;display&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;aw_cmd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;awesome -c {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;xserver&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_cmd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;STDOUT&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;putenv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;DISPLAY&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;:{0}.0&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;display&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;awesome&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;aw_cmd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;STDOUT&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="c"&gt;# save the process PIDs for kill them properly later. This way, no&lt;/span&gt;
+        &lt;span class="c"&gt;# matter how many awesome sessions do you start, all of them will be&lt;/span&gt;
+        &lt;span class="c"&gt;# reported to the log file. Also, awesome PIDs are used to restart each&lt;/span&gt;
+        &lt;span class="c"&gt;# one when is required&lt;/span&gt;
+        &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xpids_tmp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;a+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;xpids&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;xpids&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xserver&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;apids_tmp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;a+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;apids&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;apids&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;awesome&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Parameters&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Screen resolution: {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;screen&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                                &lt;span class="s"&gt;&amp;quot;Display: {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;display&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                                &lt;span class="s"&gt;&amp;quot;Configuration file: {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
+        &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Xephyr output&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xserver&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+        &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Awesome output&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;awesome&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+        &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;End time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;restart&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;apids_tmp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;r&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;apids&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;pid&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;apids&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+                &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;kill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;stop&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xpids_tmp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;r&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;xpids&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;pid&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;xpids&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+                &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;kill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xpids_tmp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;apids_tmp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;check_execs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Xephyr&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;awesome&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+&lt;span class="c"&gt;# Changelog:&lt;/span&gt;
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# 0.5:&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# * New log file per debug session&lt;/span&gt;
+&lt;span class="c"&gt;# * Improve argparse help&lt;/span&gt;
+&lt;span class="c"&gt;# * Better comments&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# 0.4:&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# * remove debug prints&lt;/span&gt;
+&lt;span class="c"&gt;# * clean code&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# 0.3:&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# * implement logging functions&lt;/span&gt;
+&lt;span class="c"&gt;# * check for executables&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# 0.2:&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# * argparse instead of sys.argv&lt;/span&gt;
+&lt;span class="c"&gt;# * create a new rc_test.lua file from original&lt;/span&gt;
+&lt;span class="c"&gt;# * restart the awesome session&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# 0.1:&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# * First attempt&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Thu, 07 Jun 2012 00:00:00 +0200</pubDate><guid>http://joedicastro.com/productividad-en-el-escritorio-linux-awesome.html</guid><category>linux</category><category>arch</category><category>tiling</category><category>twm</category><category>productividad</category><category>awesome</category><category>gnome</category><category>lua</category><category>python</category></item></channel></rss>

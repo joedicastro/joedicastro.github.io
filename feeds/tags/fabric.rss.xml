@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>joe di castro</title><link>http://joedicastro.com</link><description></description><atom:link href="http://joedicastro.com/feeds/tags/fabric.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 13 Jul 2011 20:21:00 +0200</lastBuildDate><item><title>Fabric &amp; Rsync para realizar Backups</title><link>http://joedicastro.com/fabric-rsync-para-realizar-backups.html</link><description>&lt;p&gt;En el &lt;a href="http://joedicastro.com/sincronizar-dos-directorios-con-fabric-y-rsync.html"&gt;anterior articulo&lt;/a&gt; empleaba &lt;a href="http://fabfile.org/"&gt;fabric&lt;/a&gt; y &lt;a href="http://es.wikipedia.org/wiki/Rsync"&gt;rsync&lt;/a&gt; para sincronizar 
+un directorio local y uno remoto en ambas direcciones. Además le añadía las 
+funcionalidades de &lt;a href="http://joedicastro.com/logger-informes-legibles-para-tus-scripts-python.html"&gt;logger&lt;/a&gt; y &lt;a href="http://joedicastro.com/notificaciones-de-escritorio-en-ubuntu-desde-python.html"&gt;notify&lt;/a&gt; para proporcionar información sobre 
+el proceso durante y después de su ejecución. Y comenzaba el articulo recordando 
+a &lt;a href="http://joedicastro.com/sincronizar-una-carpeta-local-y-una-remota-a-traves-de-ftp-lftp-mirror.html"&gt;lftp-mirror&lt;/a&gt;, el script que había creado para realizar la sincronización a 
+través de FTP. Pero &lt;strong&gt;lftp-mirror&lt;/strong&gt; realiza algo más que la sincronización, pues 
+también permite realizar el archivado del directorio local en ficheros 
+comprimidos y lanzar varias tareas en una sola ejecución.&lt;/p&gt;
+&lt;p&gt;Ahora he añadido esta funcionalidad al fichero &lt;strong&gt;fabric&lt;/strong&gt; creado anteriormente.
+Así empleando este fichero podemos realizar el Backup periódico de varios 
+servidores en una sola operación y de forma completamente automática (basta con 
+programar su ejecución). Se sincronizan los dos directorios y se crea un archivo 
+comprimido del directorio local por cada día de la semana. De este modo siempre 
+tenemos una copia del estado del directorio remoto de los últimos siete días. Y 
+al final del proceso en nuestro correo, un email con el informe del resultado por 
+cada una de las tareas ejecutadas.&lt;/p&gt;
+&lt;p&gt;En este fichero, &lt;strong&gt;rsync_fabric.py&lt;/strong&gt;, disponemos de tres posibles tareas:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; fab -l
+
+&lt;span class="go"&gt;     A Fabric file for sync two directories (remote ⇄ local) with rsync.&lt;/span&gt;
+
+&lt;span class="go"&gt;Available commands:&lt;/span&gt;
+
+&lt;span class="go"&gt;    backup  Sync from remote to local &amp;amp; archive the local directory.&lt;/span&gt;
+&lt;span class="go"&gt;    down    Sync from remote to local.&lt;/span&gt;
+&lt;span class="go"&gt;    up      Sync from local to remote.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Con la primera realizamos el backup (sincronización + archivado) y 
+con las siguientes solo la sincronización desde o hacia el servidor. Una de las 
+ventajas de fabric es que nos permite concatenar tareas fácilmente desde la 
+línea de comandos, así podemos lanzar varias sincronizaciones de forma 
+simultanea. Para poder realizar esto, creo una configuración de sincronización 
+por defecto y después creo una función para cada una las tareas adicionales que 
+simplemente redefinen los valores de estas variables globales. Por ejemplo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;# Variables globales de sincronización predefenidas&lt;/span&gt;
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;username@example.com&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remote&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/my_directory&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/home/my_user/backups/my_directory&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;# Redefinimos estas variables para otra configuración de sincronización. Por &lt;/span&gt;
+&lt;span class="c"&gt;# supuesto, pueden tratarse de servidores distintos.&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_databases&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;global&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;
+    &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;username@example.com&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remote&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/databases&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/home/my_user/backups/databases&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Veamos ejemplos de como podemos utilizar estas tareas:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;#&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Si queremos sincronizar el contenido local hacia el remoto, por ejemplo &lt;/span&gt;
+&lt;span class="gp"&gt;#&lt;/span&gt;&lt;span class="s2"&gt; para subir los ficheros al servidor por primera vez. Empleando los valores &lt;/span&gt;
+&lt;span class="gp"&gt;#&lt;/span&gt;&lt;span class="s2"&gt; por defecto. El modificador -w lo empleo para que no se detenga en los &lt;/span&gt;
+&lt;span class="gp"&gt;#&lt;/span&gt;&lt;span class="s2"&gt; errores, que de ocurrir, los veremos luego en el informe final.&amp;quot;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; fab -w up
+&lt;span class="go"&gt;[localhost] local: rsync -pthrvz --delete /home/my_user/backups/my_directory/ &lt;/span&gt;
+&lt;span class="go"&gt; username@example.com:my_directory&lt;/span&gt;
+
+&lt;span class="go"&gt;Done.&lt;/span&gt;
+&lt;span class="gp"&gt;#&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Pero también podemos especificar una tarea distinta a la por defecto de &lt;/span&gt;
+&lt;span class="gp"&gt;#&lt;/span&gt;&lt;span class="s2"&gt; este modo. Sincronizando desde el servidor a nuestro directorio local las &lt;/span&gt;
+&lt;span class="gp"&gt;#&lt;/span&gt;&lt;span class="s2"&gt; bases de datos.&amp;quot;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; fab -w down:databases
+&lt;span class="go"&gt;[localhost] local: rsync -pthrvz --delete username@example.com:databases/ &lt;/span&gt;
+&lt;span class="go"&gt;/home/my_user/backups/databases&lt;/span&gt;
+
+&lt;span class="go"&gt;Done.&lt;/span&gt;
+&lt;span class="gp"&gt;#&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Y por supuesto, podemos realizar varias tareas a la vez.&amp;quot;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt;  fab -w down backup:databases
+&lt;span class="go"&gt;[localhost] local: rsync -pthrvz --delete username@example.com:my_directory/ &lt;/span&gt;
+&lt;span class="go"&gt;/home/my_user/backups/my_directory&lt;/span&gt;
+&lt;span class="go"&gt;[localhost] local: rsync -pthrvz --delete username@example.com:databases/ &lt;/span&gt;
+&lt;span class="go"&gt;/home/my_user/backups/databases&lt;/span&gt;
+
+&lt;span class="go"&gt;Done.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;No empleo contraseña alguna, ni en el fichero ni en la línea de comandos, podría 
+hacerse perfectamente, pero prefiero emplear una clave &lt;a href="http://es.wikipedia.org/wiki/RSA"&gt;RSA&lt;/a&gt; &lt;a href="http://es.wikipedia.org/wiki/Criptograf%C3%ADa_asim%C3%A9trica"&gt;pública&lt;/a&gt; 
+autorizada para las sesiones SSH en el servidor. Es bastante más seguro y cómodo. 
+En los ejemplos no se ve la salida de &lt;em&gt;rsync&lt;/em&gt;, pues es capturada (así como los 
+erores) para ser mostrada a posteriori en los informes. &lt;/p&gt;
+&lt;p&gt;Un ejemplo de informe sería el siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;START TIME =====================================================================
+                                                    miércoles 13/07/11, 19:48:55
+================================================================================
+
+SCRIPT =========================================================================
+fab (ver. Unknown)
+Fabric Rsync
+http://joedicastro.com
+
+Syncing username@example.com:databases to /home/my_user/backups/databases
+================================================================================
+
+RSYNC OUTPUT ___________________________________________________________________
+
+receiving file list ... done
+
+sent 20 bytes  received 825 bytes  153.64 bytes/sec
+total size is 827.76M  speedup is 979595.42
+
+ROTATE COMPRESSED COPIES _______________________________________________________
+
+Created file:
+
+/home/my_user/backups/databases_13jul2011_19:49_mié.tar.gz
+
+Deleted old file:
+
+databases_13jul2011_19:37_mié.tar.gz
+
+DISK SPACE USED ================================================================
+                                                                        1.60 GiB
+================================================================================
+
+END TIME =======================================================================
+                                                    miércoles 13/07/11, 19:50:02
+================================================================================
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Que como podemos ver, ha tardado poco más de un minuto en sincronizar 827.56 
+Megabytes y el total de espacio ocupado por el directorio y los siete archivos 
+comprimidos es de 1.60 Gibibytes (1,72 Gigabytes). &lt;/p&gt;
+&lt;h2 id="ventajas"&gt;Ventajas&lt;/h2&gt;
+&lt;p&gt;Las ventajas de sincronizarlo con &lt;strong&gt;rsync + ssh&lt;/strong&gt; vs &lt;strong&gt;ftp&lt;/strong&gt;, como ya comenté en el 
+anterior articulo son enormes. Se ahorra muchísimo tiempo y ancho de banda, lo 
+que ayuda a no saturar la red y no tener que planificar con tanto cuidado las 
+ventanas de backup. Por ejemplo he realizado unas pruebas y para las mismas 
+condiciones: &lt;strong&gt;mismo servidor, mismo directorio, mismo horario y condiciones de 
+red; la sincronización remoto → local a través de FTP emplea entre 35 y 45 
+minutos y cuando lo hacemos a través de rsync emplea entre 2 y 4 minutos&lt;/strong&gt;. Ahí 
+es nada, estamos hablando de un proceso ~13 veces más rápido. &lt;/p&gt;
+&lt;h2 id="c+digo"&gt;Código&lt;/h2&gt;
+&lt;p&gt;El código del fichero fabric es el siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# -*- coding: utf8 -*-&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;glob&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;tarfile&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;get_size&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;get_size&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;_get_size&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;get_size&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;best_unit_size&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;_best_unit_size&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;logger&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Logger&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;_logger&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;notify&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;notify&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;_notify&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;fabric.api&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;
+
+&lt;span class="n"&gt;LOG&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_logger&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="c"&gt;#===============================================================================&lt;/span&gt;
+&lt;span class="c"&gt;# RSYNC HOSTS&lt;/span&gt;
+&lt;span class="c"&gt;#===============================================================================&lt;/span&gt;
+
+&lt;span class="c"&gt;# Your default host. No need any more if only wants a host.&lt;/span&gt;
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;username@host&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remote&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/remote/path&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/local/path&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;# If wants to use various hosts, then define the previous variables like this, &lt;/span&gt;
+&lt;span class="c"&gt;# one function per host. &lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_host_1&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Host variables for host_1.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;global&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;
+    &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;username@host_1&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remote&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/remote/path/in/host_1&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/local/path/for/host_1&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_host_2&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Host variables for host_2.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;global&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;
+    &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;username@host_2&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remote&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/remote/path/in/host_2&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/local/path/for/host_2&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;# ...&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# def _host_n():&lt;/span&gt;
+&lt;span class="c"&gt;#     &amp;quot;&amp;quot;&amp;quot;Host variables for host_n.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;#     global env&lt;/span&gt;
+&lt;span class="c"&gt;#     env.host_string = &amp;quot;username@host_n&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;#     env.remote = &amp;quot;/your/remote/path/in/host_n&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;#     env.local = &amp;quot;/your/local/path/for/host_n&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;#===============================================================================&lt;/span&gt;
+&lt;span class="c"&gt;# END RSYNC HOSTS&lt;/span&gt;
+&lt;span class="c"&gt;#===============================================================================&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_log_start&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Create the Start time info block for the log.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;# Init the log for multiple hosts. Do not repeat the previous logs.&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+        &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Start time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_log_end&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;task&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Create the End time info block and send &amp;amp; write the log.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;_notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Rsync&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Ended&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;ok&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;End time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Fabric Rsync ({0})&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;task&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_check_local&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Create local directory if no exists.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mkdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_rsync&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Process the _rsync command.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;_log_start&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Fabric Rsync&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;http://joedicastro.com&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+               &lt;span class="s"&gt;&amp;quot;Syncing {0} to {1}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;_notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Rsync&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Start syncing {0} to {1}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;info&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;out&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;rsync -pthrvz {2} {0}/ {1}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+                &lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;--delete&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;yes&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                &lt;span class="n"&gt;capture&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;_notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Rsync&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Finished synchronization&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;ok&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Rsync Output&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;failed&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Rsync Errors&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_compress&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Compress a local directory into a gz file.&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Creates a file for each weekday, an removes the old files if exists&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;chdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pardir&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;dir2gz&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;basename&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;old_gzs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;{0}*{1}.tar.gz&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dir2gz&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strftime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;%a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="n"&gt;gz_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;{0}_{1}.tar.gz&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dir2gz&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strftime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt;%b%Y_%H:%M_%a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;gz_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tarfile&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gz_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;w:gz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;gz_file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;arcname&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;dir2gz&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;gz_file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Created file:&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getcwd&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+                                                                &lt;span class="n"&gt;gz_name&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;old_gz&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;old_gzs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;old_gz&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Deleted old file:&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;old_gz&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_archive&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Archive the local directory in a gz file for each weekday.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;_notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Rsync&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Compressing folder...&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;info&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Rotate compressed copies&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_compress&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;_notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Rsync&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Finished compression&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;ok&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_get_diskspace&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Get the disk space used by the local directory and archives.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;gz_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;_get_size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;gz&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;{0}*.gz&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+                                                     &lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;))])&lt;/span&gt;
+    &lt;span class="n"&gt;log_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_get_size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="n"&gt;local_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_get_size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_best_unit_size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;local_size&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;gz_size&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;log_size&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;LOG&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;block&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Disk space used&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;{0:&amp;gt;76.2f} {1}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;s&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;u&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;up&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;yes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Sync from local to remote.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;globals&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;_&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;]()&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+    &lt;span class="n"&gt;_rsync&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remote&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;_log_end&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;down&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;yes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;archive&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Sync from remote to local.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;globals&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;_&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;]()&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+    &lt;span class="n"&gt;_check_local&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;_rsync&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remote&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;archive&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;_log_end&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;backup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Sync from remote to local &amp;amp; archive the local directory.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;down&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;archive&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;_archive&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;_get_diskspace&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;_log_end&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;El fichero siempre actualizado puede ser encontrado en el repositorio &lt;em&gt;Python Recipes&lt;/em&gt; que está alojado en &lt;a href="http://github.com/joedicastro/python-recipes"&gt;github&lt;/a&gt; con el nombre &lt;code&gt;rsync_fabfile.py&lt;/code&gt; &lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Wed, 13 Jul 2011 20:21:00 +0200</pubDate><guid>http://joedicastro.com/fabric-rsync-para-realizar-backups.html</guid><category>python</category><category>fabric</category><category>rsync</category><category>backup</category><category>sincronizar</category></item><item><title>Sincronizar dos directorios con Fabric y Rsync</title><link>http://joedicastro.com/sincronizar-dos-directorios-con-fabric-y-rsync.html</link><description>&lt;p&gt;Anteriormente habíamos visto como &lt;a href="http://joedicastro.com/sincronizar-una-carpeta-local-y-una-remota-a-traves-de-ftp-lftp-mirror.html"&gt;sincronizar un directorio remoto y uno local 
+empleando solamente FTP&lt;/a&gt;. Ahora vamos a ver la forma de hacerlo empleando 
+&lt;a href="http://es.wikipedia.org/wiki/Ssh"&gt;ssh&lt;/a&gt; y &lt;a href="http://es.wikipedia.org/wiki/Rsync"&gt;rsync&lt;/a&gt;. Para ello vamos a utilizar otra vez &lt;strong&gt;Python&lt;/strong&gt; y una 
+herramienta muy valiosa para cualquier &lt;a href="http://es.wikipedia.org/wiki/Administrador_de_sistemas"&gt;sysadmin&lt;/a&gt; que se precie como es 
+&lt;a href="http://fabfile.org/"&gt;fabric&lt;/a&gt; (que descubrí gracias a Manuel Viera en &lt;a href="http://python.majibu.org/preguntas/11/libreria-para-emplear-con-ssh"&gt;esta pregunta en majibu&lt;/a&gt;).
+Evidentemente realizar la sincronización con rsync esta a años luz de hacerlo 
+con FTP, la velocidad de sincronización, el tiempo empleado y la cantidad de 
+datos a mover son mucho menores. FTP es algo que debería utilizarse únicamente 
+cuando no disponemos de acceso via SSH.&lt;/p&gt;
+&lt;p&gt;La gran ventaja de &lt;strong&gt;fabric&lt;/strong&gt; es que nos permite ahorrarnos el tener que 
+implementar el acceso SSH con &lt;a href="http://www.lag.net/paramiko/"&gt;paramiko&lt;/a&gt; y la entrada de opciones y 
+argumentos con &lt;em&gt;argparse&lt;/em&gt;. Gracias a esto los scripts necesarios son mucho más 
+cortos y limpios y su utilización es bastante más sencilla. Fabric ya incorpora 
+una función para emplear rsync, &lt;code&gt;rsync_project&lt;/code&gt;, dentro de su modulo de proyectos 
+contribuidos &lt;code&gt;fabric.contrib.project&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Una forma de implementar esta sincronización en ambas direcciones empleando esta 
+función predefinida sería esta:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;fabric.api&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hosts&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;fabric.contrib.project&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;rsync_project&lt;/span&gt;
+
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;username@host&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;REMOTE_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/remote/path&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;LOCAL_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/local/path&amp;quot;&lt;/span&gt;
+
+&lt;span class="nd"&gt;@hosts&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;rsync_up&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;yes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;rsync_project&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;REMOTE_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;LOCAL_PATH&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+                  &lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;dlt&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;yes&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;rsync_down&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;yes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;rsync -pthrvz {0}:{1}/ {2} {3}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+          &lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;REMOTE_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;LOCAL_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+          &lt;span class="s"&gt;&amp;quot;--delete&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;dlt&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;yes&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Y luego solo tendríamos que llamar a la función deseada:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;#&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Para sincronizar de remoto a local&amp;quot;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; fab rsync_down
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;blockquote&gt;
+&lt;p&gt;Hay que tener en cuenta un detalle con fabric. Cuando se le pasa un parámetro, 
+este es siempre convertido a una cadena. Luego al pasarle &lt;code&gt;True&lt;/code&gt; o &lt;code&gt;False&lt;/code&gt; no 
+se convierte en un valor booleano, sino una cadena &lt;code&gt;"True"&lt;/code&gt;o &lt;code&gt;"False"&lt;/code&gt;. De ahí 
+que compruebe si el parámetro coincide con &lt;code&gt;"yes"&lt;/code&gt; en vez de un valor booleano.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;El problema con la función rsync predefinida de fabric es que esta pensada 
+únicamente para subir archivos a un servidor remoto, es decir, es una 
+sincronización en una sola dirección, por eso implemento la sincronización en 
+sentido contrario sin emplearla y empleando &lt;code&gt;local&lt;/code&gt;. La autentificación de la 
+sesión SSH puede realizarse especificando la contraseña dentro del propio fichero, 
+pero va en contra del sentido común emplear un método tan inseguro como este. Lo 
+lógico es emplear autorizaciones de sesiones SSH sin contraseña por medio de una 
+&lt;a href="http://es.wikipedia.org/wiki/Criptograf%C3%ADa_asim%C3%A9trica"&gt;clave pública&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Podríamos prescindir de la librería incorporada dentro de fabric y tendríamos 
+algo como esto:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;fabric.api&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;
+
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;username@host&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;REMOTE_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/remote/path&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;LOCAL_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/local/path&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_rsync&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Process the _rsync command.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;rsync -pthrvz {0}/ {1} {2}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+                   &lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;--delete&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;yes&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;up&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;yes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Sync from local to remote.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;_rsync&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LOCAL_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;REMOTE_PATH&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;down&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;yes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Sync from remote to local.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;_rsync&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;REMOTE_PATH&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="n"&gt;LOCAL_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Pero... un momento, si estamos empleado un comando local, no empleamos 
+&lt;code&gt;rsync_project&lt;/code&gt; y empleamos una clave pública para el acceso SSH, entonces no 
+estamos empleando &lt;strong&gt;paramiko&lt;/strong&gt;, ¿de que nos sirve emplear fabric?. Bueno, en 
+realidad &lt;code&gt;rsync_project&lt;/code&gt; también emplea &lt;code&gt;local&lt;/code&gt;, por lo que no emplea paramiko. 
+Pero las ventajas vienen de que, por ejemplo, este mismo script se podría modificar 
+fácilmente para ejecutar rsync en el servidor en vez de en nuestra maquina local, 
+ empleando &lt;code&gt;run&lt;/code&gt; en vez de &lt;code&gt;local&lt;/code&gt;. Además podemos emplear el mismo fichero para 
+ añadir varias tareas más a realizar en el servidor, aparte de la sincronización. 
+Podríamos prescindir de fabric y hacer esto mismo con un script con un número 
+similar de líneas, pero esto nos permite centralizar todas las tareas más comunes 
+sobre ese servidor en un único fichero. Por ejemplo podríamos añadir una tarea 
+para hacer un respaldo previo de una base de datos en el servidor, empleando un 
+comando remoto en el servidor, luego hacer la sincronización separada de la BDD 
+y el resto de ficheros y finalmente eliminar ese respaldo. Puede haber cientos 
+de razones para preferir emplear fabric antes de un script independiente para 
+la sincronización.&lt;/p&gt;
+&lt;h2 id="ejecuci+n_desatendida_de_la_sincronizaci+n"&gt;Ejecución desatendida de la sincronización&lt;/h2&gt;
+&lt;p&gt;Si queremos programar esta tarea, no sería mala idea que nos avisara de cuando 
+comienza a ejecutarse y del resultado de la misma. Para ello puedo emplear 
+&lt;a href="http://joedicastro.com/logger-informes-legibles-para-tus-scripts-python.html"&gt;Logger&lt;/a&gt; y &lt;a href="http://joedicastro.com/notificaciones-de-escritorio-en-ubuntu-desde-python.html"&gt;notify&lt;/a&gt;, para implementar esta funcionalidad.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;logger&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Logger&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;_logger&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;notify&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;notify&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;_notify&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;fabric.api&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;
+
+&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;username@host&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;REMOTE_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/remote/path&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;LOCAL_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/your/local/path&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_rsync&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Process the _rsync command.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;log&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_logger&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Fabric Rsync&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;http://joedicastro.com&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+               &lt;span class="s"&gt;&amp;quot;Syncing {0} to {1}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Start time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;_notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Rsync&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Start syncing {0} to {1}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;info&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;rsync -pthrvz {0}/ {1} {2}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+                   &lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;--delete&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;yes&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                   &lt;span class="n"&gt;capture&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;_notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Rsync&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Finished&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;ok&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Output&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;failed&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Error&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;End time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Fabric Rsync&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;up&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;yes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Sync from local to remote.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;_rsync&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LOCAL_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;REMOTE_PATH&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;down&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;yes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Sync from remote to local.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;_rsync&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host_string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;REMOTE_PATH&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="n"&gt;LOCAL_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dlt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;De esta forma, nos avisaría con una notificación en el escritorio de su inicio y 
+fin, y al acabarse la sincronización, tendríamos un informe en nuestro correo 
+parecido a este:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;SCRIPT =========================================================================
+fab (ver. Unknown)
+Fabric Rsync
+
+Syncing username@host:/your/remote/path to /your/local/path
+================================================================================
+
+START TIME =====================================================================
+                                                   miércoles 06/07/11, 21:50:48
+================================================================================
+
+OUTPUT _________________________________________________________________________
+
+receiving file list ... done
+./
+index.php
+
+sent 48 bytes  received 200 bytes  45.09 bytes/sec
+total size is 99  speedup is 0.40
+
+END TIME =======================================================================
+                                                   miércoles 06/07/11, 21:50:54
+================================================================================
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Este fichero está disponible en el repositorio &lt;em&gt;Python Recipes&lt;/em&gt; alojado en 
+&lt;a href="http://github.com/joedicastro/python-recipes"&gt;github&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Wed, 06 Jul 2011 22:02:00 +0200</pubDate><guid>http://joedicastro.com/sincronizar-dos-directorios-con-fabric-y-rsync.html</guid><category>python</category><category>fabric</category><category>rsync</category><category>sincronizar</category></item><item><title>Pelican - Publicación y automatización</title><link>http://joedicastro.com/pelican-publicacion-y-automatizacion.html</link><description>&lt;p&gt;Una vez que sabemos como &lt;a href="http://joedicastro.com/pelican-introduccion-e-instalacion.html"&gt;instalar Pelican&lt;/a&gt; y &lt;a href="http://joedicastro.com/pelican-creacion-de-contenido.html"&gt;crear contenido&lt;/a&gt; con él, es
+hora de saber como convertir ese contenido en un blog real disponible en
+internet. Es decir, saber como publicar ese contenido. Como hemos visto hasta
+ahora, al constar básicamente de simples ficheros HTML, un servidor de archivos
+es más que suficiente para servir el blog. Esto nos abre un gran abanico de
+posibilidades, desde emplear un potente (y barato) servidor de ficheros en la
+&lt;em&gt;nube&lt;/em&gt; como &lt;strong&gt;Amazon S3&lt;/strong&gt;, pasando por las páginas web estáticas que nos
+permiten repositorios como &lt;strong&gt;Bitbucket&lt;/strong&gt; o &lt;strong&gt;GitHub&lt;/strong&gt;, por los tradiciones
+hostings compartidos (e.g.  este blog), hasta un servidor casero sencillo
+montado sobre un &lt;a href="http://es.wikipedia.org/wiki/Network-attached_storage"&gt;NAS&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;Aún cuando es posible emplear un simple servidor de archivos para alojar el blog, 
+siempre es mejor contar con un servidor web detrás (Apache, nginx, lighttpd, 
+...) que nos permita hacer redirecciones para nuestras antiguas páginas si ya 
+disponíamos de un blog anterior o manejar los errores HTTP &lt;a href="http://es.wikipedia.org/wiki/Error_404"&gt;404&lt;/a&gt; o &lt;a href="http://es.wikipedia.org/wiki/Anexo:C%C3%B3digos_de_estado_HTTP"&gt;403&lt;/a&gt; 
+de forma personalizada. &lt;/p&gt;
+&lt;h2 id="publicar_el_contenido"&gt;Publicar el contenido&lt;/h2&gt;
+&lt;p&gt;Publicar el contenido de una web es tan sencillo como volcar el contenido del 
+directorio que nos genera Pelican (en nuestro ejemplo sería 
+&lt;em&gt;myblog.com/site/output/*&lt;/em&gt;) en el directorio destino de nuestro servidor web. 
+Dependiendo del método que hayamos elegido para alojar nuestro blog, puede ser 
+tan sencillo como una copia de archivos o emplear FTP (SFTP) ó &lt;a href="http://es.wikipedia.org/wiki/SSH"&gt;SSH&lt;/a&gt; (&lt;a href="http://es.wikipedia.org/wiki/SCP"&gt;SCP&lt;/a&gt;, 
+&lt;a href="http://en.wikipedia.org/wiki/Unison_%28file_synchronizer%29"&gt;Unison&lt;/a&gt; ó &lt;a href="http://es.wikipedia.org/wiki/Rsync"&gt;rsync&lt;/a&gt;). Aquí el tema radica no en la primera vez que 
+vayamos a subir el contenido al servidor, si no en las sucesivas, a medida que 
+vayamos creando contenido nuevo. No tendría ningún sentido volver a subir todo 
+el contenido cada vez, si no solamente el nuevo o el que haya cambiado. Para eso 
+necesitamos sincronizar los dos directorios. &lt;/p&gt;
+&lt;p&gt;Si solamente disponemos de acceso FTP (o SFTP) a nuestro servidor, entonces 
+tendremos que emplear una herramienta que nos permita la sincronización sobre 
+FTP, como puede ser &lt;strong&gt;lftp&lt;/strong&gt;. Y el proceso se puede automatizar con un script 
+como el que describo en &lt;a href="http://joedicastro.com/sincronizar-una-carpeta-local-y-una-remota-a-traves-de-ftp-lftp-mirror.html"&gt;Sincronizar una carpeta local y una remota a través de 
+FTP: lftp-mirror&lt;/a&gt;. Si disponemos de acceso a través de SSH, entonces la 
+elección es clarisima, &lt;strong&gt;rsync&lt;/strong&gt;. Más adelante explico una manera de emplearlo 
+de forma automática.&lt;/p&gt;
+&lt;p&gt;Cualquiera de ambas soluciones nos permite subir el contenido en apenas segundos, 
+(sobre todo en el caso de rsync) cuando se trata de añadir un articulo nuevo, 
+por ejemplo. Y lo mismo a la hora de hacer una rectificación, es tan inmediato 
+como lo pueden ser plataformas como Wordpress, Drupal y similares. Además, con 
+las potentes herramientas que existen para hacer cambios múltiples en varios 
+ficheros de texto a la vez, se pueden realizar tareas casi imposibles con una 
+plataforma de blogs tradicional sin recurrir a consultas SQL en la BDD o a 
+plugins externos. Una de estas herramientas, sin recurrir a &lt;code&gt;find&lt;/code&gt;, &lt;code&gt;grep&lt;/code&gt;, 
+&lt;code&gt;awk&lt;/code&gt; y &lt;code&gt;sed&lt;/code&gt;, puede ser &lt;a href="http://regexxer.sourceforge.net/"&gt;regexxer&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="generar_el_contenido_en_el_propio_servidor"&gt;Generar el contenido en el propio servidor&lt;/h2&gt;
+&lt;p&gt;Si el alojamiento que hemos escogido nos permite instalar programas python, 
+entonces tenemos la posibilidad de instalar Pelican en el servidor remoto. De 
+esta formar podríamos subir únicamente los archivos markdown o reStructuredText 
+al servidor y generar allí mismo el contenido web. De este modo la cantidad de 
+datos a subir sería ridícula y un simple comando FTP nos serviría. Luego bien 
+podríamos lanzar Pelican a través de una consola SSH o bien dependiendo del 
+servidor, tener un &lt;a href="http://es.wikipedia.org/wiki/Demonio_%28inform%C3%A1tica%29"&gt;demonio&lt;/a&gt; corriendo que cuando detectara un cambio en el 
+sistema de ficheros lanzará un script que generara el contenido con Pelican. &lt;/p&gt;
+&lt;p&gt;Otra posibilidad que me convence más, es de la poder instalar un repositorio en 
+el servidor con un software de control de versiones, como Git o Mercurial. La 
+idea sería tener un repositorio local, y al hacer un push hacia el repositorio 
+remoto, a través de un &lt;em&gt;hook&lt;/em&gt; activar la generación de la página con Pelican. 
+Esto nos permitiría además poder tener varias copias del repositorio (por 
+ejemplo en GitHub o Bitbucket) y por lo tanto de la web, haciendo "innecesarias" 
+las copias de seguridad. &lt;/p&gt;
+&lt;h2 id="automatizar_todos_los_procesos"&gt;Automatizar todos los procesos&lt;/h2&gt;
+&lt;p&gt;Pero lo ideal es poder automatizar todas las tareas que hemos visto hasta ahora, 
+empleando unos pocos comandos para realizarlas sin esfuerzo alguno (bueno, 
+a menos que tengas tú &lt;a href="http://es.wikipedia.org/wiki/Negro_%28escritor%29"&gt;ghostwriter&lt;/a&gt; particular, me temo que los artículos los 
+seguirás teniendo que escribir tú). Para poder realizar esto disponemos de la 
+fantástica y potente herramienta &lt;a href="http://fabfile.org"&gt;Fabric&lt;/a&gt; (el &lt;a href="http://en.wikipedia.org/wiki/Capistrano"&gt;Capistrano&lt;/a&gt; para Python) 
+que nos permite ejecutar comandos locales o remotos en múltiples servidores. Esto 
+nos permite hacer despliegues de software sin apenas esfuerzo en distintas 
+máquinas, copiar ficheros o ejecutar tareas repetitivas empleado una corta 
+serie de comandos. Una grandísima herramienta para administradores de sistema y 
+desarrolladores.&lt;/p&gt;
+&lt;p&gt;Lo único que necesitamos es instalar &lt;strong&gt;fabric&lt;/strong&gt; y crear un fichero llamado 
+&lt;code&gt;fabfile.py&lt;/code&gt; donde especificaremos las tareas que queremos programar. Para 
+instalar la última versión estable de fabric, lo mejor es emplear &lt;code&gt;easy_install&lt;/code&gt; 
+o &lt;code&gt;pip&lt;/code&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; pip install fabric
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Una vez creado el fichero &lt;code&gt;fabfile.py&lt;/code&gt;, lo único que tendremos que hacer para 
+ejecutar una tarea del mismo, sería escribir el comando &lt;code&gt;fab&lt;/code&gt; seguido del nombre 
+que le hayamos dado a la tarea (este sería el funcionamiento básico). Y la tarea 
+se ejecutaría inmediatamente. &lt;/p&gt;
+&lt;p&gt;Para comprender mejor como funciona Fabric, muestro aquí el contenido actual de 
+mi fichero &lt;code&gt;fabfile.py&lt;/code&gt;&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# -*- coding: utf8 -*-&lt;/span&gt;
+
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    fabfile.py: A fabric script for generate my personal blog&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;__author__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;joe di castro &amp;lt;joe@joedicastro.com&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__license__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;GNU General Public License version 3&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__date__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;28/06/2011&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__version__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;0.2&amp;quot;&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;fabric.api&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;fabric.contrib.project&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;rsync_project&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;fabric.contrib.console&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;confirm&lt;/span&gt;
+
+&lt;span class="n"&gt;PELICAN_REPOSITORY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;git://github.com/ametaireau/pelican.git&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;PROD&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;joedicastro.com&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;PROD_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/home/joedicastro/webapps/joedicastro&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;LOCAL_WEB&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;~/www&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PROD&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;ROOT_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dirname&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__file__&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;ENV_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ROOT_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;env&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;PELICAN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ROOT_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;pelican&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;CONFIG_FILE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ROOT_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;site/pelican.conf.py&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;OUTPUT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ROOT_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;site/output&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_valid_HTML&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Remove the obsolete rel=&amp;quot;&amp;quot; and rev=&amp;quot;&amp;quot; links in footnotes.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dirs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;files&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;walk&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;OUTPUT&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;fil&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;files&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;fil&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;.html&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;sed -i {0} -r -e &amp;#39;s/re[l|v]=&lt;/span&gt;&lt;span class="se"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;footnote&lt;/span&gt;&lt;span class="se"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;//g&amp;#39; {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+                      &lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fil&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;r&amp;quot;\ &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_make_env&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Make a virtual enviroment&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;virtualenv {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ENV_PATH&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_del_env&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Delete a virtual enviroment.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;rm -rf {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ENV_PATH&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_clone_pelican&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Clone Pelican from repository.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;git clone {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PELICAN_REPOSITORY&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_install&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Install Pelican in the virtual enviroment.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;lcd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PELICAN&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{0}/bin/python setup.py install&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ENV_PATH&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_browse&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Browse the local Apache site.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;firefox -new-window http://localhost/joedicastro.com 2&amp;gt;/dev/null &amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_gen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;autoreload&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Generate the site from source.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{0}/bin/pelican {2} -s {1}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ENV_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;CONFIG_FILE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                              &lt;span class="s"&gt;&amp;quot;-r&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;autoreload&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_clean&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;quot;Remove the output folder.&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;rm -rf {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;OUTPUT&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_local_deploy&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Deploy to the local apache web server.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;rm  -rf {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LOCAL_WEB&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;cp -r {0} {1}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;OUTPUT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;LOCAL_WEB&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;pull_pelican&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Update Pelican to last revision from repository.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;lcd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PELICAN&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;git pull&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;bootstrap&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Get Pelican and install it in a virtual enviroment.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;warn_only&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;_del_env&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;_make_env&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;warn_only&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;_clone_pelican&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;_install&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;regen&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Regenerate the site from source.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;_clean&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;_gen&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;_valid_HTML&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;_local_deploy&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="nd"&gt;@hosts&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;my_user@&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;PROD&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;publish&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Publish into remote web server with rsync.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;regen&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;_browse&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;confirm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;¿Estas seguro de querer publicarlo?&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;rsync_project&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PROD_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;OUTPUT&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Create a new blog article.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;gedit --new-window {0}/site/source/blog/{1}.md 2&amp;gt;/dev/null &amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+          &lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ROOT_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;\ &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;firefox --new-window {0}/index.html &amp;amp;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;OUTPUT&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;_gen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;img4web&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Optimize .jpg &amp;amp; .png images and copy them into source pictures dir.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;./img4web.py -d {0} {1} {2}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+          &lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ROOT_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;site/source/pictures&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                 &lt;span class="s"&gt;&amp;quot;--delete&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                 &lt;span class="s"&gt;&amp;quot;-s {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahora, veremos el funcionamiento básico que nos permite este script. Primero 
+vemos las tareas que tenemos disponibles:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; fab -l
+&lt;span class="go"&gt;    fabfile.py: A fabric script for generate my personal blog&lt;/span&gt;
+
+&lt;span class="go"&gt;Available commands:&lt;/span&gt;
+
+&lt;span class="go"&gt;    bootstrap     Get Pelican and install it in a virtual enviroment.&lt;/span&gt;
+&lt;span class="go"&gt;    img4web       Optimize .jpg &amp;amp; .png images and copy them into source pict...&lt;/span&gt;
+&lt;span class="go"&gt;    new           Create a new blog article.&lt;/span&gt;
+&lt;span class="go"&gt;    publish       Publish into remote server with rsync.&lt;/span&gt;
+&lt;span class="go"&gt;    pull_pelican  Update Pelican to last revision from repository.&lt;/span&gt;
+&lt;span class="go"&gt;    regen         Regenerate the site from source.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Veamos que hacen cada una de ellas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;bootstrap&lt;/em&gt;&lt;/strong&gt; Si observamos el código, veremos que lo hace es, en este orden: 
+eliminar cualquier entorno virtual previo, crear un entorno virtual nuevo, 
+descargar Pelican desde el repositorio (si no lo hemos hecho anteriormente) e 
+instalar Pelican dentro de este entorno virtual. Y todo esto en un solo paso, casi 
+todos los comandos que explicaba en &lt;a href="http://joedicastro.com/pelican-introduccion-e-instalacion.html"&gt;Pelican - Introducción e Instalación&lt;/a&gt; con 
+solo  teclear &lt;code&gt;fab bootstrap&lt;/code&gt;. Así de fácil. Con este comando podemos tanto crear 
+una instalación de Pelican desde cero, como actualizar la instalación de Pelican 
+después de actualizar este a la última versión con &lt;strong&gt;&lt;em&gt;pull-pelican&lt;/em&gt;&lt;/strong&gt;. Siguiendo 
+con nuestro ejemplo, lo que haría este comando es crear los directorios &lt;em&gt;env&lt;/em&gt; y 
+&lt;em&gt;pelican&lt;/em&gt; dentro de &lt;em&gt;myblog.com&lt;/em&gt; con el entorno virtual creado y pelican 
+instalado.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; fab bootstrap
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;img4web&lt;/em&gt;&lt;/strong&gt; Este comando hace uso del script que describía en &lt;a href="http://joedicastro.com/optimizar-imagenes-para-la-web.html"&gt;Optimizar 
+imágenes para la web&lt;/a&gt; para hacer precisamente eso, reducir el peso de las 
+imágenes que empleo en los artículos. Lo que hago es a medida que voy escribiendo 
+el articulo es ir guardando las imágenes en el directorio raíz (en nuestro 
+ejemplo, &lt;em&gt;myblog.com/&lt;/em&gt;) y cuando lo termino, simplemente ejecuto el comando 
+&lt;code&gt;fab img4web&lt;/code&gt; y este me optimiza las imágenes, me guarda las optimizadas en el 
+directorio de imágenes del contenido (&lt;em&gt;myblog.com/site/source/pictures/&lt;/em&gt;) y me 
+elimina las imágenes originales del directorio raíz. Cuando termina me muestra un 
+resumen con la cantidad de imágenes procesadas y el ahorro en espacio conseguido. 
+Espacio en disco ahorrado que se resume en menos ancho de banda consumido y en 
+páginas web que se cargan más rápido.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; fab img4web
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;new&lt;/em&gt;&lt;/strong&gt; Con este creo o edito los artículos del blog. Realiza 
+tres funciones: me abre una venta de Gedit con el articulo que le indico con la 
+extensión &lt;code&gt;.md&lt;/code&gt;, me abre una ventana de Firefox que me muestra el fichero 
+&lt;em&gt;index.html&lt;/em&gt; del directorio del sitio generado por Pelican 
+(&lt;em&gt;myblog.com/site/output/index.html&lt;/em&gt;) y finalmente me activa Pelican con la 
+opción &lt;code&gt;autoreload&lt;/code&gt;. Luego empleando el plugin &lt;strong&gt;Grid&lt;/strong&gt; de Compiz, divido la 
+pantalla en dos mitades y coloco a la izquierda Gedit y a la derecha Firefox. 
+Esto me permite, como explicaba en &lt;a href="http://joedicastro.com/de-drupal-a-pelican.html"&gt;De Drupal a Pelican&lt;/a&gt; editar el contenido 
+y previsualizar el resultado casi en tiempo real, disponiendo al mismo tiempo de 
+un buen corrector ortográfico. &lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; fab new:&lt;span class="s2"&gt;&amp;quot;Articulo de prueba&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;publish&lt;/em&gt;&lt;/strong&gt; El más importante, el que sube los artículos al servidor web. 
+Publicar el contenido de la web es tan sencillo como ejecutar este comando. Lo 
+que hace es regenerar el contenido (por si hubiera algún cambio sin guardar) y 
+luego mostrarme el resultado en firefox. Pero el resultado que me muestra no es 
+el del directorio de salida de Pelican, si no de una copia que tengo en un 
+servidor Apache local. Esto me permite ver los cambios de manera más fiel a la 
+versión web, puesto que hace uso del fichero .htaccess y de las reglas que tengo 
+establecidas en él. Finalmente me pregunta si realmente deseo publicar el 
+contenido, por si se me hubiera escapado algo. Si le digo que no, aborta la 
+publicación, pero si le digo que si, me sincroniza el contenido de la carpeta 
+local con la remota empleando &lt;strong&gt;rsync&lt;/strong&gt;. De esta manera solo se transmiten los 
+ficheros nuevos, se borran los que se hayan eliminado en local y &lt;strong&gt;solo transmite 
+la parte que haya cambiado de los archivos modificados&lt;/strong&gt;. Gracias a esto, 
+modificar o añadir contenido es cuestión de segundos. Y sencillisimo.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; fab publish
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;pull_pelican&lt;/em&gt;&lt;/strong&gt; Nos sirve para actualizar Pelican a la última revisión 
+disponible en el repositorio oficial. Si después de ejecutarlo, queremos instalar 
+la nueva versión en nuestro entorno virtual para poder emplearla, simplemente 
+tenemos que volver a ejecutar &lt;code&gt;fab bootstrap&lt;/code&gt; y todo se realizará de forma 
+automática.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; fab pull_pelican
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;regen&lt;/em&gt;&lt;/strong&gt; El proceso principal, es el que le pide a Pelican que genere el 
+sitio web a partir de nuestro directorio de origen. También realiza varios 
+procesos: primero eliminar el directorio de salida actual (para tener una copia 
+fresca), genera el nuevo contenido, luego procesa los archivos para que 
+validen en HTML5 y finalmente hace una copia del directorio de salida a mi 
+servidor local Apache. El procesar los archivos para validar en HTML5 se debe a 
+que markdown crea unos enlaces &lt;code&gt;rel = "footnote"&lt;/code&gt; y &lt;code&gt;rev = "footnote"&lt;/code&gt; en las notas 
+al pie que se han quedado obsoletos y no son necesarios. De momento es un 
+post-procesado, pero puede que finalmente modifique Pelican para que se haga en 
+tiempo de generación del sitio. Aunque creo que  el rendimiento de esta manera 
+sería menor que emplear el comando &lt;code&gt;sed&lt;/code&gt; que ejecuta este proceso, será cuestión 
+de probarlo. También se podría modificar markdown.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Con solo &lt;strong&gt;6&lt;/strong&gt; comandos tengo automatizadas todas las tareas básicas para 
+administrar y crear contenido en mi blog. Ni siquiera el potente y buenísimo 
+&lt;a href="http://drupal.org/project/drush"&gt;drush&lt;/a&gt; de Drupal me permitía este nivel de automatización (aunque se 
+acercaba bastante). De esta manera solo me tengo que preocupar de crear 
+artículos y de las posibles personalizaciones que le quiera realizar al tema del 
+sitio. Me olvido de todo lo demás, de todo lo que conlleva un CMS. Solo hay una 
+manera de bloguear más cómoda para los que a estos les parezca algo complejo, 
+servicios como Tumblr. Aunque si quieres tener el control sobre tu sitio, no 
+conozco manera más cómoda y con más ventajas que esta. &lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Tue, 28 Jun 2011 23:54:00 +0200</pubDate><guid>http://joedicastro.com/pelican-publicacion-y-automatizacion.html</guid><category>pelican</category><category>python</category><category>markdown</category><category>restructuredtext</category><category>blog</category><category>html</category><category>rsync</category><category>fabric</category></item></channel></rss>

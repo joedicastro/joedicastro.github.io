@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>joe di castro</title><link>http://joedicastro.com</link><description></description><atom:link href="http://joedicastro.com/feeds/tags/dise%C3%B1o.rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 16 Dec 2011 00:00:00 +0100</lastBuildDate><item><title>Cambio de diseño</title><link>http://joedicastro.com/cambio-de-diseno.html</link><description>&lt;p&gt;Después de los ligeros cambios de diseño que introduje en el sitio la semana 
+pasada he decidido ir un poco más allá y dar un giro completo al mismo, 
+conservando la estructura (casi no he tocado el HTML), pero con un diseño 
+más limpio y minimalista.&lt;/p&gt;
+&lt;p&gt;La idea principal es la de favorecer aún más la lectura del mismo y darle el protagonismo absoluto al contenido (en el diseño anterior ya tenia un gran peso), 
+eliminando todos aquellos elementos superfluos que pueden entorpecer o distraer 
+de la lectura del mismo. Por eso he realizado cambios en la tipografía, el fondo, 
+la división gráfica de las secciones, los cuadros con fragmentos de código y he 
+eliminado los enlaces e iconos de la parte inferior. Además he transformado la 
+página de &lt;em&gt;about me&lt;/em&gt; en la de entrada al sitio. &lt;/p&gt;
+&lt;h2 id="motivos_del_cambio"&gt;Motivos del cambio&lt;/h2&gt;
+&lt;p&gt;Realmente los motivos que me han llevado a realizar el cambio son mi propia 
+tendencia, y cada vez la de más gente, a leer los contenidos web de otra forma.
+Normalmente leo los articulos a través de un lector de feeds, como 
+&lt;strong&gt;Google Reader&lt;/strong&gt; o &lt;a href="http://www.rssowl.org/"&gt;RSSOwl&lt;/a&gt;, donde el contenido está 
+compuesto únicamente por el texto y las imágenes originales del mismo, 
+sobre un diseño sencillo que nos elimina cualquier trazo del diseño original. 
+Esto facilita la lectura y unifica el diseño de sitios muy dispares. Lo que nos 
+libra además de tener que lidiar con diseños recargados de imágenes, iconos, 
+enlaces y publicidad&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;, centrándonos únicamente en lo que realmente importa: 
+&lt;strong&gt;el contenido&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Esta tendencia se ha acentuado últimamente con el éxito de servicios como los de 
+&lt;a href="http://readitlaterlist.com/"&gt;Read It Later&lt;/a&gt; e &lt;a href="http://www.instapaper.com/"&gt;Instapaper&lt;/a&gt; que nos permiten postergar para un 
+momento más idóneo la lectura de aquello que nos interesa leer con calma. Además 
+nos permite leer el contenido en formato &lt;em&gt;"solo texto"&lt;/em&gt; y offline, sin tener que 
+acceder al sitio original. Tal ha sido el éxito de estos servicios y tan clara la 
+tendencia a emplear el modo texto de los mismos, que han surgido algunos nuevos 
+servicios destinados precisamente a facilitar la lectura de cualquier contenido 
+web. Los más destacados son &lt;a href="http://www.readability.com/"&gt;Readability&lt;/a&gt; y &lt;a href="http://www.evernote.com/about/download/clearly.php"&gt;Evernote Clearly&lt;/a&gt;. 
+Personalmente, cuando visito una pagina que tiene un diseño algo cargado y me 
+interesa leer su contenido, no me lo pienso dos veces; tecleo &lt;strong&gt; &lt;code&gt;:rea ↹ ↵&lt;/code&gt; &lt;/strong&gt; en 
+&lt;a href="http://dactyl.sourceforge.net/pentadactyl/"&gt;Pentadactyl&lt;/a&gt; y en par de segundos tengo el texto en &lt;strong&gt;Readability&lt;/strong&gt; para 
+leerlo tranquilamente sin distracciones.&lt;/p&gt;
+&lt;p&gt;Aunque realmente no me acaba de convencer el diseño último de ninguno de estos 
+sitios, por eso es mi idea el proporcionar la mejor experiencia de lectura 
+posible de mi sitio, sin tener que recurrir a servicios externos. Porque desde mi 
+punto de vista "lo simple es bello" y "menos es más", eliminar lo superfluo, 
+contribuye a mejorar la calidad del diseño.&lt;/p&gt;
+&lt;h2 id="inspiraci+n"&gt;Inspiración&lt;/h2&gt;
+&lt;p&gt;Para el nuevo diseño, me he inspirado principalmente en los diseños de blogs en 
+esta línea que más me gustan, como son los de &lt;a href="http://stevelosh.com/about/"&gt;Steve Losh&lt;/a&gt;, 
+&lt;a href="http://lucumr.pocoo.org/about/"&gt;Armin Ronacher&lt;/a&gt;, el tema &lt;a href="http://jimbarraud.com/manifest/"&gt;Manifest&lt;/a&gt; para Wordpress o algunos 
+de los temas minimalistas más empleados en &lt;strong&gt;Tumblr&lt;/strong&gt;. &lt;/p&gt;
+&lt;p&gt;Quizá lo más importante haya sido el cambio a una tipografía &lt;a href="http://es.wikipedia.org/wiki/Serif"&gt;Serif&lt;/a&gt;, por ser más cómoda la lectura empleando la misma. 
+Y también el haberme decidido a emplear una &lt;a href="http://es.wikipedia.org/wiki/Web_Open_Font_Format"&gt;Web Font&lt;/a&gt; después de haberlas descartado inicialmente para el sitio, 
+para las cabeceras. Al haber eliminado los iconos inferiores y depender de una 
+hoja de estilo alojada externamente en los servidores de Google, apenas se ve 
+afectada la velocidad de carga y el peso de la página.&lt;/p&gt;
+&lt;h2 id="css_3_para_los_bloques_de_c+digo"&gt;CSS 3 para los bloques de código&lt;/h2&gt;
+&lt;p&gt;Quizá lo más espectacular del cambio de diseño sea el nuevo aspecto que tienen 
+ahora los bloques en los que se presentan los fragmentos de código, como el que 
+sigue. Para poder verlos debidamente es necesario emplear una versión reciente 
+del navegador web que permita HTML 5 y CSS 3. &lt;/p&gt;
+&lt;p&gt;Estas son las reglas CSS 3 que empleo para implementarlo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nc"&gt;.codehilite&lt;/span&gt;&lt;span class="nd"&gt;:before&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nc"&gt;.codehilite&lt;/span&gt;&lt;span class="nd"&gt;:after&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;content&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;position&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="k"&gt;absolute&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;z-index&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;-1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;skew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;-3&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="o"&gt;,-&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ms&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;skew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;-3&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="o"&gt;,-&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;webkit&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;skew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;-3&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="o"&gt;,-&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="err"&gt;o&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;skew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;-3&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="o"&gt;,-&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;moz&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;skew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;-3&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="o"&gt;,-&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;bottom&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;14px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;left&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;1px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;box&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;shadow&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;0px&lt;/span&gt; &lt;span class="m"&gt;15px&lt;/span&gt; &lt;span class="m"&gt;5px&lt;/span&gt; &lt;span class="m"&gt;#aaa&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;height&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;50px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;max-width&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;50&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;width&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;50&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="nc"&gt;.codehilite&lt;/span&gt;&lt;span class="nd"&gt;:after&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;skew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ms&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;skew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;webkit&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;skew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="err"&gt;o&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;skew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;moz&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;skew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="n"&gt;deg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;left&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;right&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;1px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="nc"&gt;.codehilite&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;position&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="k"&gt;relative&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;padding&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;1px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;background&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;#fafafa&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;margin&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;25px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;box&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;shadow&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;0px&lt;/span&gt; &lt;span class="m"&gt;0px&lt;/span&gt; &lt;span class="m"&gt;1px&lt;/span&gt; &lt;span class="m"&gt;1px&lt;/span&gt; &lt;span class="m"&gt;#ccc&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Aunque desafortunadamente emplear la propiedad &lt;code&gt;transform&lt;/code&gt; y sus equivalentes 
+para cada familia de navegadores, provoca que no se valide por ahora correctamente 
+como CSS 3 valido, ya que la propiedad aún está en proceso de estandarización.&lt;/p&gt;
+&lt;h3 id="dise+o_antiguo"&gt;Diseño antiguo&lt;/h3&gt;
+&lt;p&gt;Por supuesto &lt;em&gt;nunca llueve a gusto de todos&lt;/em&gt; y habrá quien prefiera el aspecto 
+anterior de la página, pero sinceramente creo que esto nuevo diseño contribuye en 
+gran manera a ayudar a "digerir" los "pequeños" artículos con los que suelo 
+prodigarme. Para que quede como testigo del cambio, está imagen corresponde 
+con el diseño que tenia anteriormente el blog:&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/diseño_2011.png" 
+alt="diseño anterior del blog" title="diseño anterior del blog" width=700 
+height=813 /&gt;&lt;/p&gt;
+
+&lt;div class="footnote"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Bueno, nos libra de "casi" toda la publicidad, algunos deberían aprender que incluir publicidad en los feeds es de bastante mal gusto.
+&amp;#160;&lt;a href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">joe di castro</dc:creator><pubDate>Fri, 16 Dec 2011 00:00:00 +0100</pubDate><guid>http://joedicastro.com/cambio-de-diseno.html</guid><category>blog</category><category>diseño</category><category>css</category></item></channel></rss>

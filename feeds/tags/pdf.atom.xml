@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>joe di castro</title><link href="http://joedicastro.com" rel="alternate"></link><link href="http://joedicastro.com/feeds/tags/pdf.atom.xml" rel="self"></link><id>http://joedicastro.com</id><updated>2012-07-16T23:32:00+02:00</updated><entry><title>Productividad &amp; Linux: zathura</title><link href="http://joedicastro.com/productividad-linux-zathura.html" rel="alternate"></link><updated>2012-07-16T23:32:00+02:00</updated><author><name>joe di castro</name></author><id>http://joedicastro.com/productividad-linux-zathura.html</id><summary type="html">&lt;p&gt;&lt;a href="http://pwmt.org/projects/zathura/"&gt;zathura&lt;/a&gt; es un programa minimalista que procura seguir el principio de
+&lt;em&gt;"menos es más"&lt;/em&gt;  que acuñara &lt;a href="https://es.wikipedia.org/wiki/Ludwig_Mies_van_der_Rohe"&gt;Mies van der Rohe&lt;/a&gt; en la arquitectura y que
+en la informática se correspondería con el principio &lt;a href="https://es.wikipedia.org/wiki/Principio_KISS"&gt;KISS&lt;/a&gt; y la
+&lt;a href="http://en.wikipedia.org/wiki/Unix_philosophy"&gt;filosofía UNIX&lt;/a&gt;. Siguiendo esta filosofía, zathura es una aplicación que
+hace una sola cosa, la hace bien y consume muy pocos recursos. Sus autores, la
+comunidad &lt;a href="http://pwmt.org/about"&gt;PWMT.org&lt;/a&gt; (&lt;em&gt;programas con nombre de película&lt;/em&gt;), tienen como
+propósito el crear aplicaciones de software libre que se centren en un interfaz
+simple, que no malgaste espacio y que se maneje íntegramente desde el teclado.&lt;/p&gt;
+&lt;p&gt;La aplicación es un visor de documentos, y es modular, por lo que puedes
+instalar los plugins que quieras en función del formato de documentos que
+quieras que soporte. Actualmente están disponibles los siguientes plugins:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;pdf-poppler&lt;/em&gt;: Lectura de &lt;a href="http://es.wikipedia.org/wiki/Pdf"&gt;PDF&lt;/a&gt; a través de la famosa librería
+  &lt;a href="http://poppler.freedesktop.org/"&gt;Poppler&lt;/a&gt;, que es empleada por aplicaciones como Evince, Okular o
+  Inkscape.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;pdf-mupdf&lt;/em&gt;: Lectura de PDF mediante la librería &lt;a href="http://mupdf.com/"&gt;mupdf&lt;/a&gt; empleada por
+  ejemplo por Sumatra PDF.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;djvu&lt;/em&gt;: Para visionar documentos &lt;a href="https://es.wikipedia.org/wiki/Djvu"&gt;DJVU&lt;/a&gt;. Emplea la librería
+  &lt;a href="http://djvu.sourceforge.net/"&gt;djvulibre&lt;/a&gt; que emplean por ejemplo Evince y Okular.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;ps&lt;/em&gt;: Para poder ver documentos &lt;a href="https://es.wikipedia.org/wiki/Postscript"&gt;Postscript&lt;/a&gt;. Usa la librería
+  &lt;a href="http://libspectre.freedesktop.org/"&gt;libspectre&lt;/a&gt; que es utilizada por Evince y Okular.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;cb&lt;/em&gt;: Para poder abrir archivos en formato &lt;a href="https://es.wikipedia.org/wiki/Archivo_de_historieta"&gt;Comic Book&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Como se puede ver emplea las mismas librerías que emplean la mayoría de
+programas similares para Linux, por lo tanto nos ofrecen la misma calidad que
+estos pero con un interfaz minimalista donde el protagonista es el contenido, y
+proporcionándonos un control absoluto del documento desde el teclado.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/zathura.png" width="700"
+height="957" alt="Zathura" /&gt;&lt;/p&gt;
+
+&lt;p&gt;El interfaz es simple, una ventana de contenido y una barra de estado/línea de
+comandos. El control de la misma recae en el teclado (aunque puede usarse el
+ratón para funciones básicas) y sus atajos están inspirados en los de Vim.&lt;/p&gt;
+&lt;h2 id="caracter+sticas"&gt;Características&lt;/h2&gt;
+&lt;p&gt;Las características principales de Zathura son las siguientes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Interfaz minimalista&lt;/li&gt;
+&lt;li&gt;Controlable completamente desde el teclado, inspirado en vim y muy parecido a
+  pentadactyl. Permite seguir enlaces y saltos directos a páginas&lt;/li&gt;
+&lt;li&gt;Recarga automática de documentos si estos cambian. Útil para previsualizar la
+  salida en PDF de documentos de LaTeX, por ejemplo&lt;/li&gt;
+&lt;li&gt;Permite establecer marcadores y marcadores rápidos dentro de un documento. Muy
+  útil para labores de investigación y documentación&lt;/li&gt;
+&lt;li&gt;Exporta imágenes y adjuntos de un documento&lt;/li&gt;
+&lt;li&gt;Puede abrir documentos protegidos por contraseña (proporcionándosela, claro)&lt;/li&gt;
+&lt;li&gt;Imprime el documento completo o simplemente las hojas que deseemos&lt;/li&gt;
+&lt;li&gt;Permite buscar en el documento y desplazarse por los resultados&lt;/li&gt;
+&lt;li&gt;Se puede abrir y navegar por el indice del documento&lt;/li&gt;
+&lt;li&gt;Muestra la información disponible (metadatos) sobre el documento&lt;/li&gt;
+&lt;li&gt;Zoom y Rotar documentos&lt;/li&gt;
+&lt;li&gt;Permite cambiar el color del documento. Sirve para visualizar el documento en
+  duotono con los colores invertidos&lt;/li&gt;
+&lt;li&gt;Se pueden personalizar los atajos de teclado y los colores empleados&lt;/li&gt;
+&lt;li&gt;Se personaliza a través de un fichero de texto plano&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;En esta imagen se puede apreciar el resultado de aplicar el comando &lt;code&gt;:info&lt;/code&gt;
+sobre un documento.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/zathura_info.png" width="700"
+height="957" alt="zathura info dialog" /&gt;&lt;/p&gt;
+
+&lt;p&gt;El poder cambiar los colores del documento, invirtiéndolos, es una
+característica muy útil, por ejemplo, para leer largos documentos sin fatigar
+demasiado nuestra vista. Aquí se puede ver la diferencia entre ver un documento
+a pantalla completa en modo normal y con los colores invertidos.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/zathura.gif" width="640"
+height="400" alt="zathura full screen" /&gt;&lt;/p&gt;
+
+&lt;h2 id="alternativas"&gt;Alternativas&lt;/h2&gt;
+&lt;p&gt;No hay demasiadas alternativas a Zathura que tengan un planteamiento parecido,
+de hecho la única que conozco es &lt;a href="http://naihe2010.github.com/apvlv/"&gt;apvlv&lt;/a&gt;. Aunque para mi no es tan
+completa como Zathura.&lt;/p&gt;
+&lt;h2 id="mi_configuraci+n"&gt;Mi configuración&lt;/h2&gt;
+&lt;p&gt;Aunque mi configuración no tiene nada de particular, está disponible en mis
+&lt;em&gt;dotfiles&lt;/em&gt; alojados en &lt;a href="http://github.com/joedicastro/dotfiles"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</summary><category term="productividad"></category><category term="Linux"></category><category term="pdf"></category><category term="djvu"></category><category term="postscript"></category></entry><entry><title>Convertir ficheros djvu a pdf en Linux</title><link href="http://joedicastro.com/convertir-ficheros-djvu-a-pdf-en-linux.html" rel="alternate"></link><updated>2011-12-03T00:00:00+01:00</updated><author><name>joe di castro</name></author><id>http://joedicastro.com/convertir-ficheros-djvu-a-pdf-en-linux.html</id><summary type="html">&lt;p&gt;Tengo por costumbre almacenar mis documentos escaneados en el formato 
+&lt;a href="http://es.wikipedia.org/wiki/DjVu"&gt;djvu&lt;/a&gt;, que fue expresamente creado para esa tarea y que otorga la mejor 
+calidad posible en el menor espacio. Es el formato perfecto para documentos 
+complejos sobre los que no se va a realizar un &lt;a href="http://es.wikipedia.org/wiki/Reconocimiento_%C3%B3ptico_de_caracteres"&gt;OCR&lt;/a&gt; (aunque también lo soporta). Además es un formato abierto, por lo que nos garantiza que podrá seguir 
+empleándose en un futuro. Pero a veces necesito compartir estos ficheros con 
+otros y para evitarme problemas suelo convertirlos a un formato más conocido y 
+difundido como &lt;a href="http://es.wikipedia.org/wiki/Pdf"&gt;PDF&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Para realizar esta conversión empleo desde hace años (la primera versión es del 
+2009) un sencillo script en python. Ahora que he necesitado una conversión 
+masiva de documentos de un formato al otro, he modificado el script para hacer 
+esto más sencillo y he decidido compartirlo con cualquiera que pueda necesitarlo. &lt;/p&gt;
+&lt;h2 id="los_requisitos_previos"&gt;Los requisitos previos&lt;/h2&gt;
+&lt;p&gt;Está diseñado para funcionar en Linux y necesita de la instalación de dos 
+pequeños programas que son los que realmente realizan la conversión. Estos dos 
+programas son &lt;code&gt;ddjvu&lt;/code&gt; y &lt;code&gt;tiff2pdf&lt;/code&gt;. Además de tener instalado &lt;strong&gt;Python&lt;/strong&gt; en una 
+versión &lt;em&gt;2.7&lt;/em&gt; o superior. Estos dos programas vienen en los repositorios de 
+prácticamente todas las distribuciones importantes dentro de los paquetes 
+&lt;a href="http://djvu.sourceforge.net/"&gt;djvulibre&lt;/a&gt; y &lt;a href="http://libtiff.maptools.org"&gt;libtiff&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;En el caso de no tenerlos instalados, la instalación de los mismos es muy 
+sencilla, para distribuciones basadas en Debian/Ubuntu:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; apt-get install djvulibre-bin libtiff-tools
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;ddjvu&lt;/code&gt; nos extrae las páginas que conforman el documento &lt;em&gt;.djvu&lt;/em&gt; a un archivo intermedio en formato &lt;em&gt;.tiff&lt;/em&gt; y &lt;code&gt;tiff2pdf&lt;/code&gt; nos lo convierte en &lt;em&gt;.pdf&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id="modo_de_empleo"&gt;Modo de empleo&lt;/h2&gt;
+&lt;p&gt;Emplearlo es muy sencillo, como se puede ver en la ayuda del mismo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; djvu2pdf -h
+&lt;span class="go"&gt;usage: djvu2pdf [-h] [-d | -z] [-v] file [file ...]&lt;/span&gt;
+
+&lt;span class="go"&gt;Converts a djvu file into a pdf file&lt;/span&gt;
+
+&lt;span class="go"&gt;positional arguments:&lt;/span&gt;
+&lt;span class="go"&gt;  file           The djvu file&lt;/span&gt;
+
+&lt;span class="go"&gt;optional arguments:&lt;/span&gt;
+&lt;span class="go"&gt;  -h, --help     show this help message and exit&lt;/span&gt;
+&lt;span class="go"&gt;  -d             no compression. Best quality but big files.&lt;/span&gt;
+&lt;span class="go"&gt;  -z             zip compression. More quality, more size.&lt;/span&gt;
+&lt;span class="go"&gt;  -v, --version  show program&amp;#39;s version number and exit&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Básicamente llamandalo desde python y poniendo a continuación el nombre del 
+fichero/s es lo único que necesitamos para ejecutarlo, por ejemplo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; ls
+&lt;span class="go"&gt;documento.djvu  documento_2.djvu&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; python djvu2pdf.py documento.djvu documento_2.djvu
+&lt;span class="gp"&gt;$&lt;/span&gt; ls
+&lt;span class="go"&gt;documento.djvu  documento.pdf  documento_2.djvu  documento_2.pdf&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Opcionalmente tenemos las opciones &lt;code&gt;-d&lt;/code&gt; y &lt;code&gt;-z&lt;/code&gt;, que nos sirven para especificar 
+si queremos no emplear compresión en el &lt;em&gt;.pdf&lt;/em&gt; (por defecto emplea compresión 
+&lt;a href="http://es.wikipedia.org/wiki/Jpeg"&gt;jpeg&lt;/a&gt;) o emplear compresión &lt;a href="http://es.wikipedia.org/wiki/Formato_de_compresi%C3%B3n_ZIP"&gt;zip&lt;/a&gt;, respectivamente. Si no empleamos compresión, la calidad final será la mejor posible, pero los archivos serán muy grandes. En cambio, empleando &lt;em&gt;zip&lt;/em&gt;, tenemos unos ficheros ligeramente mayores a cambio de una calidad muy buena. Aunque la compresión &lt;em&gt;zip&lt;/em&gt; puede dar problemas 
+con algunos visores y lectores de ebooks.&lt;/p&gt;
+&lt;h2 id="el_script_djvu2pdfpy"&gt;El script, djvu2pdf.py&lt;/h2&gt;
+&lt;p&gt;El contenido del scipt es el que sigue. Este está disponible como el fichero 
+&lt;code&gt;djvu2pdf.py&lt;/code&gt; dentro del repositorio &lt;em&gt;Python Recipes&lt;/em&gt;  que está alojado en
+&lt;a href="http://github.com/joedicastro/python-recipes"&gt;github&lt;/a&gt; y actualizado siempre a la última versión.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# -*- coding: utf8 -*-&lt;/span&gt;
+
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    djvu2pdf.py: Converts a .djvu file into a .pdf file&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+&lt;span class="c"&gt;# This Script does exactly as the description above says.&lt;/span&gt;
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+&lt;span class="c"&gt;#    Copyright 2011 joe di castro &amp;lt;joe@joedicastro.com&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    This program is free software: you can redistribute it and/or modify&lt;/span&gt;
+&lt;span class="c"&gt;#    it under the terms of the GNU General Public License as published by&lt;/span&gt;
+&lt;span class="c"&gt;#    the Free Software Foundation, either version 3 of the License, or&lt;/span&gt;
+&lt;span class="c"&gt;#    (at your option) any later version.&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    This program is distributed in the hope that it will be useful,&lt;/span&gt;
+&lt;span class="c"&gt;#    but WITHOUT ANY WARRANTY; without even the implied warranty of&lt;/span&gt;
+&lt;span class="c"&gt;#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&lt;/span&gt;
+&lt;span class="c"&gt;#    GNU General Public License for more details.&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#    You should have received a copy of the GNU General Public License&lt;/span&gt;
+&lt;span class="c"&gt;#    along with this program.  If not, see &amp;lt;http://www.gnu.org/licenses/&amp;gt;.&lt;/span&gt;
+&lt;span class="c"&gt;#==============================================================================&lt;/span&gt;
+
+&lt;span class="n"&gt;__author__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;joe di castro &amp;lt;joe@joedicastro.com&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__license__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;GNU General Public License version 3&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__date__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;03/12/2011&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;__version__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;0.3&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;argparse&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ArgumentParser&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;subprocess&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PIPE&lt;/span&gt;
+&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c"&gt;# Checks the installation of the necessary python modules&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;An error found importing one module:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exc_info&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;You need to install it&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Stopping...&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+    &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;check_execs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;progs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Check if the programs are installed, if not exit and report.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;prog&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;progs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;prog&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;--help&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;OSError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;The {0} program is necessary to run the script&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prog&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;arguments&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Defines the command line arguments for the script.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;main_desc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&amp;quot;Converts a djvu file into a pdf file&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="n"&gt;parser&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ArgumentParser&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;main_desc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_argument&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;file&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nargs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;+&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;The djvu file&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;group&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_mutually_exclusive_group&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_argument&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;-d&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dest&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;qlty&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;store_const&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;-d&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                        &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;no compression. Best quality but big files.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_argument&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;-z&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dest&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;qlty&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;store_const&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;-z&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                        &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;zip compression. More quality, more size.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_argument&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;-v&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;--version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                        &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%(prog)s&lt;/span&gt;&lt;span class="s"&gt; {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__version__&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                        &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;show program&amp;#39;s version number and exit&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;parser&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;process&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fname&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Process the external commands and report the errors.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;errors&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;errors&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{0}: {1}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fname&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;upper&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rstrip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linesep&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Main section.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;args&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;arguments&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parse_args&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;djvu_files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;djvu&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;djvu_files&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;djvu&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ERROR: cannot open &amp;#39;{0}&amp;#39; (No such file)&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;djvu&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;djvu_filename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;djvu&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;.djvu&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+            &lt;span class="n"&gt;tiff&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;{0}.tif&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;djvu_filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;pdf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;{0}.pdf&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;djvu_filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;process&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ddjvu&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;-format=tiff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;djvu&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tiff&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;tiff&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tiff&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+                &lt;span class="n"&gt;quality&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qlty&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qlty&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;-j&amp;quot;&lt;/span&gt;
+                &lt;span class="n"&gt;process&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;tiff2pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;quality&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;-o&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pdf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tiff&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;pdf&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tiff&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;check_execs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ddjvu&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;tiff2pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="script"></category><category term="python"></category><category term="djvu"></category><category term="pdf"></category><category term="linux"></category></entry></feed>

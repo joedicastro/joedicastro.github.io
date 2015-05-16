@@ -1,0 +1,1123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>joe di castro</title><link href="http://joedicastro.com" rel="alternate"></link><link href="http://joedicastro.com/feeds/tags/ubuntu.atom.xml" rel="self"></link><id>http://joedicastro.com</id><updated>2011-11-26T00:00:00+01:00</updated><entry><title>Productividad en el escritorio Linux: Xmonad</title><link href="http://joedicastro.com/productividad-en-el-escritorio-linux-xmonad.html" rel="alternate"></link><updated>2011-11-26T00:00:00+01:00</updated><author><name>joe di castro</name></author><id>http://joedicastro.com/productividad-en-el-escritorio-linux-xmonad.html</id><summary type="html">&lt;p&gt;&lt;a href="http://xmonad.org"&gt;xmonad&lt;/a&gt; es un &lt;a href="http://joedicastro.com/productividad-en-el-escritorio-linux-tiling.html"&gt;Gestor de ventanas de mosaico&lt;/a&gt;, uno de los más
+empleados y de los más potentes. Después de haber probado varios (dwm, bluetile,
+wmii y el plugin Compiz Grid) llevo ya unos cuantos meses trabajando con él y
+posiblemente siga conmigo mucho, mucho tiempo. Una vez que trabajas con un
+&lt;strong&gt;tiling window manager&lt;/strong&gt; es muy difícil que echarse atrás, volver a un gestor de
+ventanas flotantes tradicional es casi impensable. Probaré uno más,
+&lt;a href="http://awesome.naquadah.org"&gt;awesome&lt;/a&gt;, que promete mucho y solo si este logra convencerme del cambio,
+abandonaré Xmonad.&lt;/p&gt;
+&lt;p&gt;¿Pero que tiene de especial un &lt;strong&gt;twm&lt;/strong&gt; como &lt;strong&gt;Xmonad&lt;/strong&gt; para haber decidido
+abandonar la gestión de ventanas por defecto de Compiz, Gnome Shell, Unity, Kwin,
+etc y apostar por él? Cuando uno está cansado de perder el tiempo con maniobras y
+decisiones triviales -ajustar las ventanas en la pantalla, que si el navegador por
+aquí, que si este terminal por allá, etc y cambiando continuamente la mano del
+teclado al ratón y viceversa- pues entonces decides que hay que darle una
+oportunidad a un twm, que sea el gestor de ventanas quien haga el trabajo sucio
+por ti.&lt;/p&gt;
+&lt;p&gt;¿Y hasta que punto resuelve bien este problema un twm como Xmonad? En este vídeo
+de xmonad trabajando con mi configuración, uno se puede hacer una idea de lo que
+es capaz.&lt;/p&gt;
+&lt;div style="text-align:center"&gt;
+&lt;iframe src="http://player.vimeo.com/video/33164152?title=0&amp;amp;byline=0&amp;amp;portrait=0" 
+width="700" height="438"&gt;
+&lt;/iframe&gt;
+&lt;p&gt;Esbozo de las posibilidades de un Tiling Window Manager como Xmonad
+trabajando conjuntamente con Gnome 3 y Unity 2D sobre un Ubuntu 11.10.
+Recomiendo ver en alta resolución y a pantalla completa.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Xmonad&lt;/strong&gt; no necesita de un entorno de escritorio para trabajar, se puede iniciar
+una sesión directamente en él, al igual que la mayoría de gestores de ventanas
+de mosaico y otros gestores de ventanas como &lt;a href="http://es.wikipedia.org/wiki/Openbox"&gt;OpenBox&lt;/a&gt;. En el vídeo se puede
+apreciar que lo estoy empleando conjuntamente con Unity, en concreto &lt;strong&gt;Unity 2D&lt;/strong&gt;.
+Esto es así porque emplear Xmonad (u otro twm) de forma autónoma te obliga a
+montar una serie de servicios que vienen montados por defecto normalmente en un
+escritorio, como salvapantallas, fondo de pantalla, bandeja de sistema, gestor
+de red, notificaciones, control de volumen, soporte impresoras, etc. Como estoy
+contento con el funcionamiento en general de Gnome, lo mejor es no reinventar la
+rueda y aprovechar lo mejor de los dos mundos empleando ambos a la vez.
+Anteriormente con Gnome 2, lo tenia funcionando sin Unity, pero con Gnome 3 me
+encuentro con la desagradable situación de que Gnome classic (el fallback mode)
+tiene un panel que es un autentico desastre y que además no es redimensionable
+en altura (tiene 30px y yo lo quiero con 21px). Actualmente hay una
+&lt;a href="http://askubuntu.com/questions/69576/how-to-customize-the-gnome-classic-panel/76884#76884"&gt;forma de arreglar esto&lt;/a&gt;, pero de momento lo tengo montado todo con Unity
+2D y no hecho nada en falta. Eso si, de Unity solo empleo el panel, el Global Menu
+y la base de Gnome 3, lo demás lo descarto. Resumiendo, que básicamente sustituyo
+&lt;code&gt;metacity&lt;/code&gt; por &lt;code&gt;xmonad&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id="xmonad_con_unity_2d"&gt;Xmonad con Unity 2D&lt;/h2&gt;
+&lt;p&gt;Aquí contaré como tengo configurado actualmente &lt;strong&gt;Xmonad&lt;/strong&gt; con &lt;strong&gt;Ubuntu 11.10&lt;/strong&gt;
+(Oneiric Ocelot) y con &lt;strong&gt;Gnome 3&lt;/strong&gt; y el panel de &lt;strong&gt;Unity 2D&lt;/strong&gt; (&lt;code&gt;unity-2p-panel&lt;/code&gt;).
+Si alguien continua con Gnome 2D o alguna versión anterior de Ubuntu puede revisar
+&lt;a href="http://markhansen.co.nz/xmonad-ubuntu-lucid/"&gt;este enlace&lt;/a&gt;, la base es muy parecida, y luego solo habría que aplicar mi
+configuración (u otra).&lt;/p&gt;
+&lt;p&gt;Lo primero que se necesita es instalar xmonad, que en Ubuntu viene siendo así:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install xmonad
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A continuación crearíamos un fichero &lt;code&gt;~/.xmonad/xmonad.hs&lt;/code&gt; de configuración
+básica&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;mkdir ~/.xmonad           &lt;span class="c"&gt;# El carácter ~ se obtiene pulsando Alt Gr + 4&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;vi ~/.xmonad/xmonad.hs    &lt;span class="c"&gt;# Puedes emplear gedit en vez de vi si lo prefieres&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;e incluiríamos lo siguiente dentro de él:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Config.Gnome&lt;/span&gt;
+
+&lt;span class="nf"&gt;myManageHook&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;composeAll&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="n"&gt;manageHook&lt;/span&gt; &lt;span class="n"&gt;gnomeConfig&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Unity-2d-panel&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doIgnore&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Unity-2d-launcher&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doFloat&lt;/span&gt;
+    &lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="nf"&gt;main&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xmonad&lt;/span&gt; &lt;span class="n"&gt;gnomeConfig&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;manageHook&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;myManageHook&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahora tendríamos que recompilar Xmonad, es algo necesario cada vez que realizamos
+algún cambio en la configuración, pero es un proceso que no suele llevar más de
+5 segundos (y Xmonad se puede reiniciar sin tener que cerrar la sesión):&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;xmonad --recompile
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Lo siguiente es crear los ficheros necesarios para crear una nueva sesión de
+Gnome. Creamos primero el fichero que define nuestra nueva sesión:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo vi /usr/share/gnome-session/sessions/xmonad.session
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;y dentro añadimos esto:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;[GNOME Session]&lt;/span&gt;
+&lt;span class="na"&gt;Name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Xmonad Unity 2D&lt;/span&gt;
+&lt;span class="na"&gt;RequiredComponents&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;gnome-settings-daemon;&lt;/span&gt;
+&lt;span class="na"&gt;RequiredProviders&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;windowmanager;panel;&lt;/span&gt;
+&lt;span class="na"&gt;DefaultProvider-windowmanager&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;xmonad&lt;/span&gt;
+&lt;span class="na"&gt;DefaultProvider-panel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;unity-2d-panel&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;a continuación creamos el fichero que inicia esta sesión:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo vi /usr/share/xsessions/xmonad-unity-session.desktop
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;con este contenido:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;[Desktop Entry]&lt;/span&gt;
+&lt;span class="na"&gt;Name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;XMonad Unity 2D&lt;/span&gt;
+&lt;span class="na"&gt;Comment&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Tiling window manager&lt;/span&gt;
+&lt;span class="na"&gt;TryExec&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/usr/bin/gnome-session&lt;/span&gt;
+&lt;span class="na"&gt;Exec&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;gnome-session --session=xmonad&lt;/span&gt;
+&lt;span class="na"&gt;Type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;XSession&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Con esto estaría ya montada una sesión con la configuración por defecto de
+Xmonad funcionado sobre Gnome y empleando el panel de Unity 2D. Ahora solo
+tendrías que cerrar la sesión e iniciar la sesión con &lt;em&gt;Xmonad Unity 2D&lt;/em&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Advertencia:&lt;/strong&gt; Por defecto verás que se ha creado automáticamente una sesión
+ llamada Xmonad al instalar este. Bien, si vas iniciar esa sesión, será mejor
+ que sepas que para salir tienes que pulsar &lt;strong&gt;Win + Mayús + Q&lt;/strong&gt;, porque será una
+ sesión donde solo tendrás Xmonad, y es la única forma de cerrar la sesión.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Si queréis hacer alguna prueba con esta configuración básica por defecto, es
+mejor tener a mano una referencia con las combinaciones de teclas disponibles,
+aquí hay un &lt;a href="http://haskell.org/wikiupload/b/b8/Xmbindings.png"&gt;mapa del teclado&lt;/a&gt; de referencia que será muy útil.&lt;/p&gt;
+&lt;h2 id="mi_configuraci+n"&gt;Mi configuración&lt;/h2&gt;
+&lt;p&gt;Para poder emplear la configuración que se puede ver en el vídeo simplemente
+habría que editar el fichero &lt;code&gt;~/.xmonad/xmonad.hs&lt;/code&gt; y sustituir su contenido por
+el de mi fichero de configuración. El contenido del fichero lo incluyo al final
+del articulo para no entorpecer la lectura del mismo.&lt;/p&gt;
+&lt;h3 id="atajos_de_teclado"&gt;Atajos de teclado&lt;/h3&gt;
+&lt;p&gt;Al comienzo del fichero enumero las combinaciones de teclas empleadas en mi
+configuración, que difieren de las combinaciones por defecto y se asemejan de
+algún modo a las que estaba habituado en Gnome y son más intuitivas para los que
+estamos acostumbrados a él. Aunque las que se emplean por defecto también me son
+muy familiares al estar basadas en parte en Vim. Voy a detallar algunas de estas
+combinaciones.&lt;/p&gt;
+&lt;h4 id="lanzar_aplicaciones"&gt;Lanzar aplicaciones&lt;/h4&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c1"&gt;-- Win  +  Enter                   Terminal&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F1                      Nautilus&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F2                      Firefox                  (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F3                      Thunderbird              (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F4                      RSSOwl                   (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F5                      Hotot                    (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F6                      ncmpcpp  - MPD player&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F7                      taskwarrior&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F8                      PAC                      (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F9                      Aptana                   (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F10                     Xmind                    (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F11                     Dbeaver                  (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F12                     VirtualBox               (single instance)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Lo primero que se puede ver es una serie de atajos para lanzar aplicaciones
+empleando la tecla &lt;strong&gt;Win&lt;/strong&gt; más las teclas de función. La tecla &lt;strong&gt;Win&lt;/strong&gt; (también
+llamada &lt;strong&gt;Super&lt;/strong&gt;) es la tecla maestra por defecto de Xmonad (&lt;code&gt;mod4Mask&lt;/code&gt;) y es la
+que se emplea en combinación con otras para realizar todo tipo de acciones. Estas
+combinaciones me permiten lanzar las aplicaciones que uso con más frecuencia con
+un par de teclas.&lt;/p&gt;
+&lt;p&gt;Algunas aparecen con la frase &lt;em&gt;single instance&lt;/em&gt; entre paréntesis, esto quiere
+decir que de estas aplicaciones solamente se abrirá una ventana. De hecho, lo que
+ocurre si volvemos a pulsar la combinación de teclas que abre la aplicación (una
+vez que esta ya está abierta) es que en lugar de abrir una nueva, nos movemos a
+la ventana ya abierta, esté en el escritorio que esté. Lo que es muy útil para
+localizar la ventana de una de estas aplicaciones de forma inmediata.&lt;/p&gt;
+&lt;p&gt;Adicionalmente la combinación &lt;strong&gt;Alt + Enter&lt;/strong&gt; nos permite abrir una ventana del
+terminal. En este caso lo tengo predeterminado para que abra una venta de
+&lt;code&gt;terminator&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id="consola_emergente"&gt;Consola emergente&lt;/h4&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c1"&gt;-- Win  +  Space                   Run or Raise Shell Prompt&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Shift   +  Space        Run Shell Prompt&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Control +  Space        Window Prompt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A continuación podemos ver las teclas dedicadas a la consola emergente inferior
+(al estilo de Guake, Yakuake o Tilda) y que según la combinación pulsada
+realizara una acción u otra. La consola cuenta con auto-completado de texto, con
+lo cual escribiendo las primeras letras se nos muestran todas las coincidencias
+disponibles, a través de las que podemos desplazarnos con el tabulador.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Win + Espacio&lt;/strong&gt; nos despliega una consola que nos permite lanzar una
+aplicación de igual modo que los lanzadores gráficos. Si la aplicación ya se
+encuentra abierta, nos dirige a la ventana de la misma.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Win + Mayús + Espacio&lt;/strong&gt; ejecuta el comando que escribamos. Similar a la
+ventana de ejecutar comando de Gnome (&lt;em&gt;Alt + F2&lt;/em&gt; en Gnome)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Win + Control + Espacio&lt;/strong&gt; nos muestra las ventanas que están abiertas en ese
+momento. Seleccionando una nos envía directamente a ella. Gracias a esto,
+localizar una ventana abierta entre los múltiples escritorios es cuestión de
+segundos. Si conocemos el nombre de la ventana podemos filtrarla escribiendo las
+primeras letras con el teclado. Imagina una sesión en la que tenemos abiertas más
+de 10 aplicaciones en varios escritorios distintos, esto nos permite localizar
+una ventana en segundos, es muy útil.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="reiniciar_xmonad"&gt;Reiniciar Xmonad&lt;/h4&gt;
+&lt;p&gt;Con la combinación &lt;strong&gt;Win + q&lt;/strong&gt; lo que hacemos es reiniciar Xmonad sin necesidad
+de reiniciar la sesión. Esto es muy útil cuando introducimos cambios en la
+configuración, después de guardar el fichero y ejecutar &lt;code&gt;xmonad --recompile&lt;/code&gt; en
+un terminal, pulsamos esta combinación y los cambios se reflejaran de forma
+inmediata.&lt;/p&gt;
+&lt;h2 id="transparencias"&gt;Transparencias&lt;/h2&gt;
+&lt;p&gt;Una de las carencias de Xmonad es que no incorpora un &lt;a href="http://es.wikipedia.org/wiki/Gestor_de_composici%C3%B3n_de_ventanas"&gt;gestor de composición&lt;/a&gt;
+por lo que si queremos manejar transparencias en nuestros terminales,
+notificaciones, ventanas, etc, debemos emplear uno externo. Para esto empleo
+&lt;code&gt;xcompmgr&lt;/code&gt; que funciona perfectamente y es muy ligero. Como aún conservo las
+otras sesiones de Ubuntu (Unity, Unity 2 D, Gnome Shell, etc) lo que hago para
+que solo se ejecute en la sesión de &lt;em&gt;Xmonad Unity 2D&lt;/em&gt; es emplear este script bash:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$DESKTOP_SESSION&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;xmonad-unity-session&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;xcompmgr -I1 -O1 -Ff;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Luego añado el script a las aplicaciones que se ejecutan al inicio de la sesión
+y listo.&lt;/p&gt;
+&lt;h2 id="bandeja_del_sistema"&gt;Bandeja del sistema&lt;/h2&gt;
+&lt;p&gt;Una de las carencias de Unity en la versión 11.10 es que no han incorporado una
+bandeja del sistema donde alojar los iconos de aplicaciones que aún no tienen
+soporte para los &lt;em&gt;indicadores&lt;/em&gt;. Se supone que debería añadirlos de forma
+automática al panel, incluso hay una configuración a través de &lt;code&gt;dconf&lt;/code&gt; para
+habilitar esto, pero no funciona para todas las aplicaciones. Para añadir un
+&lt;em&gt;systray&lt;/em&gt; empleo un script parecido al anterior para lanzar la aplicación
+&lt;code&gt;trayer&lt;/code&gt; en esta sesión.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class="nv"&gt;MYARGS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--edge top --widthtype request --transparent true --alpha 0 --distancefrom right --distance 1100 --height 24 --tint 0x4c4a44 --align right&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$DESKTOP_SESSION&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;xmonad-unity-session&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;sleep 24 &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; trayer &lt;span class="nv"&gt;$MYARGS&lt;/span&gt;;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;br /&gt;
+
+&lt;h2 id="como_personalizar_xmonad_haskell"&gt;Como personalizar Xmonad: Haskell&lt;/h2&gt;
+&lt;p&gt;El mayor inconveniente de Xmonad (y a la vez una de sus ventajas) es que la
+configuración es necesario hacerla a través del mismo lenguaje de programación
+en el que está creado: &lt;a href="http://haskell.org/haskellwiki/Haskell"&gt;Haskell&lt;/a&gt;. Esto es una importante barrera de
+entrada para los que no conocen el lenguaje, yo incluido, pero a base de ir
+probando algunas de las configuraciones aportadas y el prueba y error, puedes
+salir del paso muy satisfactoriamente. Con un poco de práctica y estudiando un
+poco el lenguaje (que de entrada no es de los más fáciles de leer) y gracias a
+la documentación disponible, puedes conseguir exactamente lo que quieres. Y esa es
+precisamente también su mayor ventaja, que puedes llegar a un gran nivel de
+personalización si conoces Haskell. Además Haskell le proporciona una gran
+estabilidad y extensibilidad.&lt;/p&gt;
+&lt;p&gt;Afortunadamente hay varios recursos disponibles que nos hacen el trabajo más
+fácil, porque Xmonad está aceptablemente bien documentado (en Inglés).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://haskell.org/haskellwiki/Xmonad/Screenshots"&gt;Pantallazos&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://haskell.org/haskellwiki/Xmonad/Config_archive"&gt;Ficheros de configuración&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://haskell.org/haskellwiki/Xmonad"&gt;Wiki&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://xmonad.org/xmonad-docs/xmonad/index.html"&gt;API Docs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://xmonad.org/xmonad-docs/xmonad-contrib/index.html"&gt;API Extensiones Docs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="xmonadhs"&gt;Xmonad.hs&lt;/h2&gt;
+&lt;p&gt;Este es mi mi fichero de configuración de Xmonad:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c1"&gt;-- joe di castro&amp;#39;s xmonad.hs&lt;/span&gt;
+&lt;span class="c1"&gt;-- Based on rupa&amp;#39;s xmonad.hs, https://github.com/rupa/xmonad&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- ===============================================================  KEY BINDINGS&lt;/span&gt;
+
+&lt;span class="c1"&gt;------------------------------------------------- Launch (or Raise) Applications&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Enter                   Terminal&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F1                      Nautilus&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F2                      Firefox                  (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F3                      Thunderbird              (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F4                      RSSOwl                   (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F5                      Hotot                    (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F6                      ncmpcpp  - MPD player&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F7                      taskwarrior&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F8                      PAC                      (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F9                      Aptana                   (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F10                     Xmind                    (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F11                     Dbeaver                  (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  F12                     VirtualBox               (single instance)&lt;/span&gt;
+&lt;span class="c1"&gt;----------------------------------------------------------- Shell/Window prompts&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Space                   Run or Raise Shell Prompt&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Shift   +  Space        Run Shell Prompt&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Control +  Space        Window Prompt&lt;/span&gt;
+&lt;span class="c1"&gt;--------------------------------------------------------------------- Navigation&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  [1..9]                  Switch to workspace N&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Shift   +  [1..9]       Move client to workspace N&lt;/span&gt;
+&lt;span class="c1"&gt;-- Ctrl +  Alt     +  Left/Right   Previous/Next workspace&lt;/span&gt;
+&lt;span class="c1"&gt;-- Alt  +  Tab                     Focus next window&lt;/span&gt;
+&lt;span class="c1"&gt;-- Alt  +  Shift   +  Tab          Focus previous window&lt;/span&gt;
+&lt;span class="c1"&gt;-------------------------------------------------------------- Window management&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Shift   +  Left         Move window to previous workspace&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Shift   +  Right        Move window to next workspace&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Control +  Left         Move window to previous empty workspace&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Control +  Right        Move window to next empty workspace&lt;/span&gt;
+&lt;span class="c1"&gt;-- Ctrl +  Up/Down                 Move focused window up/down&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  m                       Toggle focused window Full Screen&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  n                       Refresh&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  -                       Move focused windows to master area&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  w  (or Alt + F4)        Close focused window&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  t                       Back to tiling (unfloat floating window)&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Shift   +  t            Back All to tiling (unfloat ALL windows)&lt;/span&gt;
+&lt;span class="c1"&gt;-------------------------------------------------------------  Layout management&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Tab                     Rotate layouts&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Left/Right              Shrink/Expand the master area&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Up/Down                 Mirror Shrink/expand&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  ,/.                     Increment/Deincrement 1 window in master area&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  f                       Hide/Unhide the gnome-panel/status bar&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Shift   +  n            Reset current workspace to main layout&lt;/span&gt;
+&lt;span class="c1"&gt;------------------------------------------------------------------ Mosaic Layout&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  a/z                     Taller/Wider&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Control +  n            Reset&lt;/span&gt;
+&lt;span class="c1"&gt;------------------------------------------------------------------------- Others&lt;/span&gt;
+&lt;span class="c1"&gt;-- Print Screen                    Capture screen&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  q                       Restart XMonad&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Shift   +  q            Close gnome session dialog&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- ============================================================== MOUSE BINDINGS&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- Win  +  Button 1                Float Window and Move by dragging&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Button 2                Raise Window to the top&lt;/span&gt;
+&lt;span class="c1"&gt;-- Win  +  Button 3                Float Window and Resize by dragging&lt;/span&gt;
+
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="k"&gt;qualified&lt;/span&gt; &lt;span class="nn"&gt;XMonad.StackSet&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;W&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="k"&gt;qualified&lt;/span&gt; &lt;span class="nn"&gt;Data.Map&lt;/span&gt;        &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;M&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;Data.Monoid&lt;/span&gt;
+
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Actions.CycleWS&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Actions.FlexibleResize&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;Flex&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Actions.SinkAll&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Actions.UpdatePointer&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Actions.WindowGo&lt;/span&gt;
+
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Hooks.DynamicLog&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Hooks.EwmhDesktops&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Hooks.ManageDocks&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Hooks.ManageHelpers&lt;/span&gt;
+
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Layout.LayoutHints&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Layout.NoBorders&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Layout.ResizableTile&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Layout.Tabbed&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Layout.ToggleLayouts&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Layout.WindowArranger&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Layout.Mosaic&lt;/span&gt;
+
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Prompt&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Prompt.Input&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Prompt.RunOrRaise&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Prompt.Shell&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Prompt.Window&lt;/span&gt;
+
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Util.Run&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Util.Scratchpad&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Util.WorkspaceCompare&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Util.XSelection&lt;/span&gt;
+
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;XMonad.Config.Gnome&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- Mod4 is the Super / Windows key&lt;/span&gt;
+&lt;span class="nf"&gt;winMask&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mod4Mask&lt;/span&gt;
+&lt;span class="nf"&gt;altMask&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mod1Mask&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- key bindings&lt;/span&gt;
+&lt;span class="nf"&gt;myKeys&lt;/span&gt; &lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;@&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;XConfig&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="kt"&gt;XMonad&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;modMask&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;modMask&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;M&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fromList&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_Return&lt;/span&gt;   &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;spawn&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="kt"&gt;XMonad&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;terminal&lt;/span&gt; &lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F1&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;spawn&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;nautilus ~&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F2&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;runOrRaise&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;firefox&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Firefox&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F3&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;runOrRaise&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;thunderbird&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Thunderbird&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F4&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;runOrRaise&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;./rssowl/RSSOwl&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;RSSOwl&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F5&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;runOrRaise&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;hotot&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Hotot&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F6&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;spawn&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;terminator -e ncmpcpp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F7&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;spawn&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;terminator -e &amp;#39;task shell&amp;#39; -p task&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F8&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;runOrRaise&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;pac&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Pac&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F9&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;runOrRaise&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;./Aptana Studio 3/AptanaStudio3&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Aptana Studio 3&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F10&lt;/span&gt;      &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;runOrRaise&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/usr/local/xmind/xmind&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;XMind&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F11&lt;/span&gt;      &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;runOrRaise&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;./dbeaver/dbeaver&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;DBeaver&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F12&lt;/span&gt;      &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;runOrRaise&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;VirtualBox&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;VirtualBox&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_space&lt;/span&gt;    &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;runOrRaisePrompt&lt;/span&gt; &lt;span class="n"&gt;mySP&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;shiftMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="n"&gt;xK_space&lt;/span&gt;    &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;shellPrompt&lt;/span&gt; &lt;span class="n"&gt;mySP&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;controlMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="n"&gt;xK_space&lt;/span&gt;    &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;windowPromptGoto&lt;/span&gt; &lt;span class="n"&gt;mySP&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                          &lt;span class="n"&gt;xK_Print&lt;/span&gt;    &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;unsafeSpawn&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;gnome-screenshot&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;altMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;controlMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="n"&gt;xK_Right&lt;/span&gt;    &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;moveTo&lt;/span&gt; &lt;span class="kt"&gt;Next&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;WSIs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;return&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="n"&gt;not&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;NSP&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;altMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;controlMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="n"&gt;xK_Left&lt;/span&gt;     &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;moveTo&lt;/span&gt; &lt;span class="kt"&gt;Prev&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;WSIs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;return&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="n"&gt;not&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;NSP&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;shiftMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="n"&gt;xK_Right&lt;/span&gt;    &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;shiftTo&lt;/span&gt; &lt;span class="kt"&gt;Next&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;WSIs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;return&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="n"&gt;not&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;NSP&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;shiftMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="n"&gt;xK_Left&lt;/span&gt;     &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;shiftTo&lt;/span&gt; &lt;span class="kt"&gt;Prev&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;WSIs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;return&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="n"&gt;not&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;NSP&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;controlMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="n"&gt;xK_Right&lt;/span&gt;    &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;shiftTo&lt;/span&gt; &lt;span class="kt"&gt;Next&lt;/span&gt; &lt;span class="kt"&gt;EmptyWS&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;controlMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="n"&gt;xK_Left&lt;/span&gt;     &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;shiftTo&lt;/span&gt; &lt;span class="kt"&gt;Prev&lt;/span&gt; &lt;span class="kt"&gt;EmptyWS&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_Tab&lt;/span&gt;      &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="kt"&gt;NextLayout&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dynamicLogString&lt;/span&gt; &lt;span class="n"&gt;myPP&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;=&lt;/span&gt; &lt;span class="nf"&gt;\&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;safeSpawn&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;gnome-osd-client&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;altMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_Tab&lt;/span&gt;      &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;windows&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;focusDown&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;altMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;shiftMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="n"&gt;xK_Tab&lt;/span&gt;      &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;windows&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;focusUp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;controlMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                &lt;span class="n"&gt;xK_Down&lt;/span&gt;     &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;windows&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;swapDown&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;controlMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                &lt;span class="n"&gt;xK_Up&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;windows&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;swapUp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_Left&lt;/span&gt;     &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="kt"&gt;Shrink&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_Right&lt;/span&gt;    &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="kt"&gt;Expand&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_Down&lt;/span&gt;     &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="kt"&gt;MirrorShrink&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_Up&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="kt"&gt;MirrorExpand&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_minus&lt;/span&gt;    &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;windows&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shiftMaster&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_comma&lt;/span&gt;    &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;IncMasterN&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_period&lt;/span&gt;   &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;IncMasterN&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_n&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;refresh&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;shiftMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="n"&gt;xK_n&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;setLayout&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="kt"&gt;XMonad&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;layoutHook&lt;/span&gt; &lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt;                   &lt;span class="n"&gt;xK_a&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="kt"&gt;Taller&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt;                   &lt;span class="n"&gt;xK_z&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="kt"&gt;Wider&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;controlMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="n"&gt;xK_n&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="kt"&gt;Reset&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_m&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;Toggle&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Full&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dynamicLogString&lt;/span&gt; &lt;span class="n"&gt;myPP&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;=&lt;/span&gt; &lt;span class="nf"&gt;\&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;safeSpawn&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;gnome-osd-client&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_t&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;withFocused&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="n"&gt;windows&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sink&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;shiftMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="n"&gt;xK_t&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sinkAll&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_f&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;sendMessage&lt;/span&gt; &lt;span class="kt"&gt;ToggleStruts&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_w&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;kill&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;altMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_F4&lt;/span&gt;       &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;kill&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                    &lt;span class="n"&gt;xK_q&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;broadcastMessage&lt;/span&gt; &lt;span class="kt"&gt;ReleaseResources&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;restart&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;xmonad&amp;quot;&lt;/span&gt; &lt;span class="kt"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;shiftMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="n"&gt;xK_q&lt;/span&gt;        &lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;spawn&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;gnome-session-quit&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="o"&gt;++&lt;/span&gt;
+    &lt;span class="c1"&gt;-- mod-[1..9], Switch to workspace N&lt;/span&gt;
+    &lt;span class="c1"&gt;-- mod-shift-[1..9], Move client to workspace N&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="o"&gt;.|.&lt;/span&gt; &lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;windows&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;zip&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;XMonad&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;workspaces&lt;/span&gt; &lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;xK_1&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt; &lt;span class="n"&gt;xK_9&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;greedyView&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;shiftMask&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- mouse bindings&lt;/span&gt;
+&lt;span class="nf"&gt;myMouseBindings&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;XConfig&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="kt"&gt;XMonad&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;modMask&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;modMask&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;M&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fromList&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;button1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;\&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;focus&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;mouseMoveWindow&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;button2&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;\&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;focus&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;windows&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shiftMaster&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;winMask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;button3&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;\&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;focus&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kt"&gt;Flex&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mouseResizeWindow&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- decoration theme&lt;/span&gt;
+&lt;span class="nf"&gt;myDeco&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;defaultTheme&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;activeColor&lt;/span&gt;           &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;orange&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inactiveColor&lt;/span&gt;         &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#222222&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;urgentColor&lt;/span&gt;           &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;activeBorderColor&lt;/span&gt;     &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;orange&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inactiveBorderColor&lt;/span&gt;   &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#222222&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;urgentBorderColor&lt;/span&gt;     &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;activeTextColor&lt;/span&gt;       &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;orange&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inactiveTextColor&lt;/span&gt;     &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#222222&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;urgentTextColor&lt;/span&gt;       &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;decoHeight&lt;/span&gt;            &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- tab theme&lt;/span&gt;
+&lt;span class="nf"&gt;myTab&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;defaultTheme&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;activeColor&lt;/span&gt;           &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;black&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inactiveColor&lt;/span&gt;         &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;black&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;urgentColor&lt;/span&gt;           &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;activeBorderColor&lt;/span&gt;     &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;orange&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inactiveBorderColor&lt;/span&gt;   &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#222222&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;urgentBorderColor&lt;/span&gt;     &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;black&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;activeTextColor&lt;/span&gt;       &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;orange&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inactiveTextColor&lt;/span&gt;     &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#222222&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;urgentTextColor&lt;/span&gt;       &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- shell prompt theme&lt;/span&gt;
+&lt;span class="nf"&gt;mySP&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;defaultXPConfig&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;bgColor&lt;/span&gt;               &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;black&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fgColor&lt;/span&gt;               &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;white&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bgHLight&lt;/span&gt;              &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;gray&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fgHLight&lt;/span&gt;              &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;black&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;borderColor&lt;/span&gt;           &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;orange&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;promptBorderWidth&lt;/span&gt;     &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt;              &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;Bottom&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;                &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;40&lt;/span&gt;
+    &lt;span class="c1"&gt;--, autoComplete        = Just 1000&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;historySize&lt;/span&gt;           &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- dynamicLog theme (suppress everything but layout)&lt;/span&gt;
+&lt;span class="nf"&gt;myPP&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;defaultPP&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;ppLayout&lt;/span&gt;  &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;\&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kr"&gt;case&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="kr"&gt;of&lt;/span&gt;
+      &lt;span class="s"&gt;&amp;quot;Hinted ResizableTall&amp;quot;&lt;/span&gt;        &lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;[|]&amp;quot;&lt;/span&gt;
+      &lt;span class="s"&gt;&amp;quot;Mirror Hinted ResizableTall&amp;quot;&lt;/span&gt; &lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;[-]&amp;quot;&lt;/span&gt;
+      &lt;span class="s"&gt;&amp;quot;Hinted Tabbed Simplest&amp;quot;&lt;/span&gt;      &lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;[T]&amp;quot;&lt;/span&gt;
+      &lt;span class="s"&gt;&amp;quot;Mosaic&amp;quot;&lt;/span&gt;                      &lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;[M]&amp;quot;&lt;/span&gt;
+      &lt;span class="s"&gt;&amp;quot;Full&amp;quot;&lt;/span&gt;                 &lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;[ ]&amp;quot;&lt;/span&gt;
+      &lt;span class="kr"&gt;_&lt;/span&gt;                      &lt;span class="ow"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ppCurrent&lt;/span&gt;             &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ppVisible&lt;/span&gt;             &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ppHidden&lt;/span&gt;              &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ppHiddenNoWindows&lt;/span&gt;     &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ppUrgent&lt;/span&gt;              &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ppTitle&lt;/span&gt;               &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ppWsSep&lt;/span&gt;               &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ppSep&lt;/span&gt;                 &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- layouts&lt;/span&gt;
+&lt;span class="nf"&gt;myLayout&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;avoidStruts&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="n"&gt;toggleLayouts&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;noBorders&lt;/span&gt; &lt;span class="kt"&gt;Full&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;smartBorders&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tiled&lt;/span&gt; &lt;span class="o"&gt;|||&lt;/span&gt; &lt;span class="n"&gt;mosaic&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;|||&lt;/span&gt; &lt;span class="kt"&gt;Mirror&lt;/span&gt; &lt;span class="n"&gt;tiled&lt;/span&gt; &lt;span class="o"&gt;|||&lt;/span&gt; &lt;span class="n"&gt;layoutHints&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tabbed&lt;/span&gt; &lt;span class="n"&gt;shrinkText&lt;/span&gt; &lt;span class="n"&gt;myTab&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="kr"&gt;where&lt;/span&gt;
+        &lt;span class="n"&gt;tiled&lt;/span&gt;   &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;layoutHints&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="kt"&gt;ResizableTall&lt;/span&gt; &lt;span class="n"&gt;nmaster&lt;/span&gt; &lt;span class="n"&gt;delta&lt;/span&gt; &lt;span class="n"&gt;ratio&lt;/span&gt; &lt;span class="kt"&gt;[]&lt;/span&gt;
+        &lt;span class="n"&gt;nmaster&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+        &lt;span class="n"&gt;delta&lt;/span&gt;   &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;
+        &lt;span class="n"&gt;ratio&lt;/span&gt;   &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- special windows&lt;/span&gt;
+&lt;span class="nf"&gt;myManageHook&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;composeAll&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;MPlayer&amp;quot;&lt;/span&gt;                &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doFloat&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Gimp-2.6&amp;quot;&lt;/span&gt;               &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doFloat&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Gnome-panel&amp;quot;&lt;/span&gt;            &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doIgnore&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;XVkbd&amp;quot;&lt;/span&gt;                  &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doIgnore&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Cellwriter&amp;quot;&lt;/span&gt;             &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doIgnore&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Gtkdialog&amp;quot;&lt;/span&gt;              &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doFloat&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;resource&lt;/span&gt;  &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;desktop_window&amp;quot;&lt;/span&gt;         &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doIgnore&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;className&lt;/span&gt;  &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Xmessage&amp;quot;&lt;/span&gt;              &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doCenterFloat&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Unity-2d-panel&amp;quot;&lt;/span&gt;         &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doIgnore&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;isFullscreen&lt;/span&gt;                          &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doFullFloat&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;isDialog&lt;/span&gt;                              &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doCenterFloat&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;RSSOwl&amp;quot;&lt;/span&gt;                     &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doIgnore&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Dbeaver&amp;quot;&lt;/span&gt;                    &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doIgnore&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Xmind-bin&amp;quot;&lt;/span&gt;                  &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doIgnore&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;AptanaStudio3&amp;quot;&lt;/span&gt;              &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doIgnore&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;resource&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;sun-awt-X11-XDialogPeer&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doCenterFloat&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;screenkey&amp;quot;&lt;/span&gt;                  &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doIgnore&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;className&lt;/span&gt; &lt;span class="o"&gt;=?&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Gloobus-preview&amp;quot;&lt;/span&gt;        &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;doCenterFloat&lt;/span&gt;
+    &lt;span class="c1"&gt;--                                      x y w h&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;scratchpadManageHook&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="kt"&gt;W&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="kt"&gt;RationalRect&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mf"&gt;0.42&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;manageDocks&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;+&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;manageHook&lt;/span&gt; &lt;span class="n"&gt;defaultConfig&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- let Gnome know about Xmonad actions&lt;/span&gt;
+&lt;span class="nf"&gt;myLogHook&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ewmhDesktopsLogHookCustom&lt;/span&gt; &lt;span class="n"&gt;scratchpadFilterOutWorkspace&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;updatePointer&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;Relative&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nf"&gt;myConfig&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ewmh&lt;/span&gt; &lt;span class="n"&gt;defaultConfig&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;terminal&lt;/span&gt;           &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;terminator&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;borderWidth&lt;/span&gt;        &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;normalBorderColor&lt;/span&gt;  &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;black&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;focusedBorderColor&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;orange&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;focusFollowsMouse&lt;/span&gt;  &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;True&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;modMask&lt;/span&gt;            &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mod4Mask&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;keys&lt;/span&gt;               &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;myKeys&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mouseBindings&lt;/span&gt;      &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;myMouseBindings&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;layoutHook&lt;/span&gt;         &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;myLayout&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;manageHook&lt;/span&gt;         &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;myManageHook&lt;/span&gt;
+    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;startupHook&lt;/span&gt;        &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gnomeRegister&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- need to override ewmh&amp;#39;s logHook cause I&amp;#39;m using Scratchpad&lt;/span&gt;
+&lt;span class="nf"&gt;main&lt;/span&gt; &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xmonad&lt;/span&gt; &lt;span class="o"&gt;$&lt;/span&gt; &lt;span class="n"&gt;myConfig&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;logHook&lt;/span&gt;            &lt;span class="ow"&gt;=&lt;/span&gt; &lt;span class="n"&gt;myLogHook&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="linux"></category><category term="ubuntu"></category><category term="unity"></category><category term="tiling"></category><category term="twm"></category><category term="productividad"></category><category term="xmonad"></category><category term="gnome"></category><category term="haskell"></category></entry><entry><title>Productividad en el escritorio Linux: Tiling</title><link href="http://joedicastro.com/productividad-en-el-escritorio-linux-tiling.html" rel="alternate"></link><updated>2011-11-25T00:00:00+01:00</updated><author><name>joe di castro</name></author><id>http://joedicastro.com/productividad-en-el-escritorio-linux-tiling.html</id><summary type="html">&lt;p&gt;Los &lt;strong&gt;Gestores de Ventanas de Mosaico&lt;/strong&gt; (&lt;a href="http://en.wikipedia.org/wiki/Tiling_window_manager"&gt;Tiling Windows Manager&lt;/a&gt;) son el 
+gran desconocido entre la mayoría de usuarios de Linux. Y sin embargo, a mi 
+juicio, suponen el salto más importante en productividad en el escritorio linux 
+que se haya producido en mucho tiempo. Permiten manejar todo el escritorio sin 
+apenas despegar las manos del teclado y sin verse relegado a emplear únicamente 
+la consola. Las ventanas se distribuyen ellas solas de forma automática por la 
+pantalla y no es necesario emplear el ratón para moverlas y redimensionarlas 
+(aunque puede seguir empleándose, naturalmente).&lt;/p&gt;
+&lt;p&gt;A diferencia de un gestor de ventanas tradicional, a los que estamos normalmente 
+acostumbrados, las ventanas no se apilan y flotan unas encima de otras, si no 
+que se redistribuyen por toda la pantalla de acorde a un esquema previo (variable) 
+sin solaparse entre ellas, quedando todas a la vista de forma simultanea. De ahí 
+el símil del mosaico, donde el mismo seria el escritorio y donde las ventanas 
+serian las teselas que lo componen. Puede no ser fácil visualizar de entrada en 
+que consiste exactamente esto y como funciona, luego los vídeos nos ayudarán a 
+entender mejor de lo que estoy hablando. Aunque uno no aprecia realmente las 
+ventajas que aportan hasta que prueba uno. &lt;/p&gt;
+&lt;h2 id="+que_ventajas_tienen"&gt;¿Que ventajas tienen?&lt;/h2&gt;
+&lt;p&gt;Primero mencionar que esto no es una idea nueva, ni mucho menos, esto ya lo 
+inventó en 1981 &lt;strong&gt;Xerox&lt;/strong&gt; (el inventor a su vez de los entornos de ventanas) e 
+incluso MS Windows 1.0 lo empleaba. La razón de que algo desarrollado desde hace
+dos décadas aún no haya llamado demasiado la atención hasta ahora, es bien 
+sencilla, el triunfo de un dispositivo de entrada más amigable e intuitivo que 
+el teclado: el ratón. La metáfora de el entorno de ventanas con el escritorio 
+junto con la del ratón como la extensión de nuestro brazo, propiciaba que fuera 
+lo más natural emplearlo para mover las ventanas y redimensionarlas. Pero que 
+sea más fácil o intuitivo no quiere decir que sea más eficiente, nadie en su sano 
+juicio escribiría un documento empleando el ratón sobre un teclado virtual ni 
+realizaría retoque fotográfico empleando únicamente el teclado. ¿Pero cuantos 
+dirían que el teclado es el medio más eficiente para manejar las ventanas?&lt;/p&gt;
+&lt;p&gt;En una pantalla de grandes dimensiones y elevada resolución (e.g. un 
+monitor de 24" y 1920x1200) es muy frecuente andar redimensionando continuamente 
+las ventanas para acomodarlas y redistribuirlas dentro del escritorio. Nos sobra 
+espacio por todos los lados y la mayoría de las aplicaciones que en monitores y 
+resoluciones menores empleábamos maximizadas, ahora son incomodas de usar a 
+pantalla completa (e.g. navegador web). ¿No sería útil que las ventanas se 
+recolocaran y redimensionaran automáticamente por si solas? Más o menos esto es 
+lo que viene a hacer un gestor de ventanas de mosaico. &lt;/p&gt;
+&lt;p&gt;Pero cuales son las ventajas reales de este sistema:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Las ventanas se organizan solas&lt;/strong&gt;, muchas veces no necesitas mover o 
+redimensionar una ventana, simplemente aparece en un lugar adecuado y con las 
+dimensiones adecuadas. Una vez le que coges el truco te organizas de manera que 
+esto ocurre con cierta naturalidad.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Se aprovecha todo el espacio de la pantalla&lt;/strong&gt;. Las ventanas se ajustan a todo 
+el espacio libre disponible del escritorio. Aún así pueden emplearse paneles, 
+docks, ...&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Las ventanas normalmente apenas tienen marco y carecen de barra de titulo y 
+decoraciones, por lo tanto se ahorra espacio. Combinado con un menú integrado 
+como el &lt;em&gt;Global Menu&lt;/em&gt; de Unity, &lt;strong&gt;se ahorra mucho espacio&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;No es un método excluyente&lt;/strong&gt;, aún se pueden emplear con toda normalidad las 
+ventanas flotantes como habitualmente. Incluso pueden convivir entre ellas sin 
+problema alguno.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;En un sistema de múltiples monitores se facilita mucho el manejo de las 
+múltiples ventanas&lt;/strong&gt; y el tener simultáneamente abiertas un número elevado de 
+ellas es algo realmente sencillo. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Es posible automatizar el tamaño, posición y escritorio virtual en donde se 
+situara la ventana(s) de una aplicación al iniciarse&lt;/strong&gt;, lo que abre un mundo de 
+posibilidades. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Es posible tener múltiples escritorios virtuales (usualmente 9 por monitor) 
+con características distintas en cada uno&lt;/strong&gt;. Puede ser un esquema distinto 
+(desde una simple rejilla a un escritorio normal) o un escritorio para cada tarea 
+(e.g. 1 - navegar, 2 - correo y redes sociales, 3 - trabajo, 4 - terminales, ...)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Mover las ventanas, redimensionarlas, lanzar aplicaciones, cerrarlas, ... y 
+manejar los escritorios virtuales desde el teclado&lt;/strong&gt; es mucho más eficiente que 
+emplear el ratón para lo mismo.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Te olvidas de buscar una ventana entre la pila de ventanas flotantes&lt;/strong&gt; sobre 
+el escritorio, es sencillo incluso encontrar una ventana dentro de otro 
+escritorio virtual (con unos gestores más que otros). Los escritorios modernos 
+permiten mostrar un mosaico con todas las aplicaciones abiertas (Exposé, Scale, 
+...), ¿pero que ocurre cuando tienes abiertas cerca de 30? con un twm la localizas enseguida si lo configuras adecuadamente, en mi caso menos de 2 segundos.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Te permite organizar las ventanas en función de múltiples patrones distintos:&lt;/strong&gt; 
+rejillas, columnas, filas, espirales, por pestañas, etc... de forma automática, 
+acomodándose a múltiples situaciones distintas.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Se pueden emplear de forma autónoma, sin un escritorio detrás&lt;/strong&gt; (gnome, kde, 
+...) lo que permite tener un sistema muy ligero ideal para equipos poco potentes. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Puede ser una manera de mejorar la accesibilidad del escritorio&lt;/strong&gt; para 
+aquellos que encuentren dificultades para manejar un ratón pero puedan defenderse 
+con un teclado.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="inconvenientes"&gt;Inconvenientes&lt;/h2&gt;
+&lt;p&gt;No son para todo el mundo. Soy plenamente consciente de ello, una buena mayoría 
+de los usuarios son reticentes a aprenderse los atajos de teclado de una 
+aplicación (hay quien no sabe cortar y pegar desde él), así que entiendo 
+perfectamente que siquiera lleguen a plantearse el emplearlos. De hecho los 
+tímidos avances que están realizando los escritorios en este sentido implican el 
+uso del ratón para implantar un sucedáneo de este sistema. También es una 
+cuestión de gustos, habrá a quien simplemente la desagradará el como funciona 
+este sistema.&lt;/p&gt;
+&lt;p&gt;Por otro lado los profesionales multimedia que requieren un uso elevado del ratón 
+probablemente prefieran seguir empleando un gestor de ventanas tradicional, 
+aunque los gestores de mosaico pueden moverse con soltura en este entorno. &lt;/p&gt;
+&lt;p&gt;También es cierto que la mayoría de ellos requieren un esfuerzo por nuestra 
+parte para configurarlos a nuestro gusto. Aunque es precisamente esto lo que nos 
+permite configurarlos exactamente a nuestro gusto, con muchas posibilidades de 
+configuración. Pero es una barrera de entrada importante para los gestores más 
+potentes y completos. Alguno hasta requiere conocimientos en algún lenguaje de 
+programación (C, Lua, Haskell)&lt;/p&gt;
+&lt;p&gt;Aunque por un lado pueden suponer una ventaja en la accesibilidad a determinados 
+discapacitados, pueden suponer un escollo para otros, pues no están tan adaptados 
+como puedan estarlo los escritorios tradicionales para determinadas 
+discapacidades.&lt;/p&gt;
+&lt;h2 id="tipos_de_gestores"&gt;Tipos de gestores&lt;/h2&gt;
+&lt;p&gt;Básicamente existen dos tipos de gestores de ventanas de mosaico, en función de 
+el modo de organización de las ventanas. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Manuales&lt;/em&gt;&lt;/strong&gt;, requieren que el usuario sea quien decida la posición (a veces 
+el tamaño) de las ventanas, con el inconveniente de la perdida de tiempo a costa 
+de lograr un control más preciso.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Automáticos&lt;/em&gt;&lt;/strong&gt;, ajustan automáticamente la posición y el tamaño de las 
+ventanas en función del esquema por defecto. Posteriormente podemos variar tanto 
+el esquema como la posición y tamaño de las ventanas individuales.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="adaptaci+n_de_la_idea_en_los_escritorios_m+s_comunes"&gt;Adaptación de la idea en los escritorios más comunes&lt;/h2&gt;
+&lt;p&gt;Tal y como ocurre con los lanzadores de aplicaciones, los escritorios más 
+tradiciones de linux comienzan a incorporar esta idea a sus desarrollos, en 
+mayor o menor medida. Unity, Compiz, Gnome y KDE se han atrevido a dar un paso 
+en esta dirección en sus últimas versiones:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Compiz Grid&lt;/strong&gt;, es un plugin de Compiz que permite realizar un tiling 
+primitivo, empleando el ratón o el teclado. Divide la pantalla en una rejilla de 
+3 x 3 y permite que las ventanas se ajusten al tamaño de una cuadricula o varias. 
+Manejarlo desde el teclado es muy sencillo, simplemente pulsamos Ctrl + Alt + una 
+tecla del teclado numérico del 1 al 9 según la cuadricula a la que la queramos 
+ajustar la ventana. Para cambiar el tamaño de la ventana mantenemos pulsadas las 
+teclas Ctrl + Alt y volvemos a pulsar la tecla numérica las veces que sea 
+necesario hasta tener el tamaño que deseemos. Es decir, si pulsamos Ctrl+Alt+7 
+nos sitúa la ventana en la parte superior izquierda de la pantalla ocupando 1/9 
+de la misma. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Unity&lt;/strong&gt;, emplea el plugin Grid de compiz anterior, pero modificado desde la 
+versión 11.10 para que se comporte como ellos desean. En este vídeo se puede ver 
+como se comporta este plugin manejándolo desde el teclado. Personalmente opino 
+que mejor lo hubieran dejado como estaba.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div style="text-align:center"&gt;
+&lt;iframe src="http://player.vimeo.com/video/32746967?title=0&amp;amp;byline=0&amp;amp;portrait=0" 
+width="700" height="438"&gt;
+&lt;/iframe&gt;
+&lt;p&gt;Demostración del tiling básico del plugin
+de Compiz, Grid, en Ubuntu 11.10 con Unity&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Gnome Shell&lt;/strong&gt;, tiene un tiling muy básico parecido al que emplea Unity. Te 
+permite maximizar una ventana o ajustarla a la mitad derecha/izquierda de la 
+pantalla simplemente arrastrándola al borde correspondiente.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;KDE&lt;/strong&gt; a partir de la versión 4.4 tiene un tiling bastante conseguido, aunque 
+no tan avanzado como los gestores dedicados. Desde luego es el escritorio que ha 
+apostado más fuerte por este sistema y el que mejores resultados obtiene. Aunque 
+no viene activarlo por defecto, es necesario activarlo a mano. De momento solo 
+permite elegir entre dos esquemas predeterminados: columnas y espiral (fibonacci).&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="aplicaciones_que_funcionan_como_un_gestor"&gt;Aplicaciones que funcionan como un gestor&lt;/h3&gt;
+&lt;p&gt;Para aquellos que no quieran instalar un gestor o no empleen uno de los entornos 
+de escritorio anteriores, siempre existe la posibilidad de emplear alguna de 
+estas aplicaciones que emulan el comportamiento básico de un gestor de ventanas
+de mosaico. Ambos son del tipo manual.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://ssokolow.github.com/quicktile/"&gt;QuickTile&lt;/a&gt;, es un script en python que ofrece las mismas funcionalidades 
+que el plugin Grid de Compiz. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://www.giuspen.com/x-tile/"&gt;x tile&lt;/a&gt;, es una aplicación instalable (viene en los repositorios de 
+algunas distros) que ofrece más opciones que la anterior. &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="gestores_m+s_populares"&gt;Gestores más populares&lt;/h2&gt;
+&lt;p&gt;Hay muchos y para todos los gustos. Incluso los hay disponibles para otros SOs 
+como Mac OS X o Windows (es muy famoso el WinSplit-Revolution para Windows, en 
+el que se basa el plugin Grid, aunque los primeros gestores para linux son del 
+2000 y WinSplit aparece en el 2007). Me centrare aquí solo en los más populares.&lt;/p&gt;
+&lt;h3 id="awesomeaw"&gt;&lt;a href="http://awesome.naquadah.org/"&gt;awesome&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Automático. Escrito en &lt;em&gt;C&lt;/em&gt; y &lt;em&gt;Lua&lt;/em&gt;, es configurable y extensible en &lt;em&gt;Lua&lt;/em&gt;. Basado 
+en &lt;strong&gt;dwm&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Uno de los dos grandes, junto con &lt;strong&gt;Xmonad&lt;/strong&gt;. Es quizá el que más opciones 
+presenta hoy en día. Está basado en XCB en vez de Xlib, lo que le proporciona 
+mayor agilidad. Aporta su propia barra de información, bandeja del sistema 
+(systray) y lanzador de aplicaciones integrado. Tiene un soporte de ratón 
+superior a la competencia. Pero su desarrollo no es aún solido, varía demasiado a 
+lo largo de las distintas versiones y te obliga a reconfigurarlo cada vez que 
+sale una nueva. Le he dedicado un &lt;a href="http://joedicastro.com/productividad-en-el-escritorio-linux-awesome.html"&gt;articulo completo&lt;/a&gt; &lt;/p&gt;
+&lt;br /&gt;
+
+&lt;h3 id="bluetilebt"&gt;&lt;a href="http://bluetile.org/"&gt;bluetile&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Automático. Escrito en &lt;em&gt;Haskell&lt;/em&gt;. Basado en &lt;strong&gt;Xmonad&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Es uno de los más sencillos de utilizar y de los más sencillos de probar. Es el 
+más adecuado para probar por primera vez para los que se inician en esto. Está 
+pensado para emplear conjuntamente con Gnome y pensando para que los están 
+acostumbrados al ratón lo usen indistintamente con el teclado. En el siguiente 
+vídeo realizado por su autor, Jan Vornberger, se puede ver como funciona:&lt;/p&gt;
+&lt;div style="text-align:center"&gt;
+&lt;iframe src="http://player.vimeo.com/video/6661713?title=0&amp;amp;byline=0&amp;amp;portrait=0" width="667" height="500"&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;br /&gt;
+
+&lt;h3 id="dwmdwm"&gt;&lt;a href="http://dwm.suckless.org/"&gt;dwm&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Automático. Escrito, configurable y extensible en &lt;em&gt;C&lt;/em&gt;. &lt;/p&gt;
+&lt;p&gt;Uno de los más ligeros, rápidos y simples. Su configuración se hace modificando 
+su código fuente en &lt;em&gt;C&lt;/em&gt; y luego hay que recompilarlo y reiniciarlo. Esto lo 
+limita a usuarios avanzados con conocimientos de programación. Su diseño 
+minimalista ha sido la inspiración para los dos más grandes: Awesome y Xmonad. &lt;/p&gt;
+&lt;p&gt;Para lanzar las aplicaciones se desarrolló &lt;strong&gt;dmenu&lt;/strong&gt; un lanzador basado en texto, 
+que es muy empleado en otros gestores. Funciona al igual que los lanzadores 
+gráficos como Gnome Do. &lt;/p&gt;
+&lt;br /&gt;
+
+&lt;h3 id="i3i3"&gt;&lt;a href="http://i3wm.org/"&gt;i3&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Manual. Escrito en &lt;em&gt;C&lt;/em&gt; y configurable con ficheros de texto. Basado en &lt;strong&gt;wmii&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Muy sencillo y que presume de estar bien documentado. Fácil de usar y configurar. 
+Es manual, lo que le permite crear esquemas muy flexibles y personalizados, pero 
+que por otro lado le resta comodidad. &lt;/p&gt;
+&lt;br /&gt;
+
+&lt;h3 id="wmiiwmii"&gt;&lt;a href="http://wmii.suckless.org/"&gt;wmii&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Manual. Escrito en &lt;em&gt;C&lt;/em&gt; y configurable en &lt;em&gt;bash&lt;/em&gt;, &lt;em&gt;rc&lt;/em&gt;, &lt;em&gt;ruby&lt;/em&gt; o &lt;em&gt;python&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Escrito por el mismo desarrollador que &lt;strong&gt;dwm&lt;/strong&gt;. Digamos que es el gestor 
+equivalente a &lt;strong&gt;dwm&lt;/strong&gt; pero manual. &lt;/p&gt;
+&lt;br /&gt;
+
+&lt;h3 id="xmonadxmnd"&gt;&lt;a href="http://xmonad.org/"&gt;xmonad&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Automático. Escrito, extensible y configurable en &lt;em&gt;Haskell&lt;/em&gt;. Inspirado en &lt;strong&gt;dwm&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Muy potente, estable y con muchas opciones. Es altamente personalizable, con 
+muchas extensiones disponibles. Se integra muy bien con Gnome y KDE. Tiene un 
+desarrollo muy activo y una gran comunidad de usuarios detrás. Es el que empleo 
+desde hace meses y le he dedicado un &lt;a href="http://joedicastro.com/productividad-en-el-escritorio-linux-xmonad.html"&gt;articulo completo&lt;/a&gt;.&lt;/p&gt;
+&lt;br /&gt;
+
+&lt;p&gt;Todos estos gestores están incluidos en los repositorios de Ubuntu, Debian, 
+Gentoo y Arch Linux, y la mayoría están disponibles también en otras 
+distribuciones. &lt;/p&gt;
+&lt;p&gt;Como curiosidad, mencionar otros dos, que aunque no son muy populares, están desarrollados en Python: &lt;a href="http://sourceforge.net/projects/tritium/"&gt;tritium&lt;/a&gt; y &lt;a href="http://qtile.org/"&gt;qtile&lt;/a&gt;&lt;/p&gt;</summary><category term="linux"></category><category term="ubuntu"></category><category term="unity"></category><category term="tiling"></category><category term="twm"></category><category term="productividad"></category><category term="xmonad"></category></entry><entry><title>Notificaciones de escritorio en Ubuntu desde Python</title><link href="http://joedicastro.com/notificaciones-de-escritorio-en-ubuntu-desde-python.html" rel="alternate"></link><updated>2011-06-12T23:05:00+02:00</updated><author><name>joe di castro</name></author><id>http://joedicastro.com/notificaciones-de-escritorio-en-ubuntu-desde-python.html</id><summary type="html">&lt;p&gt;En &lt;strong&gt;Ubuntu&lt;/strong&gt;&lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; las notificaciones de escritorio son esos &lt;strong&gt;cuadros
+emergentes&lt;/strong&gt; que nos proporcionan información sobre algún evento que se está
+produciendo en nuestro equipo (llegada de un email, canción que se está
+reproduciendo, cambio de volumen, estado de batería, etc). Sustituyen a las
+ventanas de dialogo que normalmente requieren la intervención del usuario para
+cerrarlas y son más molestas. Además frente a las ventanas de dialogo tienen la
+gran ventaja de que son gestionadas a través de una cola. Es decir, que si hay
+varias notificaciones para mostrar, no se muestran todas a la vez llenándote
+todo el escritorio de pequeñas ventanas, se van mostrando una después de otra.
+La notificaciones aparecen en una esquina del escritorio y se desvanecen por si
+solas al cabo de unos segundos. Son muy útiles porque llaman nuestra atención y
+nos informan sin interrumpir nuestro trabajo.&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/notify_example.png" width="366"
+ height="147" alt="notify_example.png" title="Ejemplo de notificación"/&gt;&lt;/p&gt;
+
+&lt;p&gt;En Ubuntu esta operación la realiza el paquete &lt;a href="https://launchpad.net/notify-osd"&gt;Notify OSD&lt;/a&gt; que se basa en
+las especificaciones del proyecto &lt;a href="http://www.galago-project.org/about.php"&gt;Galago&lt;/a&gt; (&lt;a href="http://www.galago-project.org/specs/notification/0.9/"&gt;freedesktop.org Desktop
+Notifications Specification&lt;/a&gt;). Este emplea el demonio &lt;em&gt;notify-osd&lt;/em&gt; para
+enviar las notificaciones a través de &lt;a href="http://www.freedesktop.org/wiki/Software/dbus"&gt;D-Bus&lt;/a&gt;. Sin embargo muchos paquetes
+aún emplean la librería &lt;strong&gt;libnotify&lt;/strong&gt; del proyecto Galago para enviar sus
+notificaciones. Además el proyecto Galago tiene un &lt;a href="http://es.wikipedia.org/wiki/Binding"&gt;binding&lt;/a&gt; para &lt;strong&gt;Python&lt;/strong&gt;
+de está librería, que es lo que emplearé en este artículo. En Ubuntu, es el
+paquete &lt;a href="http://packages.ubuntu.com/es/natty/i386/python-notify"&gt;python-notify&lt;/a&gt; y se importa desde Python como &lt;code&gt;pynotify&lt;/code&gt;. También
+es posible emplear el paquete &lt;a href="http://packages.ubuntu.com/natty/libnotify-bin"&gt;libnotify-bin&lt;/a&gt; que nos proporciona el comando
+&lt;code&gt;notify-send&lt;/code&gt; que nos permite enviar notificaciones directamente desde la línea
+de comandos, algo que puede ser muy útil para scripts en &lt;a href="http://es.wikipedia.org/wiki/Bash"&gt;&lt;em&gt;bash&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Ejemplo de utilización de &lt;code&gt;notify-send&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;notify-send &lt;span class="s2"&gt;&amp;quot;Notificación&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Esto es un ejemplo de notificación&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;que nos mostraría una notificación como esta:&lt;/p&gt;
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/notify_send.png" width="341"
+height="84" alt="notify_send.png" /&gt;&lt;/p&gt;
+
+&lt;h2 id="notificaciones_desde_python"&gt;Notificaciones desde Python&lt;/h2&gt;
+&lt;p&gt;Empleando &lt;code&gt;pynotify&lt;/code&gt; podemos emplear estas notificaciones en nuestros programas
+y scripts Python y se visualizaran igual que las propias del sistema. El
+problema que tiene este modulo es que no tiene documentación &lt;abbr title="As Far As I Know (en español &amp;quot;Hasta donde yo sé&amp;quot; o &amp;quot;Que yo sepa&amp;quot;)"&gt;AFAIK&lt;/abbr&gt;, por lo que
+tenemos que guiarnos por algunos ejemplos (los del &lt;a href="http://www.galago-project.org/downloads.php"&gt;propio paquete&lt;/a&gt;, por
+ejemplo) o experimentar con él ayudándonos de las herramientas de introspección
+de Python (&lt;code&gt;help()&lt;/code&gt;, &lt;code&gt;dir()&lt;/code&gt;, &lt;a href="http://docs.python.org/library/inspect.html"&gt;inspect&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Para poder emplearlo en mis programas he creado una función que hace uso de las
+opciones principales de las notificaciones:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pynotify&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;gtk&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Send notification icon messages through libnotify.&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Parameters:&lt;/span&gt;
+
+&lt;span class="sd"&gt;    (str) title -- The notification title&lt;/span&gt;
+&lt;span class="sd"&gt;    (str) msg -- The message to display into notification&lt;/span&gt;
+&lt;span class="sd"&gt;    (str / uri) icon -- Type of icon (ok|info|error|warm|ask|sync) or icon file&lt;/span&gt;
+
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;pynotify&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;is_initted&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+        &lt;span class="n"&gt;pynotify&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;gtk_icon&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ok&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;gtk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STOCK_YES&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;info&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;gtk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STOCK_DIALOG_INFO&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;gtk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STOCK_DIALOG_ERROR&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;warm&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;gtk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STOCK_DIALOG_WARNING&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s"&gt;&amp;#39;ask&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;gtk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STOCK_DIALOG_QUESTION&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;sync&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;gtk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STOCK_JUMP_TO&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;note&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pynotify&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Notification&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;helper&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gtk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Button&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;gtk_icon&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;helper&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;render_icon&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gtk_icon&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;icon&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;gtk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ICON_SIZE_BUTTON&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;note&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_icon_from_pixbuf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gtk_icon&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;KeyError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;note&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pynotify&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Notification&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;icon&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;note&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Básicamente llamamos a la función y le decimos que titulo le queremos poner, el
+mensaje y el icono que queremos mostrar. En cuanto al icono se puede emplear
+ninguno, uno personalizado indicando la ruta al fichero o un icono estándar de
+GTK para las opciones más comunes. Veamos lo sencillo de su funcionamiento con
+ejemplos:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="c"&gt;# Notificación sin icono&lt;/span&gt;
+&lt;span class="gp"&gt;... &lt;/span&gt;&lt;span class="n"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Titulo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Esta notificación no lleva icono&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/notify_noicon.png" width="339"
+height="87" alt="notify_noicon.png" /&gt;&lt;/p&gt;
+
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="c"&gt;# Notificación con icono personalizado&lt;/span&gt;
+&lt;span class="gp"&gt;... &lt;/span&gt;&lt;span class="n"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Ubuntu&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Esta lleva el icono personalizado&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="go"&gt;&amp;quot;/usr/share/icons/gnome/scalable/places/ubuntu-logo.svg&amp;quot;)&lt;/span&gt;
+&lt;span class="go"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/notify_ubuntu.png" width="339"
+height="87" alt="notify_ubuntu.png" /&gt;&lt;/p&gt;
+
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="c"&gt;# Notificación de información (GTK)&lt;/span&gt;
+&lt;span class="gp"&gt;... &lt;/span&gt;&lt;span class="n"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Información&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Esta emplea el icono de información estándar de GTK&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;info&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/notify_info.png" width="339"
+height="87" alt="notify_info.png" /&gt;&lt;/p&gt;
+
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="c"&gt;# Notificación de error (GTK)&lt;/span&gt;
+&lt;span class="gp"&gt;... &lt;/span&gt;&lt;span class="n"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Error!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Ejemplo de reporte de error (GTK)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;error&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p style="text-align:center;"&gt;&lt;img src="pictures/notify_error.png" width="338"
+height="87" alt="notify_error.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Como se puede ver el proceso es realmente sencillo y hacer esto puede aportar a
+nuestros programas/scripts ese toque que le faltaba y que tanto contribuye a la
+usabilidad de los mismos. Yo por ejemplo, lo empleo en scripts programados para
+saber cuando se activan y cuando terminan, sobre todo cuando son procesos
+largos. Un ejemplo puede verse en el código de &lt;a href="http://joedicastro.com/sincronizar-una-carpeta-local-y-una-remota-a-traves-de-ftp-lftp-mirror.html"&gt;Sincronizar una carpeta local y
+una remota a través de FTP: lftp-mirror&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;El fichero con este código, &lt;code&gt;notify.py&lt;/code&gt; se encuentra en el repositorio &lt;em&gt;Python
+Recipes&lt;/em&gt; alojado en &lt;a href="http://github.com/joedicastro/python-recipes"&gt;github&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Se puede emplear también en otras distribuciones Linux
+&amp;#160;&lt;a href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</summary><category term="linux"></category><category term="ubuntu"></category><category term="python"></category></entry><entry><title>Generar informes de cambios en paquetes instalados en Debian y Ubuntu.</title><link href="http://joedicastro.com/generar-informes-de-cambios-en-paquetes-instalados-en-debian-y-ubuntu.html" rel="alternate"></link><updated>2011-05-06T22:55:00+02:00</updated><author><name>joe di castro</name></author><id>http://joedicastro.com/generar-informes-de-cambios-en-paquetes-instalados-en-debian-y-ubuntu.html</id><summary type="html">&lt;p&gt;Una de las políticas de seguridad que tengo con mis sistemas &lt;strong&gt;Linux&lt;/strong&gt;, es 
+además de efectuar respaldos periódicos (diarios) del contenido del directorio 
+&lt;code&gt;/home&lt;/code&gt; (en mi caso siempre es una partición o disco independiente), es siempre 
+guardar también una lista de los &lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt; instalados en los mismos. 
+Prácticamente nunca hago una copia completa de la partición o disco de de 
+sistema, y aunque si hago una copia de los directorios más importantes, prefiero 
+tener siempre una relación actualizada de los &lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt; instalados en cada 
+maquina.&lt;/p&gt;
+&lt;p&gt;En sistemas Linux &lt;a href="http://debian.org"&gt;Debian&lt;/a&gt; y otras distribuciones derivadas (&lt;a href="http://ubuntu.com"&gt;Ubuntu&lt;/a&gt;, 
+&lt;a href="http://www.linuxmint.com/"&gt;Mint&lt;/a&gt;, &lt;a href="http://www.mepis.org/"&gt;Mepis&lt;/a&gt;, &lt;a href="http://www.knoppix.org/"&gt;Knoppix&lt;/a&gt;, ...) obtener esta lista es realmente 
+sencillo, pues solo es necesario ejecutar este comando:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="go"&gt;dpkg -l &amp;gt; lista_paquetes.txt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Y con eso, se generaría una lista de los &lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt; instalados&lt;sup id="fnref:nota"&gt;&lt;a href="#fn:nota" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; en el 
+sistema en el fichero &lt;em&gt;lista_paquetes.txt&lt;/em&gt;. Y mantener actualizado este fichero 
+es tan sencillo como programar (via &lt;code&gt;crontab&lt;/code&gt; por ejemplo) la ejecución de este 
+comando con un sencillo &lt;a href="http://es.wikipedia.org/wiki/"&gt;script&lt;/a&gt; &lt;a href="http://es.wikipedia.org/wiki/Shell_de_UNIX"&gt;shell&lt;/a&gt;. Y así lo he realizado durante 
+años, hasta que quise tener aun más información.&lt;/p&gt;
+&lt;p&gt;Entonces me interesó conocer también los cambios que se producen en los 
+&lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt;, es decir nuevas (des)instalaciones y actualizaciones. Es lógico pensar 
+que si uno mismo es el que las realiza, pues ya sabe esta información de primera 
+mano. Pero la memoria es frágil y no demasiado confiable, además ¿que ocurre 
+cuando en una misma maquina tienen permisos para administrar los &lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt; más de 
+un usuario? &lt;/p&gt;
+&lt;p&gt;Se pueden conocer estos cambios de los &lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt; en el tiempo de varios modos, 
+desde acudir a los logs de &lt;strong&gt;dpkg&lt;/strong&gt; en &lt;code&gt;/var/log/dpkg.log&lt;/code&gt; y examinarlos con 
+algún analizador de logs (o el más sencillo e inmediato comando &lt;code&gt;less&lt;/code&gt;) hasta 
+consultarlos de una manera más sencilla y gráfica con el gestor de &lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt; 
+&lt;strong&gt;Synaptic&lt;/strong&gt; (en el menú &lt;em&gt;Archivo -&amp;gt; Histórico&lt;/em&gt;). Pero me interesaba automatizar 
+esto, para conocer esos cambios poco después de que se produjeran y lo lógico 
+era emplear el mismo script shell que empleaba para generar la lista de &lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt; 
+instalados. Así lo hice entonces, combinando los comandos &lt;code&gt;awk&lt;/code&gt;, &lt;code&gt;grep&lt;/code&gt;, &lt;code&gt;diff&lt;/code&gt; 
+y &lt;code&gt;mail&lt;/code&gt; con el comando del principio para obtener la lista, tenia los cambios 
+en mi buzón de correo al poco tiempo de producirse. Y ha funcionado 
+perfectamente hasta ahora.&lt;/p&gt;
+&lt;p&gt;Pero desde que me introduje en el lenguaje &lt;strong&gt;Python&lt;/strong&gt;, he ido migrando poco a 
+poco los scripts &lt;a href="http://es.wikipedia.org/wiki/Bash"&gt;bash&lt;/a&gt; que tengo para reescribirlos en este lenguaje. Y 
+recientemente le ha tocado a este. Ha sido muy fácil y la verdad es que el 
+resultado aunque funcionalmente es el mismo, me ha permitido entregar unos 
+informes más elegantes y fáciles de interpretar de un golpe de vista. &lt;/p&gt;
+&lt;p&gt;Ahora, cuando se realiza algún cambio en los &lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt; del sistema, de forma 
+automática, por mi o por otro usuario autorizado, yo recibo en mi correo un 
+informe similar a este:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;SCRIPT =========================================================================
+dpkg_diff (ver. 0.1)
+http://joedicastro.com
+
+Changes of packages installed on yourmachine
+ ===============================================================================
+
+START TIME =====================================================================
+                                                     Thursday 05/05/11, 10:30:01
+ ===============================================================================
+
+INSTALLED PACKAGES LIST FILE ___________________________________________________
+
+/your/path/to/package_list.txt
+
+CHANGES DIFF ___________________________________________________________________
+
+&lt;span class="gd"&gt;--- previous Wed May  4 22:59:51 2011&lt;/span&gt;
+&lt;span class="gi"&gt;+++ current  Thu May  5 10:30:01 2011&lt;/span&gt;
+&lt;span class="gu"&gt;@@ -34,1 +34,1 @@&lt;/span&gt;
+&lt;span class="gd"&gt;-ii  apt                 0.7.25.3ubuntu9.3&lt;/span&gt;
+&lt;span class="gi"&gt;+ii  apt                 0.7.25.3ubuntu9.4&lt;/span&gt;
+&lt;span class="gu"&gt;@@ -36,2 +36,2 @@&lt;/span&gt;
+&lt;span class="gd"&gt;-ii  apt-transport-https 0.7.25.3ubuntu9.3&lt;/span&gt;
+&lt;span class="gd"&gt;-ii  apt-utils           0.7.25.3ubuntu9.3&lt;/span&gt;
+&lt;span class="gi"&gt;+ii  apt-transport-https 0.7.25.3ubuntu9.4&lt;/span&gt;
+&lt;span class="gi"&gt;+ii  apt-utils           0.7.25.3ubuntu9.4&lt;/span&gt;
+
+END TIME =======================================================================
+                                                     Thursday 05/05/11, 10:30:01
+ ===============================================================================
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Donde se puede ver la información que nos indica el script que ha generado el 
+correo, la maquina en la que se han realizado los cambios, la localización del 
+fichero con la relación de todos los &lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt; instalados en el sistema, la fecha 
+y hora de la ejecución del script y el &lt;a href="http://es.wikipedia.org/wiki/Diff"&gt;diff&lt;/a&gt; con la relación de cambios en 
+los &lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt; en formato &lt;a href="http://en.wikipedia.org/wiki/Diff#Unified_format"&gt;Unified format&lt;/a&gt;. En este ejemplo podemos ver como se 
+han actualizado tres &lt;abbr title="En sistemas *NIX se denomina así a los programas"&gt;paquetes&lt;/abbr&gt; en esa maquina. No nos dice la hora en que se 
+efectuó la modificación (podemos verlo en el log de &lt;code&gt;dpkg&lt;/code&gt;) pero si podemos 
+saber que se efectuó entre dos intervalos de ejecución del script, información 
+que será más que suficiente la mayoría de las veces. Para datos concretos, ir al 
+log y filtrarlo con &lt;code&gt;grep&lt;/code&gt; y en segundos sabremos la respuesta. Si además como 
+es mi caso, ejecutamos el script cada 12 o 24 horas, pues será fácil saber 
+cuando se han realizado los cambios.&lt;/p&gt;
+&lt;p&gt;Un fragmento de código de la parte principal del script es el siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;pretty_diff&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Better format for package lines in diff.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;pkg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt; &lt;span class="c"&gt;# diff&amp;#39;s packages lines&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Get columns info for diff package lines&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;idx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;enumerate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;findall&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;^-{3}|^\+{3}|^@{2}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="c"&gt;# split the line in columns and remove the description column&lt;/span&gt;
+            &lt;span class="n"&gt;cols&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;\s{2,}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)[:&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+            &lt;span class="c"&gt;# A nested dict, for each line index we have a dict that contains &lt;/span&gt;
+            &lt;span class="c"&gt;# the package line columns: &amp;#39;s&amp;#39; (status), &amp;#39;n&amp;#39; (name) &amp;amp; &amp;#39;v&amp;#39; (version)&lt;/span&gt;
+            &lt;span class="c"&gt;# and the width of the name column: w(width)&lt;/span&gt;
+            &lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;idx&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;s&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;cols&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;n&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;cols&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;v&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;cols&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;w&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cols&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])}&lt;/span&gt;
+
+    &lt;span class="c"&gt;# maximum width in packages&amp;#39; name column for all lines&lt;/span&gt;
+    &lt;span class="n"&gt;mxw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;w&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Replace each package line for a prettier one (more legible) &lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{0} {1} {2}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;s&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;n&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;&amp;quot; &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+                                            &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mxw&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;w&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;v&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;diff&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;old&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Main section&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="c"&gt;# The path to store the debian packages list file&lt;/span&gt;
+    &lt;span class="n"&gt;pkg_lst_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;./package_list.txt&amp;quot;&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Start logging&lt;/span&gt;
+    &lt;span class="n"&gt;log&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Logger&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;http://joedicastro.com&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;head&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Changes of packages installed on {0}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;platform&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;node&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Start time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Read the old file and clean the list&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pkg_lst_file&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;old&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pkg_lst_file&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;r&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;old_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ctime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pkg_lst_file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;st_mtime&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Get the current list of debian packages installed on system &lt;/span&gt;
+    &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;dpkg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;-l&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="c"&gt;# First, save the list file&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pkg_lst_file&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;w&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;writelines&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;current&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;curr_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ctime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pkg_lst_file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;st_mtime&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Compare both lists&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;old&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;file_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;realpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pkg_lst_file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;diff&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;ln&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;ln&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;unified_diff&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;old&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fromfile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;previous&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                          &lt;span class="n"&gt;tofile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;current &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                          &lt;span class="n"&gt;fromfiledate&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;old_date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                          &lt;span class="n"&gt;tofiledate&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;curr_date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                          &lt;span class="n"&gt;lineterm&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+
+        &lt;span class="c"&gt;# If there are differences write the log to disk and send mail&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Installed packages list file&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;file_path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Changes diff&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pretty_diff&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;End time&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="c"&gt;# Send mail to current system user. For other options, see logger &lt;/span&gt;
+            &lt;span class="c"&gt;# module info&lt;/span&gt;
+            &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Debian packages changes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Este script hace uso del modulo logger, que comento en este &lt;a href="http://joedicastro.com/logger_informes_legibles_para_tus_scripts_python"&gt;artículo&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;Para obtener la versión más reciente del script y del modulo logger, consultar 
+mi repositorio &lt;em&gt;Python Recipes&lt;/em&gt; en &lt;a href="http://github.com/joedicastro/python-recipes"&gt;github&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id="fn:nota"&gt;
+&lt;p&gt;Es una relación de los programas instalados empleando el sistema de 
+paqueteria de Debian, los programas instalados manualmente vía compilación 
+u otros medios no aparecerán en ella. &amp;#160;&lt;a href="#fnref:nota" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</summary><category term="python"></category><category term="script"></category><category term="paquetes"></category><category term="linux"></category><category term="debian"></category><category term="ubuntu"></category><category term="dpkg"></category></entry></feed>

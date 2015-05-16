@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Sincronizar Bitbucket y GitHub</title>
+  <meta name="author" content="joe di castro" />
+  <meta name="keywords" content="mercurial, hg, repositorio, bitbucket, github, python">
+  <link rel="author" href="./humans.txt" />
+  <link href='http://fonts.googleapis.com/css?family=Vollkorn:400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
+  <link href="./atom.xml" type="application/atom+xml" rel="alternate" title="joe di castro ATOM Feed" />
+  <link href="./rss.xml" type="application/atom+xml" rel="alternate" title="joe di castro RSS Feed" />
+  
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body id="index" class="home">
+
+  <header id="banner" class="body">
+    <h1><a href="."><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAAAxBAMAAADKNk2HAAAAAXNSR0IArs4c6QAAABhQTFRFvI0Ww5kxzaxW2Lp049Ki7ePG8+zX/f/8R8l4ugAAAAFiS0dEAIgFHUgAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfbDAsTFi548ol9AAADmElEQVRIx62XTXOjOBCGJeHMuWWwueLZyXAV8aS4hpnscg07yXJdnCpz5kv6+9stk4CzMJusocoOBvTQ3Xr7lcLMcLQ3ch2b/3+w17MuAi6BxwuwWuC3pXmGzeWsBlz7t+AXs9qXeOo5ls7fywq8l/jYzBgVvpNV8PKF9Xp2fnRyFpHkY1YHry+dy7GanZOWn8WViWHMDCuY1UqxHbP0EJapxHSK89Mr0zFrHMvd5oMp1uJ4LAdW5gy3wH9nis1OSsmGozyx1NWQC6S/ru8Qz+ff9vv7+0f51/H49PT0ex9XsPqv0g/1/Vfy3rm+Mv7tW/8zW02OmI72bfLM9iITvyxXI8ykgh9R2m91396WL205GUDi11PxFsJkvtET/jVfLi3TyW6ErZF5K2dYaiSjcqzf7ly596d2y2vHJM4Mixqgdb8j5k/o39fdhMFrEXXEU7rHqOK7rVG+PlX4cP3lDYsauwPGfBNxcHqP5HuZP/dWEAjkHrhHZS1YiuZR8TIhp2IsPWdljv6Ocxr4GY+jlLJswcMsNOT9fdRyC1+1SyYkSVyZG6EGgHuy7M5Y4GJXQAh7RqUuPmEBPcT51ar3tjzz6FKNjXLncfLHADCLgvEDb8SYhZG6as1rrlY6xdnLbdKKlyjIh9Ba6y6/Q7PEsjaidjDFRnyWpWZylXkQj1hY2OtWVkJxJuUn84B9o3xTM6cVtiEbYd/n0/qiIa62GK6K8etvEWyAbcbr444e21YM5COsS1I0hqYxh8K3bk8fDbzscOqUYwJfhY2DNM3CgHN3NI8d4GMmSDvmIic3EJM3mWQty4B0hGB8KmJXOMd5wX56cCtzFWPAD9xU7HqkLx2sUXX4fIEcnHjridXqwBOvFba1qOAZV2HGeM18teMF2wtTbRvCu2OtRqLE0DueUF05tZptKQiVXzvWwytUFmzVDU8YqgLAU0LhnLgQeTuej1gZz+1qhkLBUVfPJxNv5AZLRhqzThXhieJhxTysiMzlD4cGbhrWb0JOrEbGJqMRbXoKp/e+I3YUfVsPYfSeLrWXqEFLRQiM6LEc9yPtAIbFqJXXU3bx8483F75Mrdu0bFcXbEpGLLtsq+0iLFrTWpkuwbJhFcIswbKYmTX2oyzC1DNbpQ+yLEZtzBKsxFum8sSiyo93JxewrE9BuAiLvHwBzVsW2vAigiBWEC4VlmEQ64XCQtYmWigszJFd8q/ZOesgvy6EMv8ALXTFAI7iFV4AAAAASUVORK5CYII=" alt="Sobre mí" title="Sobre mí" width="150" height="49" /> </a></h1>
+      <nav>
+      	<ul>
+         
+         <li class="active"><a href="./category/blog.html">blog</a></li>
+         <li><a href="./archives.html">archivo</a></li>
+         <li><a href="./tags.html">etiquetas</a></li>
+         
+         <li><a href="./pages/code.html">code</a></li><li><a href="./pages/markdown.html">markdown</a></li>
+         
+         <li><a href="./rss.xml">rss</a></li>
+       </ul>
+     </nav>
+  </header><!-- /#banner -->        
+<section id="content" class="body">    
+<article>
+  <header> 
+  	<h1 class="entry-title">
+      <a href="sincronizar-bitbucket-y-github.html" rel="bookmark" title="Permalink a Sincronizar Bitbucket y GitHub">Sincronizar Bitbucket y GitHub</a>
+  	</h1>
+  	
+  </header>
+  <div class="entry-content">
+    <abbr class="published" title="2012-04-26T21:15:00">
+      Públicado el jue 26 abril 2012
+    </abbr>
+    <p>Para mis proyectos empleo generalmente <a href="http://mercurial.selenic.com/">mercurial</a> (hg) como sistema de
+control de versiones, porque está hecho en Python y me parece más elegante y
+agradable de usar que <a href="http://git-scm.com/">git</a>, aunque empleo git para algunas tareas, como
+gestionar los plugins de <a href="http://www.vim.org">Vim</a>. Del mismo modo, el emplear hg como 
+<a href="http://es.wikipedia.org/wiki/Programas_para_control_de_versiones">DCVS</a> me llevaba de forma natural a emplear <a href="http://bitbucket.org">Bitbucket</a> como
+alojamiento para mis repositorios públicos. </p>
+<p>Siempre me ha gustado <strong>Bitbucket</strong>, su estilo sencillo, pero muy potente y creo que
+tiene algunas características que son superiores a las de sus rivales (el <a href="http://blog.bitbucket.org/2011/12/08/pull-requests-with-side-by-side-diffs/">diff
+side-by-side</a>, por ejemplo<sup id="fnref:gt"><a href="#fn:gt" >1</a></sup>). Pero también tengo claro que si hay algún
+alojamiento de código en la red que destaca sobre todos los demás es <a href="http://github.com">GitHub</a>,
+"todo" el mundo está allí y de algún modo, estás "obligado" a estar. <strong>GitHub</strong>
+tiene algunas características muy potentes y en ciertos aspectos es muy superior
+a Bitbucket, aunque me sigue gustando más el <em>feeling</em> de este último. </p>
+<h2 id="hg__git">Hg != Git</h2>
+<p>Me planteé entonces hace unos días que lo mejor era mantener una replica de mis
+repositorios alojados en Bitbucket en GitHub, como dice el refrán, <em>Nunca tengas
+todos tus huevos en una misma cesta</em>. El problema es que aunque Bitbucket soporta 
+repositorios tanto en mercurial como en git (para competir con GitHub), GitHub
+solo soporta repositorios en Git. Y dado el éxito que tienen, dudo mucho que
+tengan intención alguna de soportar otro sistema de versiones distinto a Git. </p>
+<p>Técnicamente es posible mantener un repositorio con los dos dcvs a la vez, pero
+maldita la gracia que me hacía, ademas de que no es nada aconsejable por el
+incremento de tamaño en disco que esto supondría. Entonces, ¿como hacer para poder
+alojar un repositorio mantenido con mercurial en un alojamiento que solo soporta
+Git? La solución, <strong>hg-git</strong>.</p>
+<h3 id="hg-git">hg-git</h3>
+<p><a href="http://hg-git.github.com/">hg-git</a> es un plugin para mercurial que permite sincronizar el repositorio
+local en hg con un repositorio en git, admitiendo tanto <em>push</em> como <em>pull</em> y sin
+perdidas de información. Gracias a este plugin, podemos alojar el repositorio en
+los dos sitios a la vez, empleando solo mercurial para gestionarlo.</p>
+<p>Instalarlo es muy fácil (desde <code>easy_install</code> o <code>pip</code>) y emplearlo también.
+Primero necesitas habilitarlo en el fichero <code>~/.hgrc</code>, así como la extensión 
+bookmarks que necesita para trabajar.</p>
+<div class="codehilite"><pre><span class="k">[extensions]</span>
+<span class="na">hgext.bookmarks</span> <span class="o">=</span>
+<span class="na">hggit</span> <span class="o">=</span>
+</pre></div>
+
+
+<p>A continuación tienes que ir a tu repositorio y asignarle un <code>bookmark</code> a la
+rama que tengas por defecto (suele ser <code>default</code>) o a <code>tip</code> con el nombre de
+<code>master</code> (el nombre de las ramas por defecto en git), es decir:</p>
+<div class="codehilite"><pre><span class="gp">$</span> hg bookmark -r default master -f
+</pre></div>
+
+
+<p>Y luego emplearlo es tan sencillo como si fuera un repositorio de mercurial, por
+ejemplo un push:</p>
+<div class="codehilite"><pre><span class="gp">$</span> hg push git+ssh://git@github.com/joedicastro/joedicastro.com.git
+</pre></div>
+
+
+<h2 id="sincronizar_el_repositorio_con_bitbucket_y_github">Sincronizar el repositorio con Bitbucket y GitHub</h2>
+<p>Ahora, lo que tampoco me apetecía era tener que andar haciendo un push cada vez
+para cada alojamiento, lo ideal es que cada vez que hiciera un push a un
+sitio se sincronizara también el otro de forma automática. La solución
+pasa por emplear los <em>paths</em> para definir alias para los repositorios remotos y
+un <em>hook</em> para automatizar la sincronización. </p>
+<p>Definir los alias con <em>paths</em> es realmente sencillo, nos vamos al fichero
+<code>.hg/hgrc</code> del repositorio local y añadimos esto (e.g. el repo de este blog):</p>
+<div class="codehilite"><pre><span class="k">[paths]</span>
+<span class="na">github</span> <span class="o">=</span> <span class="s">git+ssh://git@github.com:joedicastro/joedicastro.com.git</span>
+<span class="na">bitbucket</span> <span class="o">=</span> <span class="s">ssh://hg@bitbucket.org/joedicastro/joedicastro.com</span>
+</pre></div>
+
+
+<p>De este modo, realizar un <code>push</code> es tan sencillo como:</p>
+<div class="codehilite"><pre><span class="gp">$</span> hg push bitbucket
+</pre></div>
+
+
+<p>Ahora necesitamos crear el <code>hook</code> que nos sincronice los dos alojamientos. Hay
+en la red varias soluciones para esto, por ejemplo <a href="http://morgangoose.com/blog/2010/09/29/github-and-bitbucket-hooks/">esta</a> y <a href="http://wiki.ddenis.com/index.php?title=Sync_BitBucket_and_GitHub">esta</a>, 
+pero ninguna de las dos acababa de convencerme, la una por emplear un script
+bash que entraba muy fácilmente en un bucle infinito y la otra por necesitar
+otro modulo externo, que en mi caso no acababa de funcionar. Así
+que basándome en la idea del script bash del primero, decidí crearme uno en
+Python que funcionara correctamente y me solucionara el problema. </p>
+<p>El código del <code>hook</code> es el siguiente:</p>
+<div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># encoding: utf-8</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    bb_gh_sync.py: Mercurial hook to keep synced a repo to Bitbucket &amp; GitHub.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c">#==============================================================================</span>
+<span class="c"># This script maintain synced a repository to booth github and bitbucket sites,</span>
+<span class="c"># using only a local mercurial repository. To do this, makes use of hg-git, the</span>
+<span class="c"># paths defined in my local hg repo and the environment variable given by hg, to</span>
+<span class="c"># push to the site non described in the command line argument. This way, it&#39;s</span>
+<span class="c"># irrelevant which site I decided to push every time, booth are done by this</span>
+<span class="c"># hook.</span>
+<span class="c">#===============================================================================</span>
+
+<span class="c">#==============================================================================</span>
+<span class="c">#    Copyright 2012 joe di castro &lt;joe@joedicastro.com&gt;</span>
+<span class="c">#</span>
+<span class="c">#    This program is free software: you can redistribute it and/or modify</span>
+<span class="c">#    it under the terms of the GNU General Public License as published by</span>
+<span class="c">#    the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">#    (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c">#    This program is distributed in the hope that it will be useful,</span>
+<span class="c">#    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">#    GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c">#    You should have received a copy of the GNU General Public License</span>
+<span class="c">#    along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">#==============================================================================</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&quot;joe di castro &lt;joe@joedicastro.com&gt;&quot;</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s">&quot;GNU General Public License version 3&quot;</span>
+<span class="n">__date__</span> <span class="o">=</span> <span class="s">&quot;23/04/2012&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&quot;0.1&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">gettempdir</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">call</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Main section&quot;&quot;&quot;</span>
+
+    <span class="n">tmp_dir</span> <span class="o">=</span> <span class="n">gettempdir</span><span class="p">()</span>
+    <span class="n">lock_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span> <span class="s">&quot;bb_gh_sync.lock&quot;</span><span class="p">)</span>
+
+    <span class="c"># make sure that only runs once for each repository</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">lock_file</span><span class="p">):</span>
+        <span class="nb">open</span><span class="p">(</span><span class="n">lock_file</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="c"># if pushed to bitbucket, push to github too</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HG_ARGS&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;push bitbucket&quot;</span><span class="p">:</span>
+            <span class="n">call</span><span class="p">([</span><span class="s">&quot;/usr/bin/env&quot;</span><span class="p">,</span> <span class="s">&quot;hg&quot;</span><span class="p">,</span> <span class="s">&quot;push&quot;</span><span class="p">,</span> <span class="s">&quot;github&quot;</span><span class="p">])</span>
+        <span class="c"># et viceversa...</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HG_ARGS&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;push github&quot;</span><span class="p">:</span>
+            <span class="n">call</span><span class="p">([</span><span class="s">&quot;/usr/bin/env&quot;</span><span class="p">,</span> <span class="s">&quot;hg&quot;</span><span class="p">,</span> <span class="s">&quot;push&quot;</span><span class="p">,</span> <span class="s">&quot;bitbucket&quot;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">lock_file</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Ahora solo tenemos que editar nuestro fichero <code>~/.hgrc</code> para habilitarlo y ya
+estaría listo para funcionar. Editamos el fichero y le añadimos estas lineas:</p>
+<div class="codehilite"><pre><span class="k">[hooks]</span>
+<span class="na">post-push</span> <span class="o">=</span> <span class="s">$HOME/dotfiles/hg/bb_gh_sync.py</span>
+</pre></div>
+
+
+<p>Ahora, si hacemos un push a Bitbucket, el hace automáticamente un push también a
+GitHub al acabar el primero, y viceversa. De este modo, hacer un push a ambos
+alojamientos es tan sencillo como:</p>
+<div class="codehilite"><pre><span class="gp">$</span> hg push bitbucket
+<span class="go">pushing to ssh://hg@bitbucket.org/joedicastro/joedicastro.com</span>
+<span class="go">running ssh hg@bitbucket.org &#39;hg -R joedicastro/joedicastro.com serve --stdio&#39;</span>
+<span class="go">searching for changes</span>
+<span class="go">no changes found</span>
+<span class="go">running hook post-push: $HOME/dotfiles/hg/bb_gh_sync.py</span>
+<span class="go">pushing to git+ssh://git@github.com:joedicastro/joedicastro.com.git</span>
+<span class="go">creating and sending data</span>
+<span class="go">[&quot;git-receive-pack &#39;joedicastro/joedicastro.com.git&#39;&quot;]</span>
+<span class="go">    github::refs/heads/master =&gt; GIT:198e8cc9</span>
+<span class="go">running hook post-push: $HOME/dotfiles/hg/bb_gh_sync.py</span>
+<span class="gp">$</span>
+</pre></div>
+
+
+<p>De este modo puedo mantener copias de los repositorios locales en ambos sitios
+de manera automática y sincronizada, sin preocuparme, ni hacer un trabajo extra.
+Eso si, conviene prescindir de los wikis y documentarlo todo a través de ficheros
+<code>README.md</code> en formato Markdown para facilitar la integración de los dos sitios.
+Lo que por otro lado también ayuda a mantenerlos actualizados de manera más sencilla.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:gt">
+<p>Bueno, algunos rivales como <a href="http://gitorious.org/">Gitorius</a>, también soportan esta característica
+&#160;<a href="#fnref:gt"  title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+  </div><!-- /.entry-content -->
+  <p class="tagged">Etiquetado como: <a href="./tag/mercurial.html">mercurial</a>, <a href="./tag/hg.html">hg</a>, <a href="./tag/repositorio.html">repositorio</a>, <a href="./tag/bitbucket.html">bitbucket</a>, <a href="./tag/github.html">github</a>, <a href="./tag/python.html">python</a>.</p>
+
+  
+  <div class="comments">
+    <h3>Comentarios !</h3>
+    <div id="disqus_thread"></div>
+      <script type="text/javascript">
+         var disqus_identifier = "sincronizar-bitbucket-y-github.html";
+         (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://joedicastro.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  
+</article>
+</section>
+<footer id="contentinfo" class="body">
+    <address id="about" class="vcard body">
+      © 2010-2015 joe di castro - <a
+          href="mailto:joe@joedicastro.com">correo</a>|<a
+          href="http://twitter.com/joe_di_castro">twitter</a>|<a
+          href="https://github.com/joedicastro">github</a> <span id="license">El contenido está bajo <a href="http://creativecommons.org/licenses/by-sa/3.0/es">licencia Creative Commons</a></span>
+    </address><!-- /#about -->
+  </footer><!-- /#contentinfo -->
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'joedicastro';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+</body>
+</html>

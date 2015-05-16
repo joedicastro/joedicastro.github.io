@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /static/pictures/*
+Disallow: /static/ammap/*
+Disallow: /category/*
+Disallow: /drafts/*
+Disallow: /feeds/*
+Disallow: /feeds/tags/*
+Disallow: /piwik/*
