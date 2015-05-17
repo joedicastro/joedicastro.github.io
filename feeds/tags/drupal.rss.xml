@@ -464,24 +464,9 @@ actualmente, emplea en alguna medida el uso de captchas, aunque de modo tan
 limitado, que afecta a menos del 0,5% de los comentarios enviados. Digamos que 
 lo acepto como una razonable excepción a la regla. Si empleo en cierta medida 
 algunos de los otros métodos.&lt;/p&gt;
-&lt;div&gt;
-&lt;script src="ammap/swfobject.js" type="text/javascript"&gt;&lt;/script&gt;
-&lt;div id="flashcontent" style="text-align: center;"&gt;
-&lt;strong&gt;You need to upgrade your Flash Player&lt;/strong&gt;
-&lt;/div&gt;
-
-&lt;script type="text/javascript"&gt;// &lt;![CDATA[
-
-var so = new SWFObject("ammap/ammap.swf", "ammap", "600", "400", "8", "#ffffff");
-  so.addVariable("path", "ammap/");
-  so.addVariable("settings_file", escape("ammap/ammap_settings.xml"));
-  so.addVariable("data_file", escape("ammap/ammap_data.xml"));  2
-  so.addVariable("loading_settings", "Cargando configuracion");
-  so.addVariable("loading_data", "Cargando datos"); 
-  so.addVariable("preloader_color", "#999999");       
-  so.write("flashcontent");
-// ]]&gt;&lt;/script&gt;
-&lt;/div&gt;
+&lt;p style="text-align: center;"&gt;&lt;img src="pictures/ammap.png" 
+alt="Eficacia del script" title="Eficacia del script" height="419" 
+width="629" /&gt;&lt;/p&gt;
 
 &lt;p&gt;En este mapa podemos ver el país de origen de los ataques de spam contra 
 deaparatos.com&lt;/p&gt;
